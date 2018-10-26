@@ -1,0 +1,906 @@
+<!DOCTYPE HTML>
+<html lang="es">
+      <head>
+        <meta charset="utf-8"/>
+        <title>Clientes</title>
+
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="view/css/estilos.css">
+		<link rel="stylesheet" href="view/vendors/table-sorter/themes/blue/style.css">
+	
+		    <!-- Bootstrap -->
+    		<link href="view/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    		<!-- Font Awesome -->
+		    <link href="view/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		    <!-- NProgress -->
+		    <link href="view/vendors/nprogress/nprogress.css" rel="stylesheet">
+		    
+		   
+		    <!-- Custom Theme Style -->
+		    <link href="view/build/css/custom.min.css" rel="stylesheet">
+				
+			
+			<!-- Datatables -->
+		    <link href="view/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+		    
+		   		
+
+			<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+			<script type="text/javascript" src="view/vendors/table-sorter/jquery.tablesorter.js"></script> 
+       		 <script src="view/js/jquery.blockUI.js"></script>
+            <script src="view/js/jquery.inputmask.bundle.js"></script>
+            
+            <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+		
+			<script>
+			    //webshims.activeLang("en");
+			    webshims.setOptions('forms-ext', { datepicker: { dateFormat: 'yy/mm/dd' } });
+				webshims.polyfill('forms forms-ext');
+			</script>
+           
+           
+       		<script src="view/input-mask/jquery.inputmask.js"></script>
+			<script src="view/input-mask/jquery.inputmask.date.extensions.js"></script>
+			<script src="view/input-mask/jquery.inputmask.extensions.js"></script>
+			
+			
+			
+			     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>  
+                 <script src="view/js/jquery.js"></script>
+		         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        
+        <script type="text/javascript">
+     
+        	   $(document).ready( function (){
+        		   pone_espera();
+        		   load_clientes(1);
+	   			});
+
+        	   function pone_espera(){
+        		   $.blockUI({ 
+        				message: '<h4><img src="view/images/load.gif" /> Espere por favor, estamos procesando su requerimiento...</h4>',
+        				css: { 
+        		            border: 'none', 
+        		            padding: '15px', 
+        		            backgroundColor: '#000', 
+        		            '-webkit-border-radius': '10px', 
+        		            '-moz-border-radius': '10px', 
+        		            opacity: .5, 
+        		            color: '#fff',
+        		           
+        	        		}
+        	    });
+            	
+		        setTimeout($.unblockUI, 500); 
+		        
+        	   }
+
+
+        	   
+        	   function load_clientes(pagina){
+
+        		   var search=$("#search").val();
+                   var con_datos={
+           					  action:'ajax',
+           					  page:pagina
+           					  };
+                 $("#load_registrados").fadeIn('slow');
+           	     $.ajax({
+           	               beforeSend: function(objeto){
+           	                 $("#load_registrados").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
+           	               },
+           	               url: 'index.php?controller=Clientes&action=index10&search='+search,
+           	               type: 'POST',
+           	               data: con_datos,
+           	               success: function(x){
+           	                 $("#clientes_registrados").html(x);
+           	               	 $("#tabla_clientes").tablesorter(); 
+           	                 $("#load_registrados").html("");
+           	               },
+           	              error: function(jqXHR,estado,error){
+           	                $("#clientes_registrados").html("Ocurrio un error al cargar la informacion de Clientes..."+estado+"    "+error);
+           	              }
+           	            });
+
+           		   }
+        </script>
+        
+        
+        
+        
+        
+	
+	<script>
+		$(document).ready(function(){
+
+			$("#id_provincias").change(function(){
+			
+	            // obtenemos el combo de resultado combo 2
+	           var $id_cantones = $("#id_cantones");
+	       	
+
+	            // lo vaciamos
+	           var id_provincias = $(this).val();
+
+	          
+	          
+	            if(id_provincias != 0)
+	            {
+	            	 $id_cantones.empty();
+	            	
+	            	 var datos = {
+	                   	   
+	            			 id_provincias:$(this).val()
+	                  };
+	             
+	            	
+	         	   $.post("<?php echo $helper->url("Clientes","devuelveCanton"); ?>", datos, function(resultado) {
+
+	          		  if(resultado.length==0)
+	          		   {
+	          				$id_cantones.append("<option value='0' >--Seleccione--</option>");	
+	             	   }else{
+	             		    $id_cantones.append("<option value='0' >--Seleccione--</option>");
+	          		 		$.each(resultado, function(index, value) {
+	          		 			$id_cantones.append("<option value= " +value.id_cantones +" >" + value.nombre_cantones  + "</option>");	
+	                     		 });
+	             	   }	
+	            	      
+	         		  }, 'json');
+
+
+	            }else{
+
+	            	var id_cantones=$("#id_cantones");
+	            	id_cantones.find('option').remove().end().append("<option value='0' >--Seleccione--</option>").val('0');
+	            	var id_parroquias=$("#id_parroquias");
+	            	id_parroquias.find('option').remove().end().append("<option value='0' >--Seleccione--</option>").val('0');
+	            	
+	            	
+	            	
+	            }
+	            
+
+			});
+		});
+	
+       
+
+	</script>
+		 
+		 
+		 
+		 
+		 
+		 
+		 <script>
+		$(document).ready(function(){
+
+			$("#id_cantones").change(function(){
+
+				
+	            // obtenemos el combo de resultado combo 2
+	           var $id_parroquias = $("#id_parroquias");
+	       	
+
+	            // lo vaciamos
+	           var id_cantones = $(this).val();
+
+	          
+	          
+	            if(id_cantones != 0)
+	            {
+	            	 $id_parroquias.empty();
+	            	
+	            	 var datos = {
+	                   	   
+	            			 id_cantones:$(this).val()
+	                  };
+	             
+	            	
+	         	   $.post("<?php echo $helper->url("Clientes","devuelveParroquias"); ?>", datos, function(resultado) {
+
+	          		  if(resultado.length==0)
+	          		   {
+	          				$id_parroquias.append("<option value='0' >--Seleccione--</option>");	
+	             	   }else{
+	             		    $id_parroquias.append("<option value='0' >--Seleccione--</option>");
+	          		 		$.each(resultado, function(index, value) {
+	          		 			$id_parroquias.append("<option value= " +value.id_parroquias +" >" + value.nombre_parroquias  + "</option>");	
+	                     		 });
+	             	   }	
+	            	      
+	         		  }, 'json');
+
+
+	            }else{
+
+	            	var id_parroquias=$("#id_parroquias");
+	            	id_parroquias.find('option').remove().end().append("<option value='0' >--Seleccione--</option>").val('0');
+	            	
+	            	
+	            }
+	            
+
+			});
+		});
+	
+       
+
+	</script>
+		    
+			
+        
+        
+        
+        
+         <script >
+		    // cada vez que se cambia el valor del combo
+		    $(document).ready(function(){
+		    $("#Cancelar").click(function() 
+			{
+		    	$('#apellidos_clientes').val("");
+				$('#nombres_clientes').val("");
+				$('#id_tipo_identificacion').val("0");
+				$('#identificacion_clientes').val("");
+				$('#id_sexo').val("0");
+				$('#id_provincias').val("0");
+				$('#id_cantones').val("0");
+				$('#id_parroquias').val("0");
+				$('#direccion_clientes').val("");
+				$('#telefono_clientes').val("");
+				$('#celular_clientes').val("");
+				$('#correo_clientes').val("");
+		        $("#id_clientes").val("");
+		     
+		    }); 
+		    }); 
+			</script>
+        
+        
+          
+        <script>
+        
+
+	       	$(document).ready(function(){
+
+
+	       		
+						$( "#identificacion_clientes" ).autocomplete({
+		      				source: "<?php echo $helper->url("Clientes","AutocompleteCedula"); ?>",
+		      				minLength: 1
+		    			});
+		
+						$("#identificacion_clientes").focusout(function(){
+		    				$.ajax({
+		    					url:'<?php echo $helper->url("Clientes","AutocompleteDevuelveNombres"); ?>',
+		    					type:'POST',
+		    					dataType:'json',
+		    					data:{identificacion_clientes:$('#identificacion_clientes').val()}
+		    				}).done(function(respuesta){
+
+		    					$('#apellidos_clientes').val(respuesta.apellidos_clientes);
+		    					$('#nombres_clientes').val(respuesta.nombres_clientes);
+		    					$('#id_tipo_identificacion').val(respuesta.id_tipo_identificacion);
+		    					$('#identificacion_clientes').val(respuesta.identificacion_clientes);
+		    					$('#id_sexo').val(respuesta.id_sexo);
+		    					$('#id_provincias').val(respuesta.id_provincias);
+		    					$('#id_cantones').val(respuesta.id_cantones);
+		    					$('#id_parroquias').val(respuesta.id_parroquias);
+		    					$('#direccion_clientes').val(respuesta.direccion_clientes);
+		    					$('#telefono_clientes').val(respuesta.telefono_clientes);
+		    					$('#celular_clientes').val(respuesta.celular_clientes);
+		    					$('#correo_clientes').val(respuesta.correo_clientes);
+		    					
+		    				
+		        			}).fail(function(respuesta) {
+
+		        				$('#apellidos_clientes').val("");
+		    					$('#nombres_clientes').val("");
+		    					$('#id_tipo_identificacion').val("0");
+		    					$('#identificacion_clientes').val("");
+		    					$('#id_sexo').val("0");
+		    					$('#id_provincias').val("0");
+		    					$('#id_cantones').val("0");
+		    					$('#id_parroquias').val("0");
+		    					$('#direccion_clientes').val("");
+		    					$('#telefono_clientes').val("");
+		    					$('#celular_clientes').val("");
+		    					$('#correo_clientes').val("");
+		        			    
+		        			  });
+		    				 
+		    				
+		    			});  
+
+						
+		    		});
+		
+	     
+		     </script>
+        
+         
+        <script >
+		    // cada vez que se cambia el valor del combo
+		    $(document).ready(function(){
+		    
+		    $("#Guardar").click(function() 
+			{
+
+
+				
+		    	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+		    	var validaFecha = /([0-9]{4})\-([0-9]{2})\-([0-9]{2})/;
+
+		    	var cedula_usuarios = $("#cedula_usuarios").val();
+		    	var nombre_usuarios = $("#nombre_usuarios").val();
+		    	//var usuario_usuario = $("#usuario_usuario").val();
+		    	var clave_usuarios = $("#clave_usuarios").val();
+		    	var cclave_usuarios = $("#clave_usuarios_r").val();
+		    	var celular_usuarios = $("#celular_usuarios").val();
+		    	var correo_usuarios  = $("#correo_usuarios").val();
+		    	var id_rol  = $("#id_rol").val();
+		    	var id_estado  = $("#id_estado").val();
+
+		    	var contador=0;
+		    	 var tiempo = tiempo || 1000;
+		    	 
+		    	
+		    	if (cedula_usuarios == "")
+		    	{
+			    	
+		    		$("#mensaje_cedula_usuarios").text("Introduzca Identificación");
+		    		$("#mensaje_cedula_usuarios").fadeIn("slow"); //Muestra mensaje de error
+
+		    		$("html, body").animate({ scrollTop: $(mensaje_cedula_usuarios).offset().top }, tiempo);
+			        return false;
+			    }
+		    	else 
+		    	{
+		    		if(cedula_usuarios.length==10){
+
+						$("#mensaje_cedula_usuarios").fadeOut("slow"); //Muestra mensaje de error
+					}else{
+						
+						$("#mensaje_cedula_usuarios").text("Ingrese 10 dígitos");
+			    		$("#mensaje_cedula_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_cedula_usuarios).offset().top }, tiempo);
+			            return false;
+					}
+		            
+				}    
+			
+		    	if (nombre_usuarios == "")
+		    	{
+			    	
+		    		$("#mensaje_nombre_usuarios").text("Introduzca un Nombre");
+		    		$("#mensaje_nombre_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_nombre_usuarios).offset().top }, tiempo);
+			        
+			            return false;
+			    }
+		    	else 
+		    	{
+
+		    		contador=0;
+		    		numeroPalabras=0;
+		    		contador = nombre_usuarios.split(" ");
+		    		numeroPalabras = contador.length;
+		    		
+					if(numeroPalabras==2 || numeroPalabras==3 || numeroPalabras==4){
+
+						$("#mensaje_nombre_usuarios").fadeOut("slow"); //Muestra mensaje de error
+				                     
+			             
+					}else{
+						$("#mensaje_nombre_usuarios").text("Introduzca Nombres y Apellidos");
+			    		$("#mensaje_nombre_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_nombre_usuarios).offset().top }, tiempo);
+			            return false;
+					}
+			    	
+		    		
+		            
+				}
+		    			    	
+		    
+		    	if (clave_usuarios == "")
+		    	{
+		    		
+		    		$("#mensaje_clave_usuarios").text("Introduzca una Clave");
+		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+				       
+			            return false;
+			    }else if (clave_usuarios.length<4){
+			    	$("#mensaje_clave_usuarios").text("Introduzca minimo 4 números");
+		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+				    
+		            return false;
+				}else if (clave_usuarios.length>4){
+			    	$("#mensaje_clave_usuarios").text("Introduzca máximo 4 números");
+		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+					   
+		            return false;
+				}
+		    	else 
+		    	{
+		    		$("#mensaje_clave_usuarios").fadeOut("slow"); //Muestra mensaje de error
+		            
+				}
+		    	
+
+		    	if (cclave_usuarios == "")
+		    	{
+		    		
+		    		$("#mensaje_clave_usuarios_r").text("Introduzca una Clave");
+		    		$("#mensaje_clave_usuarios_r").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios_r).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else 
+		    	{
+		    		$("#mensaje_clave_usuarios_r").fadeOut("slow"); 
+		            
+				}
+		    	
+		    	if (clave_usuarios != cclave_usuarios)
+		    	{
+			    	
+		    		$("#mensaje_clave_usuarios_r").text("Claves no Coinciden");
+		    		$("#mensaje_clave_usuarios_r").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios_r).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else
+		    	{
+		    		$("#mensaje_clave_usuarios_r").fadeOut("slow"); 
+			        
+		    	}	
+				
+
+				//los telefonos
+		    	
+		    	if (celular_usuarios == "" )
+		    	{
+			    	
+		    		$("#mensaje_celular_usuarios").text("Ingrese un Celular");
+		    		$("#mensaje_celular_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_celular_usuarios).offset().top }, tiempo);
+					
+			            return false;
+			    }
+		    	else 
+		    	{
+
+
+		    		if(celular_usuarios.length==10){
+
+						$("#mensaje_celular_usuarios").fadeOut("slow"); //Muestra mensaje de error
+					}else{
+						
+						$("#mensaje_celular_usuarios").text("Ingrese 10 dígitos");
+			    		$("#mensaje_celular_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_celular_usuarios).offset().top }, tiempo);
+			            return false;
+					}
+
+			    	
+		    		
+				}
+
+				// correos
+				
+		    	if (correo_usuarios == "")
+		    	{
+			    	
+		    		$("#mensaje_correo_usuarios").text("Introduzca un correo");
+		    		$("#mensaje_correo_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_correo_usuarios).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else if (regex.test($('#correo_usuarios').val().trim()))
+		    	{
+		    		$("#mensaje_correo_usuarios").fadeOut("slow"); //Muestra mensaje de error
+		            
+				}
+		    	else 
+		    	{
+		    		$("#mensaje_correo_usuarios").text("Introduzca un correo Valido");
+		    		$("#mensaje_correo_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_correo_usuarios).offset().top }, tiempo);
+					
+			            return false;	
+			    }
+
+		    	
+		    	if (id_rol == 0 )
+		    	{
+			    	
+		    		$("#mensaje_id_rol").text("Seleccione");
+		    		$("#mensaje_id_rol").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_rol).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else 
+		    	{
+		    		$("#mensaje_id_rol").fadeOut("slow"); //Muestra mensaje de error
+		            
+				}
+
+
+
+		    	if (id_estado == 0 )
+		    	{
+			    	
+		    		$("#mensaje_id_estado").text("Seleccione");
+		    		$("#mensaje_id_estado").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_estado).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else 
+		    	{
+		    		$("#mensaje_id_estado").fadeOut("slow"); //Muestra mensaje de error
+		            
+				}
+		    				    
+
+			}); 
+
+
+		        $( "#cedula_usuarios" ).focus(function() {
+				  $("#mensaje_cedula_usuarios").fadeOut("slow");
+			    });
+				
+				$( "#nombre_usuarios" ).focus(function() {
+					$("#mensaje_nombre_usuarios").fadeOut("slow");
+    			});
+				
+    			
+				$( "#clave_usuarios" ).focus(function() {
+					$("#mensaje_clave_usuarios").fadeOut("slow");
+    			});
+				$( "#clave_usuarios_r" ).focus(function() {
+					$("#mensaje_clave_usuarios_r").fadeOut("slow");
+    			});
+				
+				$( "#celular_usuarios" ).focus(function() {
+					$("#mensaje_celular_usuarios").fadeOut("slow");
+    			});
+				
+				$( "#correo_usuarios" ).focus(function() {
+					$("#mensaje_correo_usuarios").fadeOut("slow");
+    			});
+			
+				$( "#id_rol" ).focus(function() {
+					$("#mensaje_id_rol").fadeOut("slow");
+    			});
+
+				$( "#id_estado" ).focus(function() {
+					$("#mensaje_id_estado").fadeOut("slow");
+    			});
+				
+		      
+				    
+		}); 
+
+	</script>
+        
+        
+       
+        
+			        
+    </head>
+    
+    
+    <body class="nav-md">
+    
+      <?php
+        
+        $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $fecha=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
+      ?>
+    
+    
+       
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col  menu_fixed">
+          <div class="left_col scroll-view">
+            <?php include("view/modulos/logo.php"); ?>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <?php include("view/modulos/menu_profile.php"); ?>
+            <!-- /menu profile quick info -->
+
+            <br />
+			<?php include("view/modulos/menu.php"); ?>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+		<?php include("view/modulos/head.php"); ?>	
+        <!-- /top navigation -->
+
+        <!-- page content -->
+		<div class="right_col" role="main">        
+          
+    <div class="container">
+        <section class="content-header">
+         <small><?php echo $fecha; ?></small>
+         <ol class=" pull-right breadcrumb">
+         <li><a href="<?php echo $helper->url("Usuarios","Bienvenida"); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+         <li class="active">Clientes</li>
+         </ol>
+         </section>
+       
+  	<div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>INSERTAR<small>Clientes</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+
+            <form  action="<?php echo $helper->url("Clientes","InsertaClientes"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12 col-md-12 col-xs-12">
+                               
+                           <?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
+                               
+                    		  
+                                
+                    	   <?php } } else {?>
+                    		    
+                    		   
+									                    		   
+                    		   
+                    		    <div class="row">
+                    		    <div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
+                                                      <label for="cedula_usuarios" class="control-label">Cedula:</label>
+                                                      <input type="number" class="form-control" id="cedula_usuarios" name="cedula_usuarios" value=""  placeholder="cedula..">
+                                                      <div id="mensaje_cedula_usuarios" class="errores"></div>
+                                </div>
+                                </div>
+                    		    
+                    		    
+                    		    <div class="col-lg-6 col-xs-12 col-md-6">
+                    		    <div class="form-group">
+                                                      <label for="nombre_usuarios" class="control-label">Nombres y Apellidos:</label>
+                                                      <input type="text" class="form-control" id="nombre_usuarios" name="nombre_usuarios" value="" placeholder="nombre y apellido..">
+                                                      <div id="mensaje_nombre_usuarios" class="errores"></div>
+                                </div>
+                                
+                                
+                    		    </div>
+                    		   
+                    			
+                    				<div class="col-lg-2 col-xs-12 col-md-2">
+                        		    <div class="form-group">
+                                                          <label for="clave_usuarios" class="control-label">Password:</label>
+                                                          <input type="password" class="form-control" id="clave_usuarios" name="clave_usuarios" value="" placeholder="(solo números..)" maxlength="4" onkeypress="return numeros(event)">
+                                                          <div id="mensaje_clave_usuarios" class="errores"></div>
+                                    </div>
+                        		    </div>
+                        		    
+                        		    <div class="col-lg-2 col-xs-12 col-md-2">
+                        		    <div class="form-group">
+                                                          <label for="clave_usuarios_r" class="control-label">Repita Password:</label>
+                                                          <input type="password" class="form-control" id="clave_usuarios_r" name="clave_usuarios_r" value="" placeholder="(solo números..)" maxlength="4" onkeypress="return numeros(event)">
+                                                          <div id="mensaje_clave_usuarios_r" class="errores"></div>
+                                    </div>
+                                    </div>
+                    	       </div>
+                    			
+                               
+                    			
+                    			<div class="row">
+                    		       <div class="col-lg-2 col-xs-12 col-md-2">
+                            		    <div class="form-group">
+                                                              <label for="telefono_usuarios" class="control-label">Teléfono:</label>
+                                                              <input type="number" class="form-control" id="telefono_usuarios" name="telefono_usuarios" value=""  placeholder="teléfono..">
+                                                              <div id="mensaje_telefono_usuarios" class="errores"></div>
+                                        </div>
+                            	    </div>
+                            		    
+                            		    
+                    			
+                        			<div class="col-lg-2 col-xs-12 col-md-2">
+                                		    <div class="form-group">
+                                                                  <label for="celular_usuarios" class="control-label">Celular:</label>
+                                                                  <input type="number" class="form-control" id="celular_usuarios" name="celular_usuarios" value=""  placeholder="celular..">
+                                                                  <div id="mensaje_celular_usuarios" class="errores"></div>
+                                            </div>
+                                    </div>
+                        		    <div class="col-lg-4 col-xs-12 col-md-4">
+                        		    <div class="form-group">
+                                                          <label for="correo_usuarios" class="control-label">Correo:</label>
+                                                          <input type="email" class="form-control" id="correo_usuarios" name="correo_usuarios" value="" placeholder="email..">
+                                                          <div id="mensaje_correo_usuarios" class="errores"></div>
+                                    </div>
+                        		    </div>
+                        		    
+                        		    
+                        		    
+                        		    <div class="col-lg-4 col-xs-12 col-md-4">
+                        		    <div class="form-group">
+                                                          <label for="fotografia_usuarios" class="control-label">Fotografía:</label>
+                                                          <input type="file" class="form-control" id="fotografia_usuarios" name="fotografia_usuarios" value="">
+                                                          <div id="mensaje_usuario" class="errores"></div>
+                                    </div>
+                        		    </div>
+                        		
+								     
+                        		    
+                        		    
+                        		    <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                          <label for="id_rol" class="control-label">Rol:</label>
+                                                          <select name="id_rol" id="id_rol"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultRol as $res) {?>
+                        										<option value="<?php echo $res->id_rol; ?>" ><?php echo $res->nombre_rol; ?> </option>
+                        							    
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_rol" class="errores"></div>
+                                    </div>
+                                    
+                                    </div>
+                                    
+                                    <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                          <label for="id_estado" class="control-label">Estado:</label>
+                                                          <select name="id_estado" id="id_estado"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultEst as $res) {?>
+                        										<option value="<?php echo $res->id_estado; ?>"><?php echo $res->nombre_estado; ?> </option>
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_estado" class="errores"></div>
+                                    </div>
+                                    </div>
+                                
+                                
+                                </div>
+                    	           	
+                    	           	
+                    	           	
+                    	        <div class="row">
+                    		    <div class="col-xs-12 col-md-12 col-lg-12" style="text-align: center; margin-top:20px">
+                    		    <div class="form-group">
+                                                      <button type="submit" id="Guardar" name="Guardar" class="btn btn-success"><i class="glyphicon glyphicon-floppy-saved"> Guardar</i></button>
+                                					  <button type="button" id="Cancelar" name="Cancelar" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-remove"> Cancelar</i></button>
+                                
+                                </div>
+                    		    </div>
+                    		    </div>
+                    	           	
+                    	           	
+                    	           	
+                    		     <?php } ?>
+                    		      
+                    		   
+  
+              </form>
+  
+                  </div>
+                </div>
+              </div>
+		
+  
+      
+        <!-- /page content -->
+		
+		<div class="col-md-12 col-lg-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>LISTADO<small>Clientes</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    
+					
+				
+					
+					<div class="pull-right" style="margin-right:11px;">
+					<input type="text" value="" class="form-control" id="search" name="search" onkeyup="load_clientes(1)" placeholder="search.."/>
+					</div>
+					
+					
+					<div id="load_registrados" ></div>	
+					<div id="clientes_registrados"></div>	
+				
+					
+                  
+                  </div>
+                </div>
+              </div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+      
+      </div>
+    </div>
+
+</div>
+    
+    
+    
+  
+ 
+     <!-- Bootstrap -->
+    <script src="view/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+    
+    
+    <!-- NProgress -->
+    <script src="view/vendors/nprogress/nprogress.js"></script>
+   
+   
+    <!-- Datatables -->
+    <script src="view/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    
+    
+    <script src="view/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="view/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    
+    
+    
+    <!-- Custom Theme Scripts -->
+    <script src="view/build/js/custom.min.js"></script>
+	<script src="view/js/jquery.inputmask.bundle.js"></script>
+	<!-- codigo de las funciones -->
+
+	
+  </body>
+</html>   
