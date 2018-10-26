@@ -2,10 +2,10 @@
 <html lang="es">
       <head>
         <meta charset="utf-8"/>
-        <title>Usuarios - Capremci</title>
+        <title>Usuarios</title>
 
-	
-		
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<link rel="stylesheet" href="view/css/estilos.css">
 		<link rel="stylesheet" href="view/vendors/table-sorter/themes/blue/style.css">
 	
@@ -32,7 +32,27 @@
 		    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 			<script type="text/javascript" src="view/vendors/table-sorter/jquery.tablesorter.js"></script> 
-        <script src="view/js/jquery.blockUI.js"></script>
+       		 <script src="view/js/jquery.blockUI.js"></script>
+            <script src="view/js/jquery.inputmask.bundle.js"></script>
+            
+            <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+		
+			<script>
+			    //webshims.activeLang("en");
+			    webshims.setOptions('forms-ext', { datepicker: { dateFormat: 'yy/mm/dd' } });
+				webshims.polyfill('forms forms-ext');
+			</script>
+           
+           
+       		<script src="view/input-mask/jquery.inputmask.js"></script>
+			<script src="view/input-mask/jquery.inputmask.date.extensions.js"></script>
+			<script src="view/input-mask/jquery.inputmask.extensions.js"></script>
+			
+			
+			
+			     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>  
+                 <script src="view/js/jquery.js"></script>
+		         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         
         <script type="text/javascript">
      
@@ -57,7 +77,7 @@
         	        		}
         	    });
             	
-		        setTimeout($.unblockUI, 3000); 
+		        setTimeout($.unblockUI, 500); 
 		        
         	   }
 
@@ -105,8 +125,8 @@
 		     $("#telefono_usuarios").val("");
 		     $("#celular_usuarios").val("");
 		     $("#correo_usuarios").val("");
-		     $("#id_rol").val("");
-		     $("#id_estado").val("");
+		     $("#id_rol").val("0");
+		     $("#id_estado").val("0");
 		     $("#fotografia_usuarios").val("");
 		     $("#id_usuarios").val("");
 		     
@@ -115,7 +135,61 @@
 			</script>
         
         
+          
+        <script>
         
+
+	       	$(document).ready(function(){
+
+
+	       		
+						$( "#cedula_usuarios" ).autocomplete({
+		      				source: "<?php echo $helper->url("Usuarios","AutocompleteCedula"); ?>",
+		      				minLength: 1
+		    			});
+		
+						$("#cedula_usuarios").focusout(function(){
+		    				$.ajax({
+		    					url:'<?php echo $helper->url("Usuarios","AutocompleteDevuelveNombres"); ?>',
+		    					type:'POST',
+		    					dataType:'json',
+		    					data:{cedula_usuarios:$('#cedula_usuarios').val()}
+		    				}).done(function(respuesta){
+
+
+		    					$('#cedula_usuarios').val(respuesta.cedula_usuarios);
+		    					$('#nombre_usuarios').val(respuesta.nombre_usuarios);
+		    					$('#clave_usuarios').val(respuesta.pass_sistemas_usuarios);
+		    					$('#clave_usuarios_r').val(respuesta.pass_sistemas_usuarios);
+
+		    					$('#telefono_usuarios').val(respuesta.telefono_usuarios);
+		    					$('#celular_usuarios').val(respuesta.celular_usuarios);
+		    					$('#correo_usuarios').val(respuesta.correo_usuarios);
+		    					$('#id_rol').val(respuesta.id_rol);
+		    					$('#id_estado').val(respuesta.id_estado);
+		    				
+		        			}).fail(function(respuesta) {
+
+		        				$('#nombre_usuarios').val("");
+		    					$('#clave_usuarios').val("");
+		    					$('#clave_usuarios_r').val("");
+
+		    					$('#telefono_usuarios').val("");
+		    					$('#celular_usuarios').val("");
+		    					$('#correo_usuarios').val("");
+		    					$('#id_rol').val("0");
+		    					$('#id_estado').val("0");
+		        			    
+		        			  });
+		    				 
+		    				
+		    			});  
+
+						
+		    		});
+		
+	     
+		     </script>
         
          
         <script >
@@ -124,6 +198,9 @@
 		    
 		    $("#Guardar").click(function() 
 			{
+
+
+				
 		    	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 		    	var validaFecha = /([0-9]{4})\-([0-9]{2})\-([0-9]{2})/;
 
@@ -136,61 +213,90 @@
 		    	var correo_usuarios  = $("#correo_usuarios").val();
 		    	var id_rol  = $("#id_rol").val();
 		    	var id_estado  = $("#id_estado").val();
-		    	
+
+		    	var contador=0;
+		    	 var tiempo = tiempo || 1000;
+		    	 
 		    	
 		    	if (cedula_usuarios == "")
 		    	{
 			    	
 		    		$("#mensaje_cedula_usuarios").text("Introduzca Identificación");
 		    		$("#mensaje_cedula_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+
+		    		$("html, body").animate({ scrollTop: $(mensaje_cedula_usuarios).offset().top }, tiempo);
+			        return false;
 			    }
 		    	else 
 		    	{
-		    		$("#mensaje_cedula_usuarios").fadeOut("slow"); //Muestra mensaje de error
+		    		if(cedula_usuarios.length==10){
+
+						$("#mensaje_cedula_usuarios").fadeOut("slow"); //Muestra mensaje de error
+					}else{
+						
+						$("#mensaje_cedula_usuarios").text("Ingrese 10 dígitos");
+			    		$("#mensaje_cedula_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_cedula_usuarios).offset().top }, tiempo);
+			            return false;
+					}
 		            
 				}    
-				
+			
 		    	if (nombre_usuarios == "")
 		    	{
 			    	
 		    		$("#mensaje_nombre_usuarios").text("Introduzca un Nombre");
 		    		$("#mensaje_nombre_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		    		$("html, body").animate({ scrollTop: $(mensaje_nombre_usuarios).offset().top }, tiempo);
+			        
+			            return false;
 			    }
 		    	else 
 		    	{
-		    		$("#mensaje_nombre_usuarios").fadeOut("slow"); //Muestra mensaje de error
+
+		    		contador=0;
+		    		numeroPalabras=0;
+		    		contador = nombre_usuarios.split(" ");
+		    		numeroPalabras = contador.length;
+		    		
+					if(numeroPalabras==2 || numeroPalabras==3 || numeroPalabras==4){
+
+						$("#mensaje_nombre_usuarios").fadeOut("slow"); //Muestra mensaje de error
+				                     
+			             
+					}else{
+						$("#mensaje_nombre_usuarios").text("Introduzca Nombres y Apellidos");
+			    		$("#mensaje_nombre_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_nombre_usuarios).offset().top }, tiempo);
+			            return false;
+					}
+			    	
+		    		
 		            
 				}
-		    	
-		    	/*if (usuario_usuario == "")
-		    	{
-			    	
-		    		$("#mensaje_usuario_usuario").text("Introduzca un Usuario");
-		    		$("#mensaje_usuario_usuario").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
-			    }
-		    	else 
-		    	{
-		    		$("#mensaje_usuario_usuario").fadeOut("slow"); //Muestra mensaje de error
-		            
-				}   */
-						    	
-			
+		    			    	
+		    
 		    	if (clave_usuarios == "")
 		    	{
 		    		
 		    		$("#mensaje_clave_usuarios").text("Introduzca una Clave");
 		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+				       
+			            return false;
 			    }else if (clave_usuarios.length<4){
 			    	$("#mensaje_clave_usuarios").text("Introduzca minimo 4 números");
 		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+				    
 		            return false;
 				}else if (clave_usuarios.length>4){
 			    	$("#mensaje_clave_usuarios").text("Introduzca máximo 4 números");
 		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+					   
 		            return false;
 				}
 		    	else 
@@ -205,6 +311,8 @@
 		    		
 		    		$("#mensaje_clave_usuarios_r").text("Introduzca una Clave");
 		    		$("#mensaje_clave_usuarios_r").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios_r).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else 
@@ -218,6 +326,8 @@
 			    	
 		    		$("#mensaje_clave_usuarios_r").text("Claves no Coinciden");
 		    		$("#mensaje_clave_usuarios_r").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios_r).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else
@@ -234,12 +344,28 @@
 			    	
 		    		$("#mensaje_celular_usuarios").text("Ingrese un Celular");
 		    		$("#mensaje_celular_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		    		$("html, body").animate({ scrollTop: $(mensaje_celular_usuarios).offset().top }, tiempo);
+					
+			            return false;
 			    }
 		    	else 
 		    	{
-		    		$("#mensaje_celular_usuarios").fadeOut("slow"); //Muestra mensaje de error
-		            
+
+
+		    		if(celular_usuarios.length==10){
+
+						$("#mensaje_celular_usuarios").fadeOut("slow"); //Muestra mensaje de error
+					}else{
+						
+						$("#mensaje_celular_usuarios").text("Ingrese 10 dígitos");
+			    		$("#mensaje_celular_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_celular_usuarios).offset().top }, tiempo);
+			            return false;
+					}
+
+			    	
+		    		
 				}
 
 				// correos
@@ -249,6 +375,8 @@
 			    	
 		    		$("#mensaje_correo_usuarios").text("Introduzca un correo");
 		    		$("#mensaje_correo_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_correo_usuarios).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else if (regex.test($('#correo_usuarios').val().trim()))
@@ -260,7 +388,9 @@
 		    	{
 		    		$("#mensaje_correo_usuarios").text("Introduzca un correo Valido");
 		    		$("#mensaje_correo_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;	
+		    		$("html, body").animate({ scrollTop: $(mensaje_correo_usuarios).offset().top }, tiempo);
+					
+			            return false;	
 			    }
 
 		    	
@@ -269,6 +399,8 @@
 			    	
 		    		$("#mensaje_id_rol").text("Seleccione");
 		    		$("#mensaje_id_rol").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_rol).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else 
@@ -284,6 +416,8 @@
 			    	
 		    		$("#mensaje_id_estado").text("Seleccione");
 		    		$("#mensaje_id_estado").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_estado).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else 
@@ -291,7 +425,7 @@
 		    		$("#mensaje_id_estado").fadeOut("slow"); //Muestra mensaje de error
 		            
 				}
-		    					    
+		    				    
 
 			}); 
 
@@ -303,9 +437,7 @@
 				$( "#nombre_usuarios" ).focus(function() {
 					$("#mensaje_nombre_usuarios").fadeOut("slow");
     			});
-				/*$( "#usuario_usuario" ).focus(function() {
-					$("#mensaje_usuario_usuario").fadeOut("slow");
-    			});*/
+				
     			
 				$( "#clave_usuarios" ).focus(function() {
 					$("#mensaje_clave_usuarios").fadeOut("slow");
@@ -375,9 +507,6 @@
     
     
        
-    
-    
-    
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col  menu_fixed">
@@ -402,20 +531,7 @@
 
         <!-- page content -->
 		<div class="right_col" role="main">        
-            <?php
-       $sel_menu = "";
-       
-    
-       if($_SERVER['REQUEST_METHOD']=='POST' )
-       {
-       	 
-       	 
-       	$sel_menu=$_POST['criterio'];
-       	
-       	 
-       }
-      
-	 	?>
+          
     <div class="container">
         <section class="content-header">
          <small><?php echo $fecha; ?></small>
@@ -443,15 +559,9 @@
 
             <form  action="<?php echo $helper->url("Usuarios","InsertaUsuarios"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12 col-md-12 col-xs-12">
                                
+                           <?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
                                
-                               
-                               
-                                <?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
-                                
-                             
-                             		                    		   
-                    		   
-                    		 <div class="row">
+                    		  <div class="row">
                     		    <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
                                                       <label for="cedula_usuarios" class="control-label">Cedula:</label>
@@ -464,23 +574,14 @@
                     		    
                     		    <div class="col-lg-6 col-xs-12 col-md-6">
                     		    <div class="form-group">
-                                                      <label for="nombre_usuarios" class="control-label">Nombres:</label>
-                                                      <input type="text" class="form-control" id="nombre_usuarios" name="nombre_usuarios" value="<?php echo $resEdit->nombre_usuarios; ?>" placeholder="nombres..">
+                                                      <label for="nombre_usuarios" class="control-label">Nombres y Apellidos:</label>
+                                                      <input type="text" class="form-control" id="nombre_usuarios" name="nombre_usuarios" value="<?php echo $resEdit->nombre_usuarios; ?>" placeholder="nombre y apellido..">
                                                       <div id="mensaje_nombre_usuarios" class="errores"></div>
                                 </div>
                                 
                                 
                     		    </div>
-                    		    
-                    		   <!--<div class="col-lg-2 col-xs-12 col-md-2">
-                    		    <div class="form-group">
-                                                      <label for="usuario_usuario" class="control-label">Usuario</label>
-                                                      <input type="text" class="form-control" id="usuario_usuario" name="usuario_usuario" value="" placeholder="usuario..">
-                                                      <div id="mensaje_usuario_usuario" class="errores"></div>
-                                </div>
-                                </div>
-                    			--> 
-                    			
+                    		 	
                     				<div class="col-lg-2 col-xs-12 col-md-2">
                         		    <div class="form-group">
                                                           <label for="clave_usuarios" class="control-label">Password:</label>
@@ -500,11 +601,11 @@
                     			
                                
                     			
-                    			<div class="row">
+                    			   <div class="row">
                     		       <div class="col-lg-2 col-xs-12 col-md-2">
                             		    <div class="form-group">
                                                               <label for="telefono_usuarios" class="control-label">Teléfono:</label>
-                                                              <input type="text" class="form-control" id="telefono_usuarios" name="telefono_usuarios" value="<?php echo $resEdit->telefono_usuarios; ?>"  placeholder="teléfono..">
+                                                              <input type="number" class="form-control" id="telefono_usuarios" name="telefono_usuarios" value="<?php echo $resEdit->telefono_usuarios; ?>"  placeholder="teléfono..">
                                                               <div id="mensaje_telefono_usuarios" class="errores"></div>
                                         </div>
                             	    </div>
@@ -514,7 +615,7 @@
                         			<div class="col-lg-2 col-xs-12 col-md-2">
                                 		    <div class="form-group">
                                                                   <label for="celular_usuarios" class="control-label">Celular:</label>
-                                                                  <input type="text" class="form-control" id="celular_usuarios" name="celular_usuarios" value="<?php echo $resEdit->celular_usuarios; ?>"  placeholder="celular..">
+                                                                  <input type="number" class="form-control" id="celular_usuarios" name="celular_usuarios" value="<?php echo $resEdit->celular_usuarios; ?>"  placeholder="celular..">
                                                                   <div id="mensaje_celular_usuarios" class="errores"></div>
                                             </div>
                                     </div>
@@ -569,7 +670,16 @@
                              
                              
                              
-                             
+                              <div class="row">
+                    		    <div class="col-xs-12 col-md-12 col-lg-12" style="text-align: center; margin-top:20px">
+                    		    <div class="form-group">
+                                                      <button type="submit" id="Guardar" name="Guardar" class="btn btn-success"><i class="glyphicon glyphicon-floppy-saved"> Actualizar</i></button>
+                                					   <a href="index.php?controller=Usuarios&action=index" class="btn btn-primary" ><i class="glyphicon glyphicon-floppy-remove"> Cancelar</i></a>
+				  		
+                                					
+                                </div>
+                    		    </div>
+                    		    </div>
                              
                                 
                                 
@@ -590,22 +700,14 @@
                     		    
                     		    <div class="col-lg-6 col-xs-12 col-md-6">
                     		    <div class="form-group">
-                                                      <label for="nombre_usuarios" class="control-label">Nombres:</label>
-                                                      <input type="text" class="form-control" id="nombre_usuarios" name="nombre_usuarios" value="" placeholder="nombres..">
+                                                      <label for="nombre_usuarios" class="control-label">Nombres y Apellidos:</label>
+                                                      <input type="text" class="form-control" id="nombre_usuarios" name="nombre_usuarios" value="" placeholder="nombre y apellido..">
                                                       <div id="mensaje_nombre_usuarios" class="errores"></div>
                                 </div>
                                 
                                 
                     		    </div>
-                    		    <!-- 
-                    		    <div class="col-lg-2 col-xs-12 col-md-2">
-                    		    <div class="form-group">
-                                                      <label for="usuario_usuario" class="control-label">Usuario</label>
-                                                      <input type="text" class="form-control" id="usuario_usuario" name="usuario_usuario" value="" placeholder="usuario..">
-                                                      <div id="mensaje_usuario_usuario" class="errores"></div>
-                                </div>
-                                </div>
-                    			 -->
+                    		   
                     			
                     				<div class="col-lg-2 col-xs-12 col-md-2">
                         		    <div class="form-group">
@@ -630,7 +732,7 @@
                     		       <div class="col-lg-2 col-xs-12 col-md-2">
                             		    <div class="form-group">
                                                               <label for="telefono_usuarios" class="control-label">Teléfono:</label>
-                                                              <input type="text" class="form-control" id="telefono_usuarios" name="telefono_usuarios" value=""  placeholder="teléfono..">
+                                                              <input type="number" class="form-control" id="telefono_usuarios" name="telefono_usuarios" value=""  placeholder="teléfono..">
                                                               <div id="mensaje_telefono_usuarios" class="errores"></div>
                                         </div>
                             	    </div>
@@ -640,7 +742,7 @@
                         			<div class="col-lg-2 col-xs-12 col-md-2">
                                 		    <div class="form-group">
                                                                   <label for="celular_usuarios" class="control-label">Celular:</label>
-                                                                  <input type="text" class="form-control" id="celular_usuarios" name="celular_usuarios" value=""  placeholder="celular..">
+                                                                  <input type="number" class="form-control" id="celular_usuarios" name="celular_usuarios" value=""  placeholder="celular..">
                                                                   <div id="mensaje_celular_usuarios" class="errores"></div>
                                             </div>
                                     </div>
@@ -669,7 +771,7 @@
                         		   <div class="form-group">
                                                           <label for="id_rol" class="control-label">Rol:</label>
                                                           <select name="id_rol" id="id_rol"  class="form-control" >
-                                                          <option value="" selected="selected">--Seleccione--</option>
+                                                          <option value="0" selected="selected">--Seleccione--</option>
                         									<?php foreach($resultRol as $res) {?>
                         										<option value="<?php echo $res->id_rol; ?>" ><?php echo $res->nombre_rol; ?> </option>
                         							    
@@ -684,7 +786,7 @@
                         		   <div class="form-group">
                                                           <label for="id_estado" class="control-label">Estado:</label>
                                                           <select name="id_estado" id="id_estado"  class="form-control" >
-                                                          <option value="" selected="selected">--Seleccione--</option>
+                                                          <option value="0" selected="selected">--Seleccione--</option>
                         									<?php foreach($resultEst as $res) {?>
                         										<option value="<?php echo $res->id_estado; ?>"><?php echo $res->nombre_estado; ?> </option>
                         							        <?php } ?>
@@ -696,9 +798,9 @@
                                 
                                 </div>
                     	           	
-                    		     <?php } ?>
-                    		      
-                    		    <div class="row">
+                    	           	
+                    	           	
+                    	        <div class="row">
                     		    <div class="col-xs-12 col-md-12 col-lg-12" style="text-align: center; margin-top:20px">
                     		    <div class="form-group">
                                                       <button type="submit" id="Guardar" name="Guardar" class="btn btn-success"><i class="glyphicon glyphicon-floppy-saved"> Guardar</i></button>
@@ -707,6 +809,12 @@
                                 </div>
                     		    </div>
                     		    </div>
+                    	           	
+                    	           	
+                    	           	
+                    		     <?php } ?>
+                    		      
+                    		   
   
               </form>
   
@@ -778,8 +886,9 @@
     
     
     
-    
-    <!-- Bootstrap -->
+  
+ 
+     <!-- Bootstrap -->
     <script src="view/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     
     
@@ -799,7 +908,7 @@
     
     <!-- Custom Theme Scripts -->
     <script src="view/build/js/custom.min.js"></script>
-	
+	<script src="view/js/jquery.inputmask.bundle.js"></script>
 	<!-- codigo de las funciones -->
 
 	

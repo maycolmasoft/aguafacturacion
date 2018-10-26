@@ -2,7 +2,7 @@
 <html lang="es">
       <head>
         <meta charset="utf-8"/>
-        <title>ActualizarUsuarios - Template 2018</title>
+        <title>Actualizar</title>
 
 	
 		
@@ -58,7 +58,7 @@
         	        		}
         	    });
             	
-		        setTimeout($.unblockUI, 3000); 
+		        setTimeout($.unblockUI, 500); 
 		        
         	   }
 
@@ -66,12 +66,16 @@
        
         
         
-        <script >
+        
+         <script >
 		    // cada vez que se cambia el valor del combo
 		    $(document).ready(function(){
 		    
 		    $("#Guardar").click(function() 
 			{
+
+
+				
 		    	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 		    	var validaFecha = /([0-9]{4})\-([0-9]{2})\-([0-9]{2})/;
 
@@ -84,61 +88,90 @@
 		    	var correo_usuarios  = $("#correo_usuarios").val();
 		    	var id_rol  = $("#id_rol").val();
 		    	var id_estado  = $("#id_estado").val();
-		    	
+
+		    	var contador=0;
+		    	 var tiempo = tiempo || 1000;
+		    	 
 		    	
 		    	if (cedula_usuarios == "")
 		    	{
 			    	
 		    		$("#mensaje_cedula_usuarios").text("Introduzca Identificación");
 		    		$("#mensaje_cedula_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+
+		    		$("html, body").animate({ scrollTop: $(mensaje_cedula_usuarios).offset().top }, tiempo);
+			        return false;
 			    }
 		    	else 
 		    	{
-		    		$("#mensaje_cedula_usuarios").fadeOut("slow"); //Muestra mensaje de error
+		    		if(cedula_usuarios.length==10){
+
+						$("#mensaje_cedula_usuarios").fadeOut("slow"); //Muestra mensaje de error
+					}else{
+						
+						$("#mensaje_cedula_usuarios").text("Ingrese 10 dígitos");
+			    		$("#mensaje_cedula_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_cedula_usuarios).offset().top }, tiempo);
+			            return false;
+					}
 		            
 				}    
-				
+			
 		    	if (nombre_usuarios == "")
 		    	{
 			    	
 		    		$("#mensaje_nombre_usuarios").text("Introduzca un Nombre");
 		    		$("#mensaje_nombre_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		    		$("html, body").animate({ scrollTop: $(mensaje_nombre_usuarios).offset().top }, tiempo);
+			        
+			            return false;
 			    }
 		    	else 
 		    	{
-		    		$("#mensaje_nombre_usuarios").fadeOut("slow"); //Muestra mensaje de error
+
+		    		contador=0;
+		    		numeroPalabras=0;
+		    		contador = nombre_usuarios.split(" ");
+		    		numeroPalabras = contador.length;
+		    		
+					if(numeroPalabras==2 || numeroPalabras==3 || numeroPalabras==4){
+
+						$("#mensaje_nombre_usuarios").fadeOut("slow"); //Muestra mensaje de error
+				                     
+			             
+					}else{
+						$("#mensaje_nombre_usuarios").text("Introduzca Nombres y Apellidos");
+			    		$("#mensaje_nombre_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_nombre_usuarios).offset().top }, tiempo);
+			            return false;
+					}
+			    	
+		    		
 		            
 				}
-		    	/*
-		    	if (usuario_usuario == "")
-		    	{
-			    	
-		    		$("#mensaje_usuario_usuario").text("Introduzca un Usuario");
-		    		$("#mensaje_usuario_usuario").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
-			    }
-		    	else 
-		    	{
-		    		$("#mensaje_usuario_usuario").fadeOut("slow"); //Muestra mensaje de error
-		            
-				}   
-						    	
-			*/
+		    			    	
+		    
 		    	if (clave_usuarios == "")
 		    	{
 		    		
 		    		$("#mensaje_clave_usuarios").text("Introduzca una Clave");
 		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+				       
+			            return false;
 			    }else if (clave_usuarios.length<4){
 			    	$("#mensaje_clave_usuarios").text("Introduzca minimo 4 números");
 		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+				    
 		            return false;
 				}else if (clave_usuarios.length>4){
 			    	$("#mensaje_clave_usuarios").text("Introduzca máximo 4 números");
 		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
+					   
 		            return false;
 				}
 		    	else 
@@ -153,6 +186,8 @@
 		    		
 		    		$("#mensaje_clave_usuarios_r").text("Introduzca una Clave");
 		    		$("#mensaje_clave_usuarios_r").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios_r).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else 
@@ -166,6 +201,8 @@
 			    	
 		    		$("#mensaje_clave_usuarios_r").text("Claves no Coinciden");
 		    		$("#mensaje_clave_usuarios_r").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios_r).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else
@@ -182,12 +219,28 @@
 			    	
 		    		$("#mensaje_celular_usuarios").text("Ingrese un Celular");
 		    		$("#mensaje_celular_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;
+		    		$("html, body").animate({ scrollTop: $(mensaje_celular_usuarios).offset().top }, tiempo);
+					
+			            return false;
 			    }
 		    	else 
 		    	{
-		    		$("#mensaje_celular_usuarios").fadeOut("slow"); //Muestra mensaje de error
-		            
+
+
+		    		if(celular_usuarios.length==10){
+
+						$("#mensaje_celular_usuarios").fadeOut("slow"); //Muestra mensaje de error
+					}else{
+						
+						$("#mensaje_celular_usuarios").text("Ingrese 10 dígitos");
+			    		$("#mensaje_celular_usuarios").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_celular_usuarios).offset().top }, tiempo);
+			            return false;
+					}
+
+			    	
+		    		
 				}
 
 				// correos
@@ -197,6 +250,8 @@
 			    	
 		    		$("#mensaje_correo_usuarios").text("Introduzca un correo");
 		    		$("#mensaje_correo_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_correo_usuarios).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else if (regex.test($('#correo_usuarios').val().trim()))
@@ -208,7 +263,9 @@
 		    	{
 		    		$("#mensaje_correo_usuarios").text("Introduzca un correo Valido");
 		    		$("#mensaje_correo_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		            return false;	
+		    		$("html, body").animate({ scrollTop: $(mensaje_correo_usuarios).offset().top }, tiempo);
+					
+			            return false;	
 			    }
 
 		    	
@@ -217,6 +274,8 @@
 			    	
 		    		$("#mensaje_id_rol").text("Seleccione");
 		    		$("#mensaje_id_rol").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_rol).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else 
@@ -232,6 +291,8 @@
 			    	
 		    		$("#mensaje_id_estado").text("Seleccione");
 		    		$("#mensaje_id_estado").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_estado).offset().top }, tiempo);
+					
 		            return false;
 			    }
 		    	else 
@@ -239,7 +300,7 @@
 		    		$("#mensaje_id_estado").fadeOut("slow"); //Muestra mensaje de error
 		            
 				}
-		    					    
+		    				    
 
 			}); 
 
@@ -251,10 +312,8 @@
 				$( "#nombre_usuarios" ).focus(function() {
 					$("#mensaje_nombre_usuarios").fadeOut("slow");
     			});
-				/*$( "#usuario_usuario" ).focus(function() {
-					$("#mensaje_usuario_usuario").fadeOut("slow");
-    			});
-    			*/
+				
+    			
 				$( "#clave_usuarios" ).focus(function() {
 					$("#mensaje_clave_usuarios").fadeOut("slow");
     			});
@@ -283,6 +342,7 @@
 		}); 
 
 	</script>
+        
         
         
         <script >   
@@ -417,15 +477,7 @@
                                 
                     		    </div>
                     		    
-                    		    <!-- 
-                    		    <div class="col-lg-2 col-xs-12 col-md-2">
-                    		    <div class="form-group">
-                                                      <label for="usuario_usuario" class="control-label">Usuario</label>
-                                                      <input type="text" class="form-control" id="usuario_usuario" name="usuario_usuario" value="" placeholder="usuario..">
-                                                      <div id="mensaje_usuario_usuario" class="errores"></div>
-                                </div>
-                                </div>
-                    			 -->
+                    		   
                     			
                     				<div class="col-lg-2 col-xs-12 col-md-2">
                         		    <div class="form-group">
@@ -450,7 +502,7 @@
                     		       <div class="col-lg-2 col-xs-12 col-md-2">
                             		    <div class="form-group">
                                                               <label for="telefono_usuarios" class="control-label">Teléfono:</label>
-                                                              <input type="text" class="form-control" id="telefono_usuarios" name="telefono_usuarios" value="<?php echo $resEdit->telefono_usuarios; ?>"  placeholder="teléfono..">
+                                                              <input type="number" class="form-control" id="telefono_usuarios" name="telefono_usuarios" value="<?php echo $resEdit->telefono_usuarios; ?>"  placeholder="teléfono..">
                                                               <div id="mensaje_telefono_usuarios" class="errores"></div>
                                         </div>
                             	    </div>
@@ -460,7 +512,7 @@
                         			<div class="col-lg-2 col-xs-12 col-md-2">
                                 		    <div class="form-group">
                                                                   <label for="celular_usuarios" class="control-label">Celular:</label>
-                                                                  <input type="text" class="form-control" id="celular_usuarios" name="celular_usuarios" value="<?php echo $resEdit->celular_usuarios; ?>"  placeholder="celular..">
+                                                                  <input type="number" class="form-control" id="celular_usuarios" name="celular_usuarios" value="<?php echo $resEdit->celular_usuarios; ?>"  placeholder="celular..">
                                                                   <div id="mensaje_celular_usuarios" class="errores"></div>
                                             </div>
                                     </div>

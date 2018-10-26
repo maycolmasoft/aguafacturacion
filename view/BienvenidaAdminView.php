@@ -94,27 +94,7 @@
           
            
            
-           
-         <!--   
-       <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-           <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3>BIENVENIDO A CAPREMCI</h3>
-           </div>
-           <div class="modal-body">
-             <img src="view/images/educacion2017.jpg" class="img-rounded" alt="Cinque Terre" style="max-width:100%"/>   
-          </div>
-           <div class="modal-footer">
-          <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
-           </div>
-	      </div>
-	     </div>
-	   </div>
-           
-        -->   
-           
+       
           
         </div>
    
@@ -151,10 +131,7 @@
         		   pone_roles();
         		   pone_permisos_roles();
         		   cargar_sesiones();
-        		   cargar_consulta_documentos();
-				    pone_afiliaciones_recomendadas();
-				    pone_encuestas_realizadas();
-        		   cargar_banner();
+        		  
 	   			});
 
 
@@ -257,64 +234,6 @@
         		     })
         		  }
 
-
-        	   function cargar_consulta_documentos(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_consulta_documentos").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_consulta_documentos',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_consulta_documentos").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_consulta_documentos").html("Ocurrio un error al cargar la informacion de consulta documentos..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-        	   
- 			function pone_afiliaciones_recomendadas(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_afiliaciones_recomendadas").html('')
-        		                 },
-        		                 url: 'index.php?controller=Afiliacion&action=cargar_afiliado_recomendado',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_afiliaciones_recomendadas").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_afiliaciones_recomendadas").html("Ocurrio un error al cargar la informacion de consulta afiliaciones recomendadas..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
-
- 			function pone_encuestas_realizadas(){
-     		   $(document).ready( function (){
-     		       $.ajax({
-     		                 beforeSend: function(objeto){
-     		                   $("#pone_encuestas_realizadas").html('')
-     		                 },
-     		                 url: 'index.php?controller=Encuestas&action=cargar_encuestas',
-     		                 type: 'POST',
-     		                 data: null,
-     		                 success: function(x){
-     		                   $("#pone_encuestas_realizadas").html(x);
-     		                 },
-     		                error: function(jqXHR,estado,error){
-     		                  $("#pone_encuestas_realizadas").html("Ocurrio un error al cargar la informacion de consulta encuestas realizadas..."+estado+"    "+error);
-     		                }
-     		              });
-     		     })
-     		  }
 
 
  			

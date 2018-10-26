@@ -23,7 +23,6 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="index.php?controller=Usuarios&action=Actualiza"> Perfil Usuario</a></li>
-                     <li><a href="index.php?controller=Afiliacion&action=index"> Recomendar Afiliación</a></li>
                     <li><a href="index.php?controller=Usuarios&action=cerrar_sesion"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
                   </ul>
                 </li>

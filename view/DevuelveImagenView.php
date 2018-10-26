@@ -38,8 +38,13 @@ else
 		$res = pg_query($conn, "SELECT ".$campo." FROM ".$tabla." WHERE ".$id_nombre." = '$id_valor' ");
 		
 		
+		
+		
+		
+		
 		if (!empty($res))
 		{
+			
 				$raw = pg_fetch_result($res, $campo );
 				
 				if($raw)
@@ -48,20 +53,19 @@ else
 					echo pg_unescape_bytea($raw);
 				}else 
 				{
-					$archivo=$_SERVER['DOCUMENT_ROOT'].'/webcapremci/view/images/'.'nodisponible.jpg';
+					$archivo=$_SERVER['DOCUMENT_ROOT'].'/aguafacturacion/view/images/nodisponible.jpg';
 				
-					header("Content-type: image/jpeg");
+					header("Content-type: image/jpg");
 					header("Content-length: ".filesize($archivo));
 					header("Content-Disposition: inline; filename=$archivo");
 					readfile($archivo);
 				}
 				
-			
 		}else 
 		{
-			$archivo=$_SERVER['DOCUMENT_ROOT'].'/webcapremci/view/images/'.'nodisponible.jpg';
+			$archivo=$_SERVER['DOCUMENT_ROOT'].'/aguafacturacion/view/images/nodisponible.jpg';
 			
-			header("Content-type: image/jpeg");
+			header("Content-type: image/jpg");
 			header("Content-length: ".filesize($archivo));
 			header("Content-Disposition: inline; filename=$archivo");
 			readfile($archivo);
