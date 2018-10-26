@@ -112,6 +112,9 @@ class EntidadBase{
         return $query;
     }
     
+    
+   
+    
     public function deleteBy($column,$value){
 
     	try 

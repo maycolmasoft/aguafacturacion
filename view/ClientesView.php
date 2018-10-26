@@ -254,7 +254,10 @@
 				$('#telefono_clientes').val("");
 				$('#celular_clientes').val("");
 				$('#correo_clientes').val("");
-		        $("#id_clientes").val("");
+		        $("#id_clientes").val("0");
+		        $("#id_estado").val("0");
+
+		        
 		     
 		    }); 
 		    }); 
@@ -267,8 +270,10 @@
 
 	       	$(document).ready(function(){
 
+                        var id_clientes = $("#id_clientes").val();
 
-	       		
+                        if(id_clientes>0){}else{
+        	       		
 						$( "#identificacion_clientes" ).autocomplete({
 		      				source: "<?php echo $helper->url("Clientes","AutocompleteCedula"); ?>",
 		      				minLength: 1
@@ -294,14 +299,16 @@
 		    					$('#telefono_clientes').val(respuesta.telefono_clientes);
 		    					$('#celular_clientes').val(respuesta.celular_clientes);
 		    					$('#correo_clientes').val(respuesta.correo_clientes);
+		    					$('#id_estado').val(respuesta.id_estado);
+
+
+		    					
 		    					
 		    				
 		        			}).fail(function(respuesta) {
 
 		        				$('#apellidos_clientes').val("");
 		    					$('#nombres_clientes').val("");
-		    					$('#id_tipo_identificacion').val("0");
-		    					$('#identificacion_clientes').val("");
 		    					$('#id_sexo').val("0");
 		    					$('#id_provincias').val("0");
 		    					$('#id_cantones').val("0");
@@ -310,12 +317,14 @@
 		    					$('#telefono_clientes').val("");
 		    					$('#celular_clientes').val("");
 		    					$('#correo_clientes').val("");
+		    					$('#id_estado').val("0");
+		    					
 		        			    
 		        			  });
 		    				 
 		    				
 		    			});  
-
+                        }
 						
 		    		});
 		
@@ -335,51 +344,98 @@
 		    	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 		    	var validaFecha = /([0-9]{4})\-([0-9]{2})\-([0-9]{2})/;
 
-		    	var cedula_usuarios = $("#cedula_usuarios").val();
-		    	var nombre_usuarios = $("#nombre_usuarios").val();
-		    	//var usuario_usuario = $("#usuario_usuario").val();
-		    	var clave_usuarios = $("#clave_usuarios").val();
-		    	var cclave_usuarios = $("#clave_usuarios_r").val();
-		    	var celular_usuarios = $("#celular_usuarios").val();
-		    	var correo_usuarios  = $("#correo_usuarios").val();
-		    	var id_rol  = $("#id_rol").val();
-		    	var id_estado  = $("#id_estado").val();
+		    	var id_tipo_identificacion = $("#id_tipo_identificacion").val();
+		    	var identificacion_clientes = $("#identificacion_clientes").val();
+		    	var apellidos_clientes = $("#apellidos_clientes").val();
+		    	var nombres_clientes = $("#nombres_clientes").val();
+		    	var id_sexo = $("#id_sexo").val();
+		    	var telefono_clientes  = $("#telefono_clientes").val();
+		    	var celular_clientes  = $("#celular_clientes").val();
+		    	var correo_clientes  = $("#correo_clientes").val();
+		    	var id_provincias  = $("#id_provincias").val();
+		    	var id_cantones  = $("#id_cantones").val();
+		    	var id_parroquias  = $("#id_parroquias").val();
+		    	var direccion_clientes  = $("#direccion_clientes").val();
+                var id_estado   = $("#id_estado").val();
 
-		    	var contador=0;
-		    	 var tiempo = tiempo || 1000;
-		    	 
 		    	
-		    	if (cedula_usuarios == "")
+		    	var contador=0;
+		    	var tiempo = tiempo || 1000;
+
+
+		    	if (id_tipo_identificacion == 0)
 		    	{
 			    	
-		    		$("#mensaje_cedula_usuarios").text("Introduzca Identificación");
-		    		$("#mensaje_cedula_usuarios").fadeIn("slow"); //Muestra mensaje de error
+		    		$("#mensaje_id_tipo_identificacion").text("Seleccione Tipo");
+		    		$("#mensaje_id_tipo_identificacion").fadeIn("slow"); //Muestra mensaje de error
 
-		    		$("html, body").animate({ scrollTop: $(mensaje_cedula_usuarios).offset().top }, tiempo);
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_tipo_identificacion).offset().top }, tiempo);
+			        return false;
+			    }else{
+
+			    	$("#mensaje_id_tipo_identificacion").fadeOut("slow"); //Muestra mensaje de error
+				  }
+
+
+		    	 
+		    	
+		    	if (identificacion_clientes == "")
+		    	{
+			    	
+		    		$("#mensaje_identificacion_clientes").text("Ingrese Identificación");
+		    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+
+		    		$("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
 			        return false;
 			    }
 		    	else 
 		    	{
-		    		if(cedula_usuarios.length==10){
 
-						$("#mensaje_cedula_usuarios").fadeOut("slow"); //Muestra mensaje de error
-					}else{
+
+					if(id_tipo_identificacion==1){
+
+						if(identificacion_clientes.length==10){
+
+							$("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+						}else{
+							
+							$("#mensaje_identificacion_clientes").text("Ingrese Cedula");
+				    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+				           
+				            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+				            return false;
+						}
+
 						
-						$("#mensaje_cedula_usuarios").text("Ingrese 10 dígitos");
-			    		$("#mensaje_cedula_usuarios").fadeIn("slow"); //Muestra mensaje de error
-			           
-			            $("html, body").animate({ scrollTop: $(mensaje_cedula_usuarios).offset().top }, tiempo);
-			            return false;
-					}
-		            
+					}else{
+
+
+						if(identificacion_clientes.length==13){
+
+							$("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+						}else{
+							
+							$("#mensaje_identificacion_clientes").text("Ingrese Ruc");
+				    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+				           
+				            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+				            return false;
+						}
+				   }
+
+    
 				}    
-			
-		    	if (nombre_usuarios == "")
+
+
+		    	
+
+
+		    	if (apellidos_clientes == "")
 		    	{
 			    	
-		    		$("#mensaje_nombre_usuarios").text("Introduzca un Nombre");
-		    		$("#mensaje_nombre_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_nombre_usuarios).offset().top }, tiempo);
+		    		$("#mensaje_apellidos_clientes").text("Introduzca Apellidos");
+		    		$("#mensaje_apellidos_clientes").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_apellidos_clientes).offset().top }, tiempo);
 			        
 			            return false;
 			    }
@@ -388,94 +444,92 @@
 
 		    		contador=0;
 		    		numeroPalabras=0;
-		    		contador = nombre_usuarios.split(" ");
+		    		contador = apellidos_clientes.split(" ");
 		    		numeroPalabras = contador.length;
 		    		
-					if(numeroPalabras==2 || numeroPalabras==3 || numeroPalabras==4){
+					if(numeroPalabras==2){
 
-						$("#mensaje_nombre_usuarios").fadeOut("slow"); //Muestra mensaje de error
+						$("#mensaje_apellidos_clientes").fadeOut("slow"); //Muestra mensaje de error
 				                     
 			             
 					}else{
-						$("#mensaje_nombre_usuarios").text("Introduzca Nombres y Apellidos");
-			    		$("#mensaje_nombre_usuarios").fadeIn("slow"); //Muestra mensaje de error
+						$("#mensaje_apellidos_clientes").text("Introduzca 2 Apellidos");
+			    		$("#mensaje_apellidos_clientes").fadeIn("slow"); //Muestra mensaje de error
 			           
-			            $("html, body").animate({ scrollTop: $(mensaje_nombre_usuarios).offset().top }, tiempo);
+			            $("html, body").animate({ scrollTop: $(mensaje_apellidos_clientes).offset().top }, tiempo);
 			            return false;
 					}
 			    	
 		    		
 		            
 				}
-		    			    	
-		    
-		    	if (clave_usuarios == "")
-		    	{
-		    		
-		    		$("#mensaje_clave_usuarios").text("Introduzca una Clave");
-		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
-				       
-			            return false;
-			    }else if (clave_usuarios.length<4){
-			    	$("#mensaje_clave_usuarios").text("Introduzca minimo 4 números");
-		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
-				    
-		            return false;
-				}else if (clave_usuarios.length>4){
-			    	$("#mensaje_clave_usuarios").text("Introduzca máximo 4 números");
-		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
-					   
-		            return false;
-				}
-		    	else 
-		    	{
-		    		$("#mensaje_clave_usuarios").fadeOut("slow"); //Muestra mensaje de error
-		            
-				}
-		    	
 
-		    	if (cclave_usuarios == "")
-		    	{
-		    		
-		    		$("#mensaje_clave_usuarios_r").text("Introduzca una Clave");
-		    		$("#mensaje_clave_usuarios_r").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios_r).offset().top }, tiempo);
-					
-		            return false;
-			    }
-		    	else 
-		    	{
-		    		$("#mensaje_clave_usuarios_r").fadeOut("slow"); 
-		            
-				}
-		    	
-		    	if (clave_usuarios != cclave_usuarios)
-		    	{
-			    	
-		    		$("#mensaje_clave_usuarios_r").text("Claves no Coinciden");
-		    		$("#mensaje_clave_usuarios_r").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios_r).offset().top }, tiempo);
-					
-		            return false;
-			    }
-		    	else
-		    	{
-		    		$("#mensaje_clave_usuarios_r").fadeOut("slow"); 
-			        
-		    	}	
 				
-
-				//los telefonos
-		    	
-		    	if (celular_usuarios == "" )
+			
+		    	if (nombres_clientes == "")
 		    	{
 			    	
-		    		$("#mensaje_celular_usuarios").text("Ingrese un Celular");
-		    		$("#mensaje_celular_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_celular_usuarios).offset().top }, tiempo);
+		    		$("#mensaje_nombres_clientes").text("Introduzca Nombres");
+		    		$("#mensaje_nombres_clientes").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_nombres_clientes).offset().top }, tiempo);
+			        
+			            return false;
+			    }
+		    	else 
+		    	{
+
+		    		contador=0;
+		    		numeroPalabras=0;
+		    		contador = nombres_clientes.split(" ");
+		    		numeroPalabras = contador.length;
+		    		
+					if(numeroPalabras==2){
+
+						$("#mensaje_nombres_clientes").fadeOut("slow"); //Muestra mensaje de error
+				                     
+			             
+					}else{
+						$("#mensaje_nombres_clientes").text("Introduzca 2 Nombres");
+			    		$("#mensaje_nombres_clientes").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_nombres_clientes).offset().top }, tiempo);
+			            return false;
+					}
+			    	
+		    		
+		            
+				}
+		    			
+
+		    	
+
+		    	if (id_sexo == 0 )
+		    	{
+			    	
+		    		$("#mensaje_id_sexo").text("Seleccione");
+		    		$("#mensaje_id_sexo").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_sexo).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else 
+		    	{
+		    		$("#mensaje_id_sexo").fadeOut("slow"); //Muestra mensaje de error
+		            
+				}
+
+
+
+
+		    	
+
+		    	
+		    	if (celular_clientes == "" )
+		    	{
+			    	
+		    		$("#mensaje_celular_clientes").text("Ingrese # Celular");
+		    		$("#mensaje_celular_clientes").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_celular_clientes).offset().top }, tiempo);
 					
 			            return false;
 			    }
@@ -483,15 +537,15 @@
 		    	{
 
 
-		    		if(celular_usuarios.length==10){
+		    		if(celular_clientes.length==10){
 
-						$("#mensaje_celular_usuarios").fadeOut("slow"); //Muestra mensaje de error
+						$("#mensaje_celular_clientes").fadeOut("slow"); //Muestra mensaje de error
 					}else{
 						
-						$("#mensaje_celular_usuarios").text("Ingrese 10 dígitos");
-			    		$("#mensaje_celular_usuarios").fadeIn("slow"); //Muestra mensaje de error
+						$("#mensaje_celular_clientes").text("Ingrese 10 dígitos");
+			    		$("#mensaje_celular_clientes").fadeIn("slow"); //Muestra mensaje de error
 			           
-			            $("html, body").animate({ scrollTop: $(mensaje_celular_usuarios).offset().top }, tiempo);
+			            $("html, body").animate({ scrollTop: $(mensaje_celular_clientes).offset().top }, tiempo);
 			            return false;
 					}
 
@@ -501,42 +555,92 @@
 
 				// correos
 				
-		    	if (correo_usuarios == "")
+		    	if (correo_clientes == "")
 		    	{
 			    	
-		    		$("#mensaje_correo_usuarios").text("Introduzca un correo");
-		    		$("#mensaje_correo_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_correo_usuarios).offset().top }, tiempo);
+		    		$("#mensaje_correo_clientes").text("Introduzca un correo");
+		    		$("#mensaje_correo_clientes").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_correo_clientes).offset().top }, tiempo);
 					
 		            return false;
 			    }
-		    	else if (regex.test($('#correo_usuarios').val().trim()))
+		    	else if (regex.test($('#correo_clientes').val().trim()))
 		    	{
-		    		$("#mensaje_correo_usuarios").fadeOut("slow"); //Muestra mensaje de error
+		    		$("#mensaje_correo_clientes").fadeOut("slow"); //Muestra mensaje de error
 		            
 				}
 		    	else 
 		    	{
-		    		$("#mensaje_correo_usuarios").text("Introduzca un correo Valido");
-		    		$("#mensaje_correo_usuarios").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_correo_usuarios).offset().top }, tiempo);
+		    		$("#mensaje_correo_clientes").text("Introduzca un correo Valido");
+		    		$("#mensaje_correo_clientes").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_correo_clientes).offset().top }, tiempo);
 					
 			            return false;	
 			    }
 
-		    	
-		    	if (id_rol == 0 )
+
+		    	if (id_provincias == 0 )
 		    	{
 			    	
-		    		$("#mensaje_id_rol").text("Seleccione");
-		    		$("#mensaje_id_rol").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_id_rol).offset().top }, tiempo);
+		    		$("#mensaje_id_provincias").text("Seleccione");
+		    		$("#mensaje_id_provincias").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_provincias).offset().top }, tiempo);
 					
 		            return false;
 			    }
 		    	else 
 		    	{
-		    		$("#mensaje_id_rol").fadeOut("slow"); //Muestra mensaje de error
+		    		$("#mensaje_id_provincias").fadeOut("slow"); //Muestra mensaje de error
+		            
+				}
+
+
+
+
+		    	if (id_cantones == 0 )
+		    	{
+			    	
+		    		$("#mensaje_id_cantones").text("Seleccione");
+		    		$("#mensaje_id_cantones").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_cantones).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else 
+		    	{
+		    		$("#mensaje_id_cantones").fadeOut("slow"); //Muestra mensaje de error
+		            
+				}
+
+
+
+		    	if (id_parroquias == 0 )
+		    	{
+			    	
+		    		$("#mensaje_id_parroquias").text("Seleccione");
+		    		$("#mensaje_id_parroquias").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_parroquias).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else 
+		    	{
+		    		$("#mensaje_id_parroquias").fadeOut("slow"); //Muestra mensaje de error
+		            
+				}
+
+		    	if (direccion_clientes == "" )
+		    	{
+			    	
+		    		$("#mensaje_direccion_clientes").text("Ingrese Barrio");
+		    		$("#mensaje_direccion_clientes").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_direccion_clientes).offset().top }, tiempo);
+					
+		            return false;
+			    }
+		    	else 
+		    	{
+		    		$("#mensaje_direccion_clientes").fadeOut("slow"); //Muestra mensaje de error
 		            
 				}
 
@@ -556,45 +660,57 @@
 		    		$("#mensaje_id_estado").fadeOut("slow"); //Muestra mensaje de error
 		            
 				}
+
+		    	
+		    	
 		    				    
 
 			}); 
 
 
-		        $( "#cedula_usuarios" ).focus(function() {
-				  $("#mensaje_cedula_usuarios").fadeOut("slow");
+		    
+		        $( "#id_tipo_identificacion" ).focus(function() {
+				  $("#mensaje_id_tipo_identificacion").fadeOut("slow");
 			    });
-				
-				$( "#nombre_usuarios" ).focus(function() {
-					$("#mensaje_nombre_usuarios").fadeOut("slow");
-    			});
-				
-    			
-				$( "#clave_usuarios" ).focus(function() {
-					$("#mensaje_clave_usuarios").fadeOut("slow");
-    			});
-				$( "#clave_usuarios_r" ).focus(function() {
-					$("#mensaje_clave_usuarios_r").fadeOut("slow");
-    			});
-				
-				$( "#celular_usuarios" ).focus(function() {
-					$("#mensaje_celular_usuarios").fadeOut("slow");
-    			});
-				
-				$( "#correo_usuarios" ).focus(function() {
-					$("#mensaje_correo_usuarios").fadeOut("slow");
-    			});
-			
-				$( "#id_rol" ).focus(function() {
-					$("#mensaje_id_rol").fadeOut("slow");
-    			});
+		        $( "#identificacion_clientes" ).focus(function() {
+					  $("#mensaje_identificacion_clientes").fadeOut("slow");
+				 });
+		        $( "#apellidos_clientes" ).focus(function() {
+					  $("#mensaje_apellidos_clientes").fadeOut("slow");
+				 });
+		        $( "#nombres_clientes" ).focus(function() {
+					  $("#mensaje_nombres_clientes").fadeOut("slow");
+				 });
+		        $( "#id_sexo" ).focus(function() {
+					  $("#mensaje_id_sexo").fadeOut("slow");
+				 }); 
+		        $( "#celular_clientes" ).focus(function() {
+					  $("#mensaje_celular_clientes").fadeOut("slow");
+				 });  
 
-				$( "#id_estado" ).focus(function() {
-					$("#mensaje_id_estado").fadeOut("slow");
-    			});
-				
-		      
-				    
+		        $( "#correo_clientes" ).focus(function() {
+					  $("#mensaje_correo_clientes").fadeOut("slow");
+				 });  
+
+		        $( "#id_provincias" ).focus(function() {
+					  $("#mensaje_id_provincias").fadeOut("slow");
+				 });
+
+		        $( "#id_cantones" ).focus(function() {
+					  $("#mensaje_id_cantones").fadeOut("slow");
+				 });
+
+		        $( "#id_parroquias" ).focus(function() {
+					  $("#mensaje_id_parroquias").fadeOut("slow");
+				 });
+
+		        $( "#direccion_clientes" ).focus(function() {
+					  $("#mensaje_direccion_clientes").fadeOut("slow");
+				 });
+
+		        $( "#id_estado" ).focus(function() {
+					  $("#mensaje_id_estado").fadeOut("slow");
+				 });
 		}); 
 
 	</script>
@@ -670,60 +786,74 @@
             <form  action="<?php echo $helper->url("Clientes","InsertaClientes"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12 col-md-12 col-xs-12">
                                
                            <?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
-                               
-                    		  
-                                
-                    	   <?php } } else {?>
-                    		    
-                    		   
-									                    		   
-                    		   
-                    		    <div class="row">
-                    		    <div class="col-lg-2 col-xs-12 col-md-2">
-                    		    <div class="form-group">
-                                                      <label for="cedula_usuarios" class="control-label">Cedula:</label>
-                                                      <input type="number" class="form-control" id="cedula_usuarios" name="cedula_usuarios" value=""  placeholder="cedula..">
-                                                      <div id="mensaje_cedula_usuarios" class="errores"></div>
-                                </div>
-                                </div>
-                    		    
-                    		    
-                    		    <div class="col-lg-6 col-xs-12 col-md-6">
-                    		    <div class="form-group">
-                                                      <label for="nombre_usuarios" class="control-label">Nombres y Apellidos:</label>
-                                                      <input type="text" class="form-control" id="nombre_usuarios" name="nombre_usuarios" value="" placeholder="nombre y apellido..">
-                                                      <div id="mensaje_nombre_usuarios" class="errores"></div>
-                                </div>
-                                
-                                
-                    		    </div>
-                    		   
-                    			
-                    				<div class="col-lg-2 col-xs-12 col-md-2">
-                        		    <div class="form-group">
-                                                          <label for="clave_usuarios" class="control-label">Password:</label>
-                                                          <input type="password" class="form-control" id="clave_usuarios" name="clave_usuarios" value="" placeholder="(solo números..)" maxlength="4" onkeypress="return numeros(event)">
-                                                          <div id="mensaje_clave_usuarios" class="errores"></div>
-                                    </div>
-                        		    </div>
-                        		    
-                        		    <div class="col-lg-2 col-xs-12 col-md-2">
-                        		    <div class="form-group">
-                                                          <label for="clave_usuarios_r" class="control-label">Repita Password:</label>
-                                                          <input type="password" class="form-control" id="clave_usuarios_r" name="clave_usuarios_r" value="" placeholder="(solo números..)" maxlength="4" onkeypress="return numeros(event)">
-                                                          <div id="mensaje_clave_usuarios_r" class="errores"></div>
+                 
+                 
+              <div class="row">
+             					   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                          <label for="id_tipo_identificacion" class="control-label">Tipo Identificación:</label>
+                                                          <select name="id_tipo_identificacion" id="id_tipo_identificacion"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultTipIdenti as $res) {?>
+                        										<option value="<?php echo $res->id_tipo_identificacion; ?>" <?php if ($res->id_tipo_identificacion == $resEdit->id_tipo_identificacion )  echo  ' selected="selected" '  ;  ?>><?php echo $res->nombre_tipo_identificacion; ?> </option>
+                        							    
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_tipo_identificacion" class="errores"></div>
                                     </div>
                                     </div>
-                    	       </div>
+                                    
+                                    
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="identificacion_clientes" class="control-label">Identificación:</label>
+                                                      <input type="hidden" class="form-control" id="id_clientes" name="id_clientes" value="<?php echo $resEdit->id_clientes; ?>" >
+                                                      <input type="number" class="form-control" id="identificacion_clientes" name="identificacion_clientes" value="<?php echo $resEdit->identificacion_clientes; ?>"  placeholder="identificación..">
+                                                      <div id="mensaje_identificacion_clientes" class="errores"></div>
+                                    </div>
+                                    </div>
+                                    
+                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                        		   <div class="form-group">
+                                                      <label for="apellidos_clientes" class="control-label">Apellidos:</label>
+                                                      <input type="text" class="form-control" id="apellidos_clientes" name="apellidos_clientes" value="<?php echo $resEdit->apellidos_clientes; ?>"  placeholder="apellidos..">
+                                                      <div id="mensaje_apellidos_clientes" class="errores"></div>
+                                    </div>
+                                    </div>
+                                    
+                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                        		   <div class="form-group">
+                                                      <label for="nombres_clientes" class="control-label">Nombres:</label>
+                                                      <input type="text" class="form-control" id="nombres_clientes" name="nombres_clientes" value="<?php echo $resEdit->nombres_clientes; ?>"  placeholder="nombres..">
+                                                      <div id="mensaje_nombres_clientes" class="errores"></div>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                          <label for="id_sexo" class="control-label">Género:</label>
+                                                          <select name="id_sexo" id="id_sexo"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultSexo as $res) {?>
+                        										<option value="<?php echo $res->id_sexo; ?>" <?php if ($res->id_sexo == $resEdit->id_sexo )  echo  ' selected="selected" '  ;  ?>><?php echo $res->nombre_sexo; ?> </option>
+                        							    
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_sexo" class="errores"></div>
+                                    </div>
+                                    </div>
+                                    
+            </div>        		   
+                    	      
                     			
-                               
-                    			
-                    			<div class="row">
+           <div class="row">
+                    		       
+                    		       
                     		       <div class="col-lg-2 col-xs-12 col-md-2">
                             		    <div class="form-group">
-                                                              <label for="telefono_usuarios" class="control-label">Teléfono:</label>
-                                                              <input type="number" class="form-control" id="telefono_usuarios" name="telefono_usuarios" value=""  placeholder="teléfono..">
-                                                              <div id="mensaje_telefono_usuarios" class="errores"></div>
+                                                              <label for="telefono_clientes" class="control-label">Teléfono:</label>
+                                                              <input type="number" class="form-control" id="telefono_clientes" name="telefono_clientes" value="<?php echo $resEdit->telefono_clientes; ?>"  placeholder="teléfono..">
+                                                              <div id="mensaje_telefono_clientes" class="errores"></div>
                                         </div>
                             	    </div>
                             		    
@@ -731,63 +861,290 @@
                     			
                         			<div class="col-lg-2 col-xs-12 col-md-2">
                                 		    <div class="form-group">
-                                                                  <label for="celular_usuarios" class="control-label">Celular:</label>
-                                                                  <input type="number" class="form-control" id="celular_usuarios" name="celular_usuarios" value=""  placeholder="celular..">
-                                                                  <div id="mensaje_celular_usuarios" class="errores"></div>
+                                                                  <label for="celular_clientes" class="control-label">Celular:</label>
+                                                                  <input type="number" class="form-control" id="celular_clientes" name="celular_clientes" value="<?php echo $resEdit->celular_clientes; ?>"  placeholder="celular..">
+                                                                  <div id="mensaje_celular_clientes" class="errores"></div>
                                             </div>
                                     </div>
-                        		    <div class="col-lg-4 col-xs-12 col-md-4">
+                        		    <div class="col-lg-3 col-xs-12 col-md-3">
                         		    <div class="form-group">
-                                                          <label for="correo_usuarios" class="control-label">Correo:</label>
-                                                          <input type="email" class="form-control" id="correo_usuarios" name="correo_usuarios" value="" placeholder="email..">
-                                                          <div id="mensaje_correo_usuarios" class="errores"></div>
+                                                          <label for="correo_clientes" class="control-label">Correo:</label>
+                                                          <input type="email" class="form-control" id="correo_clientes" name="correo_clientes" value="<?php echo $resEdit->correo_clientes; ?>" placeholder="email..">
+                                                          <div id="mensaje_correo_clientes" class="errores"></div>
                                     </div>
                         		    </div>
-                        		    
-                        		    
-                        		    
-                        		    <div class="col-lg-4 col-xs-12 col-md-4">
-                        		    <div class="form-group">
-                                                          <label for="fotografia_usuarios" class="control-label">Fotografía:</label>
-                                                          <input type="file" class="form-control" id="fotografia_usuarios" name="fotografia_usuarios" value="">
-                                                          <div id="mensaje_usuario" class="errores"></div>
-                                    </div>
-                        		    </div>
-                        		
-								     
-                        		    
-                        		    
-                        		    <div class="col-lg-2 col-xs-12 col-md-2">
-                        		   <div class="form-group">
-                                                          <label for="id_rol" class="control-label">Rol:</label>
-                                                          <select name="id_rol" id="id_rol"  class="form-control" >
+                                    
+                                <div class="col-lg-3 col-xs-12 col-md-3">
+                    		    <div class="form-group">
+                                                          <label for="id_provincias" class="control-label">Provincia:</label>
+                                                          <select name="id_provincias" id="id_provincias"  class="form-control" >
                                                           <option value="0" selected="selected">--Seleccione--</option>
-                        									<?php foreach($resultRol as $res) {?>
-                        										<option value="<?php echo $res->id_rol; ?>" ><?php echo $res->nombre_rol; ?> </option>
+                        									<?php foreach($resultProvincias as $res) {?>
+                        										<option value="<?php echo $res->id_provincias; ?>" <?php if ($res->id_provincias == $resEdit->id_provincias )  echo  ' selected="selected" '  ;  ?>><?php echo $res->nombre_provincias; ?> </option>
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_provincias" class="errores"></div>
+                                </div>
+                    		    </div>       		    
+                    		   
+                    		    
+                    		    <div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
+                                                          <label for="id_cantones" class="control-label">Cantón:</label>
+                                                          <select name="id_cantones" id="id_cantones"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                                                            <?php foreach($resultCantones as $res) {?>
+                        										<option value="<?php echo $res->id_cantones; ?>" <?php if ($res->id_cantones == $resEdit->id_cantones )  echo  ' selected="selected" '  ;  ?> ><?php echo $res->nombre_cantones; ?> </option>
+                        							        <?php } ?>
+                                                          </select> 
+                                                          <div id="mensaje_id_cantones" class="errores"></div>
+                                </div>
+                    		    </div>
+                                
+              </div>
+                    	           	
+                
+              <div class="row">
+                    		     
+             					
+                    		   
+                    			
+                    			<div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
+                                                          <label for="id_parroquias" class="control-label">Parroquia:</label>
+                                                          <select name="id_parroquias" id="id_parroquias"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        								  
+                        								  <?php foreach($resultParroquias as $res) {?>
+                        										<option value="<?php echo $res->id_parroquias; ?>" <?php if ($res->id_parroquias == $resEdit->id_parroquias )  echo  ' selected="selected" '  ;  ?>><?php echo $res->nombre_parroquias; ?> </option>
+                        							        <?php } ?>
+                        							      
+                        								  </select> 
+                                                          <div id="mensaje_id_parroquias" class="errores"></div>
+                                </div>
+                    		    </div>
+                    			
+           
+            
+            
+            
+                    		    <div class="col-lg-5 col-xs-12 col-md-5">
+                    		    <div class="form-group">
+                                                      <label for="direccion_clientes" class="control-label">Barrio y/o sector:</label>
+                                                      <input type="text" class="form-control" id="direccion_clientes" name="direccion_clientes" value="<?php echo $resEdit->direccion_clientes; ?>" placeholder="nombre barrio..">
+                                                      <div id="mensaje_direccion_clientes" class="errores"></div>
+                                </div>
+                                </div>
+                                
+                                
+                                <div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
+                                                          <label for="id_estado" class="control-label">Estado:</label>
+                                                          <select name="id_estado" id="id_estado"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        								  
+                        								  <?php foreach($resultEst as $res) {?>
+                        										<option value="<?php echo $res->id_estado; ?>" <?php if ($res->id_estado == $resEdit->id_estado )  echo  ' selected="selected" '  ;  ?>><?php echo $res->nombre_estado; ?> </option>
+                        							        <?php } ?>
+                        							      
+                        								  </select> 
+                                                          <div id="mensaje_id_estado" class="errores"></div>
+                                </div>
+                    		    </div>
+                                
+                                
+                                
+                                
+                    		    
+             </div>
+                
+                    	           	
+                    	           	
+                    	        <div class="row">
+                    		    <div class="col-xs-12 col-md-12 col-lg-12" style="text-align: center; margin-top:20px">
+                    		    <div class="form-group">
+                                                      <button type="submit" id="Guardar" name="Guardar" class="btn btn-success"><i class="glyphicon glyphicon-floppy-saved"> Actualizar</i></button>
+                                					  <a href="index.php?controller=Clientes&action=index" class="btn btn-primary" ><i class="glyphicon glyphicon-floppy-remove"> Cancelar</i></a>
+				  		
+                                </div>
+                    		    </div>
+                    		    </div>
+                    	           	
+                    
+                 
+                               
+                    		  
+                                
+                    	   <?php } } else {?>
+                    		    
+                    		   
+                    		   
+            <div class="row">
+             					   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                          <label for="id_tipo_identificacion" class="control-label">Tipo Identificación:</label>
+                                                          <select name="id_tipo_identificacion" id="id_tipo_identificacion"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultTipIdenti as $res) {?>
+                        										<option value="<?php echo $res->id_tipo_identificacion; ?>" ><?php echo $res->nombre_tipo_identificacion; ?> </option>
                         							    
                         							        <?php } ?>
                         								   </select> 
-                                                          <div id="mensaje_id_rol" class="errores"></div>
+                                                          <div id="mensaje_id_tipo_identificacion" class="errores"></div>
+                                    </div>
                                     </div>
                                     
+                                    
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="identificacion_clientes" class="control-label">Identificación:</label>
+                                                      <input type="hidden" class="form-control" id="id_clientes" name="id_clientes" value="0" >
+                                                      <input type="number" class="form-control" id="identificacion_clientes" name="identificacion_clientes" value=""  placeholder="identificación..">
+                                                      <div id="mensaje_identificacion_clientes" class="errores"></div>
+                                    </div>
+                                    </div>
+                                    
+                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                        		   <div class="form-group">
+                                                      <label for="apellidos_clientes" class="control-label">Apellidos:</label>
+                                                      <input type="text" class="form-control" id="apellidos_clientes" name="apellidos_clientes" value=""  placeholder="apellidos..">
+                                                      <div id="mensaje_apellidos_clientes" class="errores"></div>
+                                    </div>
+                                    </div>
+                                    
+                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                        		   <div class="form-group">
+                                                      <label for="nombres_clientes" class="control-label">Nombres:</label>
+                                                      <input type="text" class="form-control" id="nombres_clientes" name="nombres_clientes" value=""  placeholder="nombres..">
+                                                      <div id="mensaje_nombres_clientes" class="errores"></div>
+                                    </div>
                                     </div>
                                     
                                     <div class="col-lg-2 col-xs-12 col-md-2">
                         		   <div class="form-group">
+                                                          <label for="id_sexo" class="control-label">Género:</label>
+                                                          <select name="id_sexo" id="id_sexo"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultSexo as $res) {?>
+                        										<option value="<?php echo $res->id_sexo; ?>" ><?php echo $res->nombre_sexo; ?> </option>
+                        							    
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_sexo" class="errores"></div>
+                                    </div>
+                                    </div>
+                                    
+            </div>        		   
+                    	      
+                    			
+           <div class="row">
+                    		       
+                    		       
+                    		       <div class="col-lg-2 col-xs-12 col-md-2">
+                            		    <div class="form-group">
+                                                              <label for="telefono_clientes" class="control-label">Teléfono:</label>
+                                                              <input type="number" class="form-control" id="telefono_clientes" name="telefono_clientes" value=""  placeholder="teléfono..">
+                                                              <div id="mensaje_telefono_clientes" class="errores"></div>
+                                        </div>
+                            	    </div>
+                            		    
+                            		    
+                    			
+                        			<div class="col-lg-2 col-xs-12 col-md-2">
+                                		    <div class="form-group">
+                                                                  <label for="celular_clientes" class="control-label">Celular:</label>
+                                                                  <input type="number" class="form-control" id="celular_clientes" name="celular_clientes" value=""  placeholder="celular..">
+                                                                  <div id="mensaje_celular_clientes" class="errores"></div>
+                                            </div>
+                                    </div>
+                        		    <div class="col-lg-3 col-xs-12 col-md-3">
+                        		    <div class="form-group">
+                                                          <label for="correo_clientes" class="control-label">Correo:</label>
+                                                          <input type="email" class="form-control" id="correo_clientes" name="correo_clientes" value="" placeholder="email..">
+                                                          <div id="mensaje_correo_clientes" class="errores"></div>
+                                    </div>
+                        		    </div>
+                                    
+                                <div class="col-lg-3 col-xs-12 col-md-3">
+                    		    <div class="form-group">
+                                                          <label for="id_provincias" class="control-label">Provincia:</label>
+                                                          <select name="id_provincias" id="id_provincias"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultProvincias as $res) {?>
+                        										<option value="<?php echo $res->id_provincias; ?>"><?php echo $res->nombre_provincias; ?> </option>
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_provincias" class="errores"></div>
+                                </div>
+                    		    </div>       		    
+                    		   
+                    		    
+                    		    <div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
+                                                          <label for="id_cantones" class="control-label">Cantón:</label>
+                                                          <select name="id_cantones" id="id_cantones"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                                                            <?php foreach($resultCantones as $res) {?>
+                        										<option value="<?php echo $res->id_cantones; ?>"  ><?php echo $res->nombre_cantones; ?> </option>
+                        							        <?php } ?>
+                                                          </select> 
+                                                          <div id="mensaje_id_cantones" class="errores"></div>
+                                </div>
+                    		    </div>
+                                
+              </div>
+                    	           	
+                
+              <div class="row">
+                    		     
+             					
+                    		   
+                    			
+                    			<div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
+                                                          <label for="id_parroquias" class="control-label">Parroquia:</label>
+                                                          <select name="id_parroquias" id="id_parroquias"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        								  
+                        								  <?php foreach($resultParroquias as $res) {?>
+                        										<option value="<?php echo $res->id_parroquias; ?>" ><?php echo $res->nombre_parroquias; ?> </option>
+                        							        <?php } ?>
+                        							      
+                        								  </select> 
+                                                          <div id="mensaje_id_parroquias" class="errores"></div>
+                                </div>
+                    		    </div>
+                    			
+           
+            
+            
+            
+                    		    <div class="col-lg-5 col-xs-12 col-md-5">
+                    		    <div class="form-group">
+                                                      <label for="direccion_clientes" class="control-label">Barrio y/o sector:</label>
+                                                      <input type="text" class="form-control" id="direccion_clientes" name="direccion_clientes" value="" placeholder="nombre barrio..">
+                                                      <div id="mensaje_direccion_clientes" class="errores"></div>
+                                </div>
+                                </div>
+                                
+                                
+                                 <div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
                                                           <label for="id_estado" class="control-label">Estado:</label>
                                                           <select name="id_estado" id="id_estado"  class="form-control" >
                                                           <option value="0" selected="selected">--Seleccione--</option>
-                        									<?php foreach($resultEst as $res) {?>
-                        										<option value="<?php echo $res->id_estado; ?>"><?php echo $res->nombre_estado; ?> </option>
+                        								  
+                        								  <?php foreach($resultEst as $res) {?>
+                        										<option value="<?php echo $res->id_estado; ?>" ><?php echo $res->nombre_estado; ?> </option>
                         							        <?php } ?>
-                        								   </select> 
+                        							      
+                        								  </select> 
                                                           <div id="mensaje_id_estado" class="errores"></div>
-                                    </div>
-                                    </div>
-                                
-                                
                                 </div>
-                    	           	
+                    		    </div>
+                    		    
+             </div>
+                
                     	           	
                     	           	
                     	        <div class="row">

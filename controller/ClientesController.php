@@ -32,19 +32,22 @@ class ClientesController extends ControladorBase{
 									  clientes.direccion_clientes,
 									  clientes.telefono_clientes,
 									  clientes.celular_clientes,
-									  clientes.correo_clientes";
+									  clientes.correo_clientes,
+    			                      clientes.id_estado,
+    			                      estado.nombre_estado";
     	
     	$tablas   = "public.clientes,
 									  public.cantones,
 									  public.provincias,
 									  public.parroquias,
 									  public.sexo,
-									  public.tipo_identificacion";
+									  public.tipo_identificacion,
+    			public.estado";
     	
     	$id       = "clientes.id_clientes";
     	
     	
-    	$where    = "clientes.id_provincias = provincias.id_provincias AND
+    	$where    = "estado.id_estado=clientes.id_estado AND clientes.id_provincias = provincias.id_provincias AND
     	cantones.id_cantones = clientes.id_cantones AND
     	parroquias.id_parroquias = clientes.id_parroquias AND
     	sexo.id_sexo = clientes.id_sexo AND
@@ -64,7 +67,7 @@ class ClientesController extends ControladorBase{
     		if(!empty($search)){
     
     
-    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.apellidos_clientes LIKE '".$search."%' OR clientes.nombres_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%' OR sexo.nombre_sexo LIKE '".$search."%' OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%')";
+    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.apellidos_clientes LIKE '".$search."%' OR clientes.nombres_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%' OR sexo.nombre_sexo LIKE '".$search."%' OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR estado.nombre_estado LIKE '".$search."%')";
     
     			$where_to=$where.$where1;
     		}else{
@@ -115,6 +118,7 @@ class ClientesController extends ControladorBase{
     			$html.='<th style="text-align: left;  font-size: 12px;">Provincia</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Cantón</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Parroquia</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Estado</th>';
     
     			if($id_rol==1){
     				 
@@ -150,6 +154,7 @@ class ClientesController extends ControladorBase{
     				$html.='<td style="font-size: 11px;">'.$res->nombre_provincias.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_cantones.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_parroquias.'</td>';
+    				$html.='<td style="font-size: 11px;">'.$res->nombre_estado.'</td>';
     				 
     				if($id_rol==1){
     					 
@@ -220,7 +225,8 @@ class ClientesController extends ControladorBase{
 			$tipo_identificacion = new TipoIdentificacionModel();
 			$resultTipIdenti= $tipo_identificacion->getAll("nombre_tipo_identificacion");
 			
-			
+			$estado = new EstadoModel();
+			$resultEst = $estado->getAll("nombre_estado");
 			
 			$nombre_controladores = "Clientes";
 			$id_rol= $_SESSION['id_rol'];
@@ -253,19 +259,21 @@ class ClientesController extends ControladorBase{
 									  clientes.direccion_clientes, 
 									  clientes.telefono_clientes, 
 									  clientes.celular_clientes, 
-									  clientes.correo_clientes";
+									  clientes.correo_clientes,
+								clientes.id_estado,
+    			                      estado.nombre_estado";
 						
 						$tablas   = "public.clientes, 
 									  public.cantones, 
 									  public.provincias, 
 									  public.parroquias, 
 									  public.sexo, 
-									  public.tipo_identificacion";
+									  public.tipo_identificacion, public.estado";
 						
 						$id       = "clientes.id_clientes";
 						
 						
-						$where    = "clientes.id_provincias = provincias.id_provincias AND
+						$where    = "estado.id_estado=clientes.id_estado AND clientes.id_provincias = provincias.id_provincias AND
 								  cantones.id_cantones = clientes.id_cantones AND
 								  parroquias.id_parroquias = clientes.id_parroquias AND
 								  sexo.id_sexo = clientes.id_sexo AND
@@ -277,7 +285,7 @@ class ClientesController extends ControladorBase{
 					$this->view("Clientes",array(
 							"resultEdit" =>$resultEdit, "resultProvincias"=>$resultProvincias,
 							"resultParroquias"=>$resultParroquias, "resultCantones"=>$resultCantones, "resultSexo"=>$resultSexo,
-							"resultTipIdenti"=>$resultTipIdenti
+							"resultTipIdenti"=>$resultTipIdenti, "resultEst"=>$resultEst
 					
 					));
 				
@@ -312,138 +320,161 @@ class ClientesController extends ControladorBase{
 			
 		session_start();
 		$resultado = null;
+		$clientes=new ClientesModel();
 		$usuarios=new UsuariosModel();
+		
+		$_clave_usuario = "";
 		
 		if (isset(  $_SESSION['nombre_usuarios']) )
 		{
 	
-		if (isset ($_POST["cedula_usuarios"]))
+		if (isset ($_POST["identificacion_clientes"]))
 		{
-			$_cedula_usuarios    = $_POST["cedula_usuarios"];
-			$_nombre_usuarios     = $_POST["nombre_usuarios"];
-			//$_usuario_usuario     = $_POST["usuario_usuario"];
-			$_clave_usuarios      = $usuarios->encriptar($_POST["clave_usuarios"]);
-			$_pass_sistemas_usuarios      = $_POST["clave_usuarios"];
-			$_telefono_usuarios   = $_POST["telefono_usuarios"];
-			$_celular_usuarios    = $_POST["celular_usuarios"];
-			$_correo_usuarios     = $_POST["correo_usuarios"];
-		    $_id_rol             = $_POST["id_rol"];
-		    $_id_estado          = $_POST["id_estado"];
+			$_id_tipo_identificacion    = $_POST["id_tipo_identificacion"];
+			
+			
+			$_identificacion_clientes    = $_POST["identificacion_clientes"];
+			$_apellidos_clientes     = $_POST["apellidos_clientes"];
+			$_nombres_clientes     = $_POST["nombres_clientes"];
+			$_id_sexo   		   = $_POST["id_sexo"];
+			$_telefono_clientes    = $_POST["telefono_clientes"];
+			$_celular_clientes     = $_POST["celular_clientes"];
+		    $_correo_clientes      = $_POST["correo_clientes"];
+		    $_id_provincias        = $_POST["id_provincias"];
+		    $_id_cantones          = $_POST["id_cantones"];
+		    $_id_parroquias          = $_POST["id_parroquias"];
+		    $_direccion_clientes     = $_POST["direccion_clientes"];
+		    $_id_estado            = $_POST["id_estado"];
+		    $_id_clientes            = $_POST["id_clientes"];
 		    
-		    $_id_usuarios          = $_POST["id_usuarios"];
+		    
+		    $nombres_completos = $_apellidos_clientes.' '.$_nombres_clientes;
 		    
 		    
-		    if($_id_usuarios > 0){
+		    if($_id_clientes > 0){
 		    	
 		    	
-		    	if ($_FILES['fotografia_usuarios']['tmp_name']!="")
-		    	{
-		    			
-		    		$directorio = $_SERVER['DOCUMENT_ROOT'].'/aguafacturacion/fotografias_usuarios/';
-		    			
-		    		$nombre = $_FILES['fotografia_usuarios']['name'];
-		    		$tipo = $_FILES['fotografia_usuarios']['type'];
-		    		$tamano = $_FILES['fotografia_usuarios']['size'];
-		    			
-		    		move_uploaded_file($_FILES['fotografia_usuarios']['tmp_name'],$directorio.$nombre);
-		    		$data = file_get_contents($directorio.$nombre);
-		    		$imagen_usuarios = pg_escape_bytea($data);
-		    			
-		    			
-		    		$colval = "cedula_usuarios= '$_cedula_usuarios', nombre_usuarios = '$_nombre_usuarios',  clave_usuarios = '$_clave_usuarios', pass_sistemas_usuarios='$_pass_sistemas_usuarios',  telefono_usuarios = '$_telefono_usuarios', celular_usuarios = '$_celular_usuarios', correo_usuarios = '$_correo_usuarios', id_rol = '$_id_rol', id_estado = '$_id_estado', fotografia_usuarios ='$imagen_usuarios'";
-		    		$tabla = "usuarios";
-		    		$where = "id_usuarios = '$_id_usuarios'";
-		    		$resultado=$usuarios->UpdateBy($colval, $tabla, $where);
-		    			
-		    	}
-		    	else
-		    	{
-		    	
-		    		$colval = "cedula_usuarios= '$_cedula_usuarios', nombre_usuarios = '$_nombre_usuarios',  clave_usuarios = '$_clave_usuarios', pass_sistemas_usuarios='$_pass_sistemas_usuarios',  telefono_usuarios = '$_telefono_usuarios', celular_usuarios = '$_celular_usuarios', correo_usuarios = '$_correo_usuarios', id_rol = '$_id_rol', id_estado = '$_id_estado'";
-		    		$tabla = "usuarios";
-		    		$where = "id_usuarios = '$_id_usuarios'";
-		    		$resultado=$usuarios->UpdateBy($colval, $tabla, $where);
-		    	
-		    	}
-		    	
+		    		$colval = "id_tipo_identificacion='$_id_tipo_identificacion',
+		    		identificacion_clientes= '$_identificacion_clientes',
+		    		apellidos_clientes = '$_apellidos_clientes',
+		    		nombres_clientes = '$_nombres_clientes',
+		    		id_sexo='$_id_sexo',
+		    		telefono_clientes = '$_telefono_clientes',
+		    		celular_clientes = '$_celular_clientes',
+		    		correo_clientes = '$_correo_clientes',
+		    		id_provincias = '$_id_provincias',
+		    		id_cantones = '$_id_cantones',
+		    		id_parroquias= '$_id_parroquias',
+		    		direccion_clientes='$_direccion_clientes',
+		    		id_estado='$_id_estado'";
+		    		$tabla = "clientes";
+		    		$where = "id_clientes = '$_id_clientes'";
+		    		$resultado=$clientes->UpdateBy($colval, $tabla, $where);
 		    	
 		    	
 		    }else{
 		    
-		    	
-		    	
-		    	
-		    if ($_FILES['fotografia_usuarios']['tmp_name']!="")
-		    {
-		    
-		    	$directorio = $_SERVER['DOCUMENT_ROOT'].'/aguafacturacion/fotografias_usuarios/';
-		    
-		    	$nombre = $_FILES['fotografia_usuarios']['name'];
-		    	$tipo = $_FILES['fotografia_usuarios']['type'];
-		    	$tamano = $_FILES['fotografia_usuarios']['size'];
-		    	
-		    	move_uploaded_file($_FILES['fotografia_usuarios']['tmp_name'],$directorio.$nombre);
-		    	$data = file_get_contents($directorio.$nombre);
-		    	$imagen_usuarios = pg_escape_bytea($data);
-		    
-		    
-		    	$funcion = "ins_usuarios";
-		    	$parametros = "'$_cedula_usuarios',
-		    				   '$_nombre_usuarios',
-		    				   '$_clave_usuarios',
-		    	               '$_pass_sistemas_usuarios',
-		    	               '$_telefono_usuarios',
-		    	               '$_celular_usuarios',
-		    	               '$_correo_usuarios',
-		    	               '$_id_rol',
-		    	               '$_id_estado',
-		    	               '$imagen_usuarios'";
-		    	$usuarios->setFuncion($funcion);
-		    	$usuarios->setParametros($parametros);
-		    	$resultado=$usuarios->Insert();
-		    
-		    }
-		    else
-		    {
-		    
-		    	$where_TO = "cedula_usuarios = '$_cedula_usuarios'";
-		    	$result=$usuarios->getBy($where_TO);
-		    	 
-		    	if ( !empty($result) )
-		    	{
-		    		 
-		    		$colval = "nombre_usuarios = '$_nombre_usuarios',  clave_usuarios = '$_clave_usuarios', pass_sistemas_usuarios='$_pass_sistemas_usuarios',  telefono_usuarios = '$_telefono_usuarios', celular_usuarios = '$_celular_usuarios', correo_usuarios = '$_correo_usuarios', id_rol = '$_id_rol', id_estado = '$_id_estado'";
-		    		$tabla = "usuarios";
-		    		$where = "cedula_usuarios = '$_cedula_usuarios'";
-		    		$resultado=$usuarios->UpdateBy($colval, $tabla, $where);
-		    	}
-		        else{
+		        	$funcion = "ins_clientes";
+		        	$parametros = "'$_apellidos_clientes',
+		        	'$_nombres_clientes',
+		        	'$_id_tipo_identificacion',
+		        	'$_identificacion_clientes',
+		        	'$_id_sexo',
+		        	'1',
+		        	'$_id_provincias',
+		        	'$_id_cantones',
+		        	'$_id_parroquias',
+		        	'$_direccion_clientes',
+		        	'$_telefono_clientes',
+		        	'$_celular_clientes',
+		        	'$_correo_clientes',
+		        	'$_id_estado'";
+		        	$clientes->setFuncion($funcion);
+		        	$clientes->setParametros($parametros);
+		        	$resultado=$clientes->Insert();
 		        	
-		        	$imagen_usuarios="";
 		        	
-		        	$funcion = "ins_usuarios";
-		        	$parametros = "'$_cedula_usuarios',
-		        	'$_nombre_usuarios',
-		        	'$_clave_usuarios',
-		        	'$_pass_sistemas_usuarios',
-		        	'$_telefono_usuarios',
-		        	'$_celular_usuarios',
-		        	'$_correo_usuarios',
-		        	'$_id_rol',
-		        	'$_id_estado',
-		        	'$imagen_usuarios'";
-		        	$usuarios->setFuncion($funcion);
-		        	$usuarios->setParametros($parametros);
-		        	$resultado=$usuarios->Insert();
-		    	}
+		        	
+		        	
+		        	$where_TO = "identificacion_clientes like '".$_identificacion_clientes."%'";
+		        	$result=$usuarios->getBy($where_TO);
+		        	
+		        	
+		        	$cadena = "1234567890";
+		        	$longitudCadena=strlen($cadena);
+		        	$pass = "";
+		        	$longitudPass=4;
+		        	for($i=1 ; $i<=$longitudPass ; $i++){
+		        		$pos=rand(0,$longitudCadena-1);
+		        		$pass .= substr($cadena,$pos,1);
+		        	}
+		        	$_clave_usuario= $pass;
+		        	$_encryp_pass = $usuarios->encriptar($_clave_usuario);
+		        	
+		        	
+		        	
+		        	if ( !empty($result) )
+		        	{
+		        		 
+		        		$_id_usuarios=$result[0]->id_usuarios;
+		        		
+		        		if($_id_usuarios>0){
+		        			
+		        			
+		        			$colval = "nombre_usuarios = '$nombres_completos',  cedula_usuarios = '$_identificacion_clientes', telefono_usuarios='$_telefono_clientes',  celular_usuarios = '$_celular_clientes', correo_usuarios = '$_correo_clientes', id_estado='$_id_estado'";
+		        			$tabla = "usuarios";
+		        			$where = "id_usuarios = '$_id_usuarios'";
+		        			$resultado=$usuarios->UpdateBy($colval, $tabla, $where);
+		        		
+		        		
+		        		}else{
+		        			
+		        			
+		        			$imagen_usuarios="";
+		        			$_id_rol=2;
+		        			$funcion = "ins_usuarios";
+		        			$parametros = "'$_identificacion_clientes',
+		        			'$nombres_completos',
+		        			'$_clave_usuario',
+		        			'$_encryp_pass',
+		        			'$_telefono_clientes',
+		        			'$_celular_clientes',
+		        			'$_correo_clientes',
+		        			'$_id_rol',
+		        			'$_id_estado',
+		        			'$imagen_usuarios'";
+		        			$usuarios->setFuncion($funcion);
+		        			$usuarios->setParametros($parametros);
+		        			$resultado=$usuarios->Insert();
+		        			
+		        		}
+		        		
+		        	}
+		        	else{
+		        		 
+		        		$imagen_usuarios="";
+		        		$_id_rol=2;
+		        		$funcion = "ins_usuarios";
+		        		$parametros = "'$_identificacion_clientes',
+		        		'$nombres_completos',
+		        		'$_clave_usuario',
+		        		'$_encryp_pass',
+		        		'$_telefono_clientes',
+		        		'$_celular_clientes',
+		        		'$_correo_clientes',
+		        		'$_id_rol',
+		        		'$_id_estado',
+		        		'$imagen_usuarios'";
+		        		$usuarios->setFuncion($funcion);
+		        		$usuarios->setParametros($parametros);
+		        		$resultado=$usuarios->Insert();
+		        	}
 		    
-		    }
-		
-		  	 	
+		 	 	
 		  }
 		  
 		   
-		    $this->redirect("Usuarios", "index");
+		    $this->redirect("Clientes", "index");
 		}
 		
 	   }else{
@@ -515,6 +546,7 @@ class ClientesController extends ControladorBase{
 			$respuesta->telefono_clientes = $resultSet[0]->telefono_clientes;
 			$respuesta->celular_clientes = $resultSet[0]->celular_clientes;
 			$respuesta->correo_clientes = $resultSet[0]->correo_clientes;
+			$respuesta->id_estado = $resultSet[0]->id_estado;
 					
 			echo json_encode($respuesta);
 		}
@@ -530,12 +562,8 @@ class ClientesController extends ControladorBase{
 		if(isset($_GET["id_clientes"]))
 		{
 			$id_clientes=(int)$_GET["id_clientes"];
-	
-			
-				
 			$clientes= new ClientesModel();
-			$clientes->deleteBy(" id_clientes",$id_clientes);
-				
+			$clientes->UpdateBy("id_estado=2","clientes","id_clientes='$id_clientes'");
 				
 		}
 	
@@ -623,10 +651,10 @@ class ClientesController extends ControladorBase{
 		$resultCan = array();
 	
 	
-		if(isset($_POST["id_provincias_vivienda"]))
+		if(isset($_POST["id_provincias"]))
 		{
 	
-			$id_provincias=(int)$_POST["id_provincias_vivienda"];
+			$id_provincias=(int)$_POST["id_provincias"];
 	
 			$cantones=new CantonesModel();
 	
@@ -635,17 +663,7 @@ class ClientesController extends ControladorBase{
 	
 		}
 	
-		if(isset($_POST["id_provincias_asignacion"]))
-		{
-	
-			$id_provincias=(int)$_POST["id_provincias_asignacion"];
-	
-			$cantones=new CantonesModel();
-	
-			$resultCan = $cantones->getBy(" id_provincias = '$id_provincias'  ");
-	
-	
-		}
+		
 			
 		echo json_encode($resultCan);
 	
@@ -663,10 +681,10 @@ class ClientesController extends ControladorBase{
 		$resultParr = array();
 	
 	
-		if(isset($_POST["id_cantones_vivienda"]))
+		if(isset($_POST["id_cantones"]))
 		{
 	
-			$id_cantones_vivienda=(int)$_POST["id_cantones_vivienda"];
+			$id_cantones_vivienda=(int)$_POST["id_cantones"];
 	
 			$parroquias=new ParroquiasModel();
 	
@@ -674,17 +692,7 @@ class ClientesController extends ControladorBase{
 	
 	
 		}
-		if(isset($_POST["id_cantones_asignacion"]))
-		{
-	
-			$id_cantones_vivienda=(int)$_POST["id_cantones_asignacion"];
-	
-			$parroquias=new ParroquiasModel();
-	
-			$resultParr = $parroquias->getBy(" id_cantones = '$id_cantones_vivienda'  ");
-	
-	
-		}
+		
 			
 		echo json_encode($resultParr);
 	
