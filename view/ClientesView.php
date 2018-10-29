@@ -56,7 +56,8 @@
      
         	   $(document).ready( function (){
         		   pone_espera();
-        		   load_clientes(1);
+        		   load_clientes_activos(1);
+        		   load_clientes_inactivos(1);
 	   			});
 
         	   function pone_espera(){
@@ -80,32 +81,62 @@
 
 
         	   
-        	   function load_clientes(pagina){
+        	   function load_clientes_activos(pagina){
 
-        		   var search=$("#search").val();
+        		   var search=$("#search_activos").val();
                    var con_datos={
            					  action:'ajax',
            					  page:pagina
            					  };
-                 $("#load_registrados").fadeIn('slow');
+                 $("#load_activos_registrados").fadeIn('slow');
            	     $.ajax({
            	               beforeSend: function(objeto){
-           	                 $("#load_registrados").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
+           	                 $("#load_activos_registrados").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
            	               },
            	               url: 'index.php?controller=Clientes&action=index10&search='+search,
            	               type: 'POST',
            	               data: con_datos,
            	               success: function(x){
-           	                 $("#clientes_registrados").html(x);
+           	                 $("#clientes_activos_registrados").html(x);
            	               	 $("#tabla_clientes").tablesorter(); 
-           	                 $("#load_registrados").html("");
+           	                 $("#load_activos_registrados").html("");
            	               },
            	              error: function(jqXHR,estado,error){
-           	                $("#clientes_registrados").html("Ocurrio un error al cargar la informacion de Clientes..."+estado+"    "+error);
+           	                $("#clientes_activos_registrados").html("Ocurrio un error al cargar la informacion de Clientes Activos..."+estado+"    "+error);
            	              }
            	            });
 
            		   }
+
+
+        	   function load_clientes_inactivos(pagina){
+
+        		   var search=$("#search_inactivos").val();
+                   var con_datos={
+           					  action:'ajax',
+           					  page:pagina
+           					  };
+                 $("#load_inactivos_registrados").fadeIn('slow');
+           	     $.ajax({
+           	               beforeSend: function(objeto){
+           	                 $("#load_inactivos_registrados").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
+           	               },
+           	               url: 'index.php?controller=Clientes&action=index11&search='+search,
+           	               type: 'POST',
+           	               data: con_datos,
+           	               success: function(x){
+           	                 $("#clientes_inactivos_registrados").html(x);
+           	               	 $("#tabla_clientes").tablesorter(); 
+           	                 $("#load_inactivos_registrados").html("");
+           	               },
+           	              error: function(jqXHR,estado,error){
+           	                $("#clientes_inactivos_registrados").html("Ocurrio un error al cargar la informacion de Clientes Inactivos..."+estado+"    "+error);
+           	              }
+           	            });
+
+           		   }
+
+       		   
         </script>
         
         
@@ -783,6 +814,10 @@
                   <div class="x_content">
 
 
+
+
+
+
             <form  action="<?php echo $helper->url("Clientes","InsertaClientes"); ?>" method="post" enctype="multipart/form-data"  class="col-lg-12 col-md-12 col-xs-12">
                                
                            <?php if ($resultEdit !="" ) { foreach($resultEdit as $resEdit) {?>
@@ -1190,14 +1225,55 @@
                     
 					
 				
-					
+				   <section class="content">
+                   <div class='nav-tabs-custom'>
+          	       <ul id="myTabs" class="nav nav-tabs">
+                 
+                    <li id="nav-activos" class="active"><a href="#activos" data-toggle="tab">Clientes Activos</a></li>
+                    <li id="nav-inativos"><a href="#inactivos" data-toggle="tab" >Clientes Inactivos</a></li>
+               	   </ul>
+				
+				
+				
+				<div class="tab-content">
+ 		        <br>
+                <div class="tab-pane active" id="activos">
+                
 					<div class="pull-right" style="margin-right:11px;">
-					<input type="text" value="" class="form-control" id="search" name="search" onkeyup="load_clientes(1)" placeholder="search.."/>
+					<input type="text" value="" class="form-control" id="search_activos" name="search_activos" onkeyup="load_clientes_activos(1)" placeholder="search.."/>
 					</div>
 					
 					
-					<div id="load_registrados" ></div>	
-					<div id="clientes_registrados"></div>	
+					<div id="load_activos_registrados" ></div>	
+					<div id="clientes_activos_registrados"></div>	
+				 
+				</div>
+				
+				
+				
+				
+				
+                <div class="tab-pane" id="inactivos">
+               
+					<div class="pull-right" style="margin-right:11px;">
+					<input type="text" value="" class="form-control" id="search_inactivos" name="search_inactivos" onkeyup="load_clientes_inactivos(1)" placeholder="search.."/>
+					</div>
+					
+					<div id="load_inactivos_registrados" ></div>	
+					<div id="clientes_inactivos_registrados"></div>	
+				
+				</div>
+				
+				
+				
+				</div>
+				</div>
+				</section>
+				
+				
+				
+				
+				
 				
 					
                   

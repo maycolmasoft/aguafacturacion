@@ -58,7 +58,8 @@
      
         	   $(document).ready( function (){
         		   pone_espera();
-        		   load_usuarios(1);
+        		   load_usuarios_activos(1);
+        		   load_usuarios_inactivos(1);
 	   			});
 
         	   function pone_espera(){
@@ -82,34 +83,65 @@
         	   }
 
         	   
-        	   function load_usuarios(pagina){
+        	   function load_usuarios_activos(pagina){
 
 
-        		   var search=$("#search").val();
+        		   var search=$("#search_activos").val();
                    var con_datos={
            					  action:'ajax',
            					  page:pagina
            					  };
-                 $("#load_registrados").fadeIn('slow');
+                 $("#load_activos_registrados").fadeIn('slow');
            	     $.ajax({
            	               beforeSend: function(objeto){
-           	                 $("#load_registrados").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
+           	                 $("#load_activos_registrados").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
            	               },
            	               url: 'index.php?controller=Usuarios&action=index10&search='+search,
            	               type: 'POST',
            	               data: con_datos,
            	               success: function(x){
-           	                 $("#users_registrados").html(x);
+           	                 $("#users_activos_registrados").html(x);
            	               	 $("#tabla_usuarios").tablesorter(); 
-           	                 $("#load_registrados").html("");
+           	                 $("#load_activos_registrados").html("");
            	               },
            	              error: function(jqXHR,estado,error){
-           	                $("#users_registrados").html("Ocurrio un error al cargar la informacion de Usuarios..."+estado+"    "+error);
+           	                $("#users_activos_registrados").html("Ocurrio un error al cargar la informacion de Usuarios Activos..."+estado+"    "+error);
            	              }
            	            });
 
 
            		   }
+
+
+        	   function load_usuarios_inactivos(pagina){
+
+
+        		   var search=$("#search_inactivos").val();
+                   var con_datos={
+           					  action:'ajax',
+           					  page:pagina
+           					  };
+                 $("#load_inactivos_registrados").fadeIn('slow');
+           	     $.ajax({
+           	               beforeSend: function(objeto){
+           	                 $("#load_inactivos_registrados").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
+           	               },
+           	               url: 'index.php?controller=Usuarios&action=index11&search='+search,
+           	               type: 'POST',
+           	               data: con_datos,
+           	               success: function(x){
+           	                 $("#users_inactivos_registrados").html(x);
+           	               	 $("#tabla_usuarios").tablesorter(); 
+           	                 $("#load_inactivos_registrados").html("");
+           	               },
+           	              error: function(jqXHR,estado,error){
+           	                $("#users_inactivos_registrados").html("Ocurrio un error al cargar la informacion de Usuarios Inactivos..."+estado+"    "+error);
+           	              }
+           	            });
+
+
+           		   }
+       		   
         </script>
         
         
@@ -843,14 +875,52 @@
                     
 					
 				
-					
-					<div class="pull-right" style="margin-right:11px;">
-					<input type="text" value="" class="form-control" id="search" name="search" onkeyup="load_usuarios(1)" placeholder="search.."/>
+				<section class="content">
+                   <div class='nav-tabs-custom'>
+          	       <ul id="myTabs" class="nav nav-tabs">
+                 
+                    <li id="nav-activos" class="active"><a href="#activos" data-toggle="tab">Usuarios Activos</a></li>
+                    <li id="nav-inativos"><a href="#inactivos" data-toggle="tab" >Usuarios Inactivos</a></li>
+               	   </ul>
+				
+				
+				
+				<div class="tab-content">
+ 		        <br>
+                <div class="tab-pane active" id="activos">
+                	<div class="pull-right" style="margin-right:11px;">
+					<input type="text" value="" class="form-control" id="search_activos" name="search_activos" onkeyup="load_usuarios_activos(1)" placeholder="search.."/>
 					</div>
 					
 					
-					<div id="load_registrados" ></div>	
-					<div id="users_registrados"></div>	
+					<div id="load_activos_registrados" ></div>	
+					<div id="users_activos_registrados"></div>	
+				</div>
+				
+				
+				
+				
+				
+                <div class="tab-pane" id="inactivos">
+                    <div class="pull-right" style="margin-right:11px;">
+					<input type="text" value="" class="form-control" id="search_inactivos" name="search_inactivos" onkeyup="load_usuarios_inactivos(1)" placeholder="search.."/>
+					</div>
+					
+					
+					<div id="load_inactivos_registrados" ></div>	
+					<div id="users_inactivos_registrados"></div>	
+				</div>
+				
+				
+				
+				</div>
+				</div>
+				</section>
+				
+               	   
+               	   
+				
+					
 				
 					
                   
