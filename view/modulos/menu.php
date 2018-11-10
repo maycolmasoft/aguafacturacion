@@ -45,14 +45,14 @@ $controladores=$_SESSION['controladores'];
                       <li style="<?php echo getcontrolador("PermisosRoles",$controladores) ?>"><a href="index.php?controller=PermisosRoles&action=index">Permisos Roles</a></li>
                       <li style="<?php echo getcontrolador("Sesiones",$controladores) ?>"><a href="index.php?controller=Sesiones&action=index">Sesiones</a></li>
                       <li style="<?php echo getcontrolador("Clientes",$controladores) ?>"><a href="index.php?controller=Clientes&action=index">Clientes</a></li>
-                      </ul>
+                      <li style="<?php echo getcontrolador("AsignarMedidores",$controladores) ?>"><a href="index.php?controller=AsignacionClientesMedidorAgua&action=index">Asignar Medidor Agua Clientes</a></li>
+                      <li style="<?php echo getcontrolador("RegistrarMarcacionesMensuales",$controladores) ?>"><a href="index.php?controller=MarcacionesMensualesMedidorAgua&action=index">Registrar Marcaciones Mensuales</a></li>
+                    </ul>
                   </li>
                   
                   <li  style="<?php echo getcontrolador("MenuServiciosLinea",$controladores) ?>"  ><a    ><i class="fa fa-bars"></i> Servicios en Linea <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li style="<?php echo getcontrolador("SaldosCuentaIndividual",$controladores) ?>"><a href="index.php?controller=SaldosCuentaIndividual&action=index">Consulta de Saldos Cuenta Individual y Créditos</a></li>
-                      <!--<li style="<?php echo getcontrolador("Usuarios",$controladores) ?>"><a href="index.php?controller=Usuarios&action=resetear_clave">Solicita tu clave personal</a></li>-->
-                      <li style="<?php echo getcontrolador("SimuladorCredito",$controladores) ?>"><a href="index.php?controller=SimuladorCredito&action=index">Simulador de Crédito</a></li>
+                    
                       </ul>
                   </li>
                   

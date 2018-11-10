@@ -138,12 +138,12 @@ class UsuariosController extends ControladorBase{
     			
     				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Usuarios&action=index&id_usuarios='.$res->id_usuarios.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
     				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Usuarios&action=borrarId&id_usuarios='.$res->id_usuarios.'" class="btn btn-danger" style="font-size:65%;"><i class="glyphicon glyphicon-trash"></i></a></span></td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Usuarios&action=search&cedula='.$res->cedula_usuarios.'" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-eye-open"></i></a></span></td>';
+    				//$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Usuarios&action=search&cedula='.$res->cedula_usuarios.'" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-eye-open"></i></a></span></td>';
     			
     			
     			}else{
     			
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Usuarios&action=search&cedula='.$res->cedula_usuarios.'" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-eye-open"></i></a></span></td>';
+    				//$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Usuarios&action=search&cedula='.$res->cedula_usuarios.'" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-eye-open"></i></a></span></td>';
     			
     			}
     			
@@ -442,7 +442,7 @@ public function index(){
 
 			$nombre_controladores = "Usuarios";
 			$id_rol= $_SESSION['id_rol'];
-			$resultPer = $usuarios->getPermisosEditar("controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
+			$resultPer = $usuarios->getPermisosVer("controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
 				
 			if (!empty($resultPer))
 			{
@@ -846,11 +846,8 @@ public function index(){
 	
 			$usuarios=new UsuariosModel();
 				
-			$sesiones= new SesionesModel();
-			$sesiones->deleteBy(" id_usuarios",$id_usuario);
-			$usuarios->deleteBy(" id_usuarios",$id_usuario);
-				
-				
+			$usuarios->UpdateBy("id_estado=2","usuarios","id_usuarios='$id_usuario'");
+			
 		}
 	
 		$this->redirect("Usuarios", "index");
@@ -1089,8 +1086,7 @@ public function index(){
     			foreach($result as $res) 
     			{
     				$id_usuario  = $res->id_usuarios;
-    			    $usuario_usuario  = $res->usuario_usuario;
-	    			$id_rol           = $res->id_rol;
+    			    $id_rol           = $res->id_rol;
 	    			$nombre_usuario   = $res->nombre_usuarios;
 	    			$correo_usuario   = $res->correo_usuarios;
 	    			$id_estado        = $res->id_estado;
@@ -1106,7 +1102,7 @@ public function index(){
     				 
     				 
     				///registro sesion
-    				$usuarios->registrarSesion($id_usuario, $usuario_usuario, $id_rol, $nombre_usuario, $correo_usuario, $ip_usuario, $cedula_usuarios);
+    				$usuarios->registrarSesion($id_usuario, $id_rol, $nombre_usuario, $correo_usuario, $ip_usuario, $cedula_usuarios);
     				 
     				//inserto en la tabla
     				$_id_usuario = $_SESSION['id_usuarios'];

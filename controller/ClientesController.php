@@ -6,8 +6,6 @@ class ClientesController extends ControladorBase{
     }
     
     
-    
-
     public function index10(){
     
     	session_start();
@@ -109,7 +107,7 @@ class ClientesController extends ControladorBase{
     			$html.= "<thead>";
     			$html.= "<tr>";
     			$html.='<th style="text-align: left;  font-size: 12px;">Tipo</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Cedula</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Identificación</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Apellidos</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Nombres</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Correo</th>';
@@ -303,7 +301,7 @@ class ClientesController extends ControladorBase{
     			$html.= "<thead>";
     			$html.= "<tr>";
     			$html.='<th style="text-align: left;  font-size: 12px;">Tipo</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Cedula</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Identificación</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Apellidos</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Nombres</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Correo</th>';
@@ -542,7 +540,6 @@ class ClientesController extends ControladorBase{
 		    $_id_clientes            = $_POST["id_clientes"];
 		    
 		    
-		    $nombres_completos = $_apellidos_clientes.' '.$_nombres_clientes;
 		    
 		    
 		    if($_id_clientes > 0){
