@@ -56,7 +56,7 @@
         	   $(document).ready( function (){
         		   pone_espera();
         		   load_consultar_registros(1);
-        		  // load_asignacion_medidores_clientes(1);
+        		   load_bitacora_validacion(1);
 	   			});
 
         	   function pone_espera(){
@@ -108,28 +108,28 @@
            		   }
 
 
-        	   function load_asignacion_medidores_clientes(pagina){
+        	   function load_bitacora_validacion(pagina){
 
-        		   var search=$("#search_asignacion_medidores_clientes").val();
+        		   var search=$("#search_bitacora_validacion").val();
                    var con_datos={
            					  action:'ajax',
            					  page:pagina
            					  };
-                 $("#load_asignacion_medidores_clientes_registrados").fadeIn('slow');
+                 $("#load_bitacora_validacion").fadeIn('slow');
            	     $.ajax({
            	               beforeSend: function(objeto){
-           	                 $("#load_asignacion_medidores_clientes_registrados").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
+           	                 $("#load_bitacora_validacion").html('<center><img src="view/images/ajax-loader.gif"> Cargando...</center>')
            	               },
-           	               url: 'index.php?controller=AsignacionClientesMedidorAgua&action=consulta_asignacion_medidores_clientes&search='+search,
+           	               url: 'index.php?controller=MarcacionesMensualesMedidorAgua&action=consulta_bitacora_validacion&search='+search,
            	               type: 'POST',
            	               data: con_datos,
            	               success: function(x){
-           	                 $("#asignacion_medidores_clientes").html(x);
-           	               	 $("#tabla_asignacion_clientes_medidor").tablesorter(); 
-           	                 $("#load_asignacion_medidores_clientes_registrados").html("");
+           	                 $("#bitacora_validacion").html(x);
+           	               	 $("#tabla_bitacora_validacion").tablesorter(); 
+           	                 $("#load_bitacora_validacion").html("");
            	               },
            	              error: function(jqXHR,estado,error){
-           	                $("#asignacion_medidores_clientes").html("Ocurrio un error al cargar la informacion de Aignaciones de Medidores..."+estado+"    "+error);
+           	                $("#bitacora_validacion").html("Ocurrio un error al cargar la información bitacora de validación..."+estado+"    "+error);
            	              }
            	            });
 
@@ -733,7 +733,7 @@
                                    </div>
                                 
                                 <?php  $month = date('m', strtotime("-1 month"));
-      								   $year = date('Y');
+                                $year = date('Y', strtotime("-1 year"));
    								       $day = date("d", mktime(0,0,0, $month+1, 0, $year));
                                 ?>
                                 
@@ -928,11 +928,11 @@
                 
                 
 					<div class="pull-right" style="margin-right:11px;">
-					<input type="text" value="" class="form-control" id="search_asignacion_medidores_clientes" name="search_asignacion_medidores_clientes" onkeyup="load_asignacion_medidores_clientes(1)" placeholder="search.."/>
+					<input type="text" value="" class="form-control" id="search_bitacora_validacion" name="search_bitacora_validacion" onkeyup="load_bitacora_validacion(1)" placeholder="search.."/>
 					</div>
 					
-					<div id="load_asignacion_medidores_clientes_registrados" ></div>	
-					<div id="asignacion_medidores_clientes"></div>	
+					<div id="load_bitacora_validacion" ></div>	
+					<div id="bitacora_validacion"></div>	
 				
 				 </div>
 				</div>
