@@ -919,20 +919,20 @@ public function index(){
 					
 				$cabeceras = "MIME-Version: 1.0 \r\n";
 				$cabeceras .= "Content-type: text/html; charset=utf-8 \r\n";
-				$cabeceras.= "From: info@capremci.com.ec \r\n";
+				$cabeceras.= "From: bryan6410@hotmail.com \r\n";
 				$destino="$correo_usuario";
-				$asunto="Claves de Acceso Capremci";
+				$asunto="Claves de Acceso";
 				$fecha=date("d/m/y");
 				$hora=date("H:i:s");
 	
 	
 				$resumen="
 				<table rules='all'>
-				<tr><td WIDTH='1000' HEIGHT='50'><center><img src='http://www.capremci.com.ec/www2/wp-content/uploads/2016/10/Logo-Capremci-h-600.jpg' WIDTH='300' HEIGHT='90'/></center></td></tr>
+				<tr><td WIDTH='1000' HEIGHT='50'><center><img src='http://www.venceremos.com.ve/sites/default/files/logo-gota-a-gota-el-agua-se-agota_0.png' WIDTH='250' HEIGHT='190'/></center></td></tr>
 				</tabla>
 				<p><table rules='all'></p>
-				<tr style='background: #FFFFFF;'><td  WIDTH='1000' align='center'><b> BIENVENIDO A CAPREMCI </b></td></tr></p>
-				<tr style='background: #FFFFFF;'><td  WIDTH='1000' align='justify'>Somos un Fondo Previsional orientado a asegurar el futuro de sus partícipes, prestando servicios complementarios para satisfacer sus necesidades; con infraestructura tecnológica – operativa de vanguardia y talento humano competitivo.</td></tr>
+				<tr style='background: #FFFFFF;'><td  WIDTH='1000' align='center'><b> RECUPERAR CLAVE </b></td></tr></p>
+				<tr style='background: #FFFFFF;'><td  WIDTH='1000' align='justify'>Solicitaste recuperar tu clave de acceso al sistema.</td></tr>
 				</tabla>
 				<p><table rules='all'></p>
 				<tr style='background: #FFFFFF'><td WIDTH='1000' align='center'><b> TUS DATOS DE ACCESO SON: </b></td></tr>
@@ -940,12 +940,12 @@ public function index(){
 				<tr style='background: #FFFFFF;'><td WIDTH='1000' > <b>Clave Temporal:</b> $_clave_usuario </td></tr>
 				</tabla>
 				<p><table rules='all'></p>
-				<tr style='background:#1C1C1C'><td WIDTH='1000' HEIGHT='50' align='center'><font color='white'>Capremci - <a href='http://www.capremci.com.ec'><FONT COLOR='#7acb5a'>www.capremci.com.ec</FONT></a> - Copyright © 2018-</font></td></tr>
+				<tr style='background:#1C1C1C'><td WIDTH='1000' HEIGHT='50' align='center'><font color='white'> Copyright © 2018-</font></td></tr>
 				</table>
 				";
 	
 	
-				if(mail("$destino","Claves de Acceso Capremci","$resumen","$cabeceras"))
+				if(mail("$destino","Claves de Acceso","$resumen","$cabeceras"))
 				{
 					$mensaje = "Te hemos enviado un correo electrónico a $correo_usuario con tus datos de acceso.";
 						

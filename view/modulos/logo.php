@@ -1,3 +1,3 @@
 <div class="navbar nav_title" style="border: 0;">
-   <a href="index.php?controller=Usuarios&action=Loguear" class="site_title"><img src="view/images/logo.png" width="50" height="50"><span> Capremci<small> FCPC</small></span></a>
+   <a href="index.php?controller=Usuarios&action=Loguear" class="site_title"><img src="view/images/agua.png" width="50" height="50"><span> Agua Potable<small></small></span></a>
 </div>

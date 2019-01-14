@@ -3,10 +3,8 @@
   <head>
     
 
-    <title>Capremci</title>
+    <title>Login</title>
 
-
-	  
 	  
   	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -40,10 +38,8 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <img src="view/images/logo.png" width="320" height="190">
+            <img src="view/images/agua.png" width="250" height="190">
             <form id="form-login" action="<?php echo $helper->url("Usuarios","Loguear"); ?>" method="post" >
-             
-             
              
               <h1>Iniciar Sesión</h1>
               <div>
@@ -54,7 +50,9 @@
               </div>
               <div>
               	<button type="submit"  class="btn btn-success" ><i class="fa fa-unlock fa-spin" aria-hidden="true"></i> Login</button>
-                <button type="button" onclick=" location.href='http://www.capremci.com.ec' " class="btn btn-primary" value="Cancelar" name="Cancelar"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button> 
+                <button type="submit" id="Cancelar" name="Cancelar" onclick="this.form.action='<?php echo $helper->url("Usuarios","Loguear"); ?>'" class="btn btn-primary"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+          		
+              
               </div>
 
               <div class="clearfix"></div>

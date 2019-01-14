@@ -3,7 +3,7 @@
   <head>
     
 
-    <title>Template 2018</title>
+    <title>Recuperar Clave</title>
 
 
 	  		<link rel="stylesheet" href="view/css/estilos.css">
@@ -82,7 +82,7 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <img src="view/images/logo.png" width="320" height="190">
+            <img src="view/images/agua.png" width="250" height="190">
             <form  action="<?php echo $helper->url("Usuarios","resetear_clave_inicio"); ?>" method="post" ">
              
              
@@ -96,7 +96,7 @@
               <div style="text-align: center; margin-top:20px">
               
               	<button type="submit" id="Guardar" name="Guardar" class="btn btn-success" ><i class="fa fa-unlock" aria-hidden="true"></i> Recuperar</button>
-                <button type="submit" id="Cancelar" name="Cancelar" onclick="this.form.action='<?php echo $helper->url("Usuarios","Inicio"); ?>'" class="btn btn-primary"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+                <button type="submit" id="Cancelar" name="Cancelar" onclick="this.form.action='<?php echo $helper->url("Usuarios","Loguear"); ?>'" class="btn btn-primary"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
               </div>
 
               <div class="clearfix"></div>
