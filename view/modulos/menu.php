@@ -47,6 +47,10 @@ $controladores=$_SESSION['controladores'];
                       <li style="<?php echo getcontrolador("Clientes",$controladores) ?>"><a href="index.php?controller=Clientes&action=index">Clientes</a></li>
                       <li style="<?php echo getcontrolador("AsignarMedidores",$controladores) ?>"><a href="index.php?controller=AsignacionClientesMedidorAgua&action=index">Asignar Medidor Agua Clientes</a></li>
                       <li style="<?php echo getcontrolador("RegistrarMarcacionesMensuales",$controladores) ?>"><a href="index.php?controller=MarcacionesMensualesMedidorAgua&action=index">Registrar Marcaciones Mensuales</a></li>
+                      <li style="<?php echo getcontrolador("Tarifas",$controladores) ?>"><a href="index.php?controller=Tarifas&action=index">Tarifas</a></li>
+                      <li style="<?php echo getcontrolador("TipoConsumo",$controladores) ?>"><a href="index.php?controller=TipoConsumo&action=index">Tipo Consumo</a></li>
+                      <li style="<?php echo getcontrolador("TipoPersona",$controladores) ?>"><a href="index.php?controller=TipoPersona&action=index">Tipo Persona</a></li>
+                
                     </ul>
                   </li>
                   
