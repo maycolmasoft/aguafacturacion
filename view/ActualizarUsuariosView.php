@@ -161,14 +161,14 @@
 		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
 				       
 			            return false;
-			    }else if (clave_usuarios.length<4){
-			    	$("#mensaje_clave_usuarios").text("Introduzca minimo 4 números");
+			    }else if (clave_usuarios.length<8){
+			    	$("#mensaje_clave_usuarios").text("Introduzca minimo 8 caracteres");
 		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
 		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
 				    
 		            return false;
-				}else if (clave_usuarios.length>4){
-			    	$("#mensaje_clave_usuarios").text("Introduzca máximo 4 números");
+				}else if (clave_usuarios.length>15){
+			    	$("#mensaje_clave_usuarios").text("Introduzca máximo 15 caracteres");
 		    		$("#mensaje_clave_usuarios").fadeIn("slow"); //Muestra mensaje de error
 		    		$("html, body").animate({ scrollTop: $(mensaje_clave_usuarios).offset().top }, tiempo);
 					   
@@ -345,26 +345,6 @@
         
         
         
-        <script >   
-    function numeros(e){
-    key = e.keyCode || e.which;
-    tecla = String.fromCharCode(key).toLowerCase();
-    letras = "0123456789";
-    especiales = [8,37,39,46];
- 
-    tecla_especial = false
-    for(var i in especiales){
-    if(key == especiales[i]){
-     tecla_especial = true;
-     break;
-        } 
-    }
- 
-    if(letras.indexOf(tecla)==-1 && !tecla_especial)
-        return false;
-     }
-    </script>   
-        
 			        
     </head>
     
@@ -482,7 +462,7 @@
                     				<div class="col-lg-2 col-xs-12 col-md-2">
                         		    <div class="form-group">
                                                           <label for="clave_usuarios" class="control-label">Password:</label>
-                                                          <input type="password" class="form-control" id="clave_usuarios" name="clave_usuarios" value="<?php echo $resEdit->pass_sistemas_usuarios; ?>" placeholder="(solo números..)" maxlength="4" onkeypress="return numeros(event)">
+                                                          <input type="password" class="form-control" id="clave_usuarios" name="clave_usuarios" value="<?php echo $resEdit->pass_sistemas_usuarios; ?>" placeholder="password.." maxlength="15" >
                                                           <div id="mensaje_clave_usuarios" class="errores"></div>
                                     </div>
                         		    </div>
@@ -490,7 +470,7 @@
                         		    <div class="col-lg-2 col-xs-12 col-md-2">
                         		    <div class="form-group">
                                                           <label for="clave_usuarios_r" class="control-label">Repita Password:</label>
-                                                          <input type="password" class="form-control" id="clave_usuarios_r" name="clave_usuarios_r" value="<?php echo $resEdit->pass_sistemas_usuarios; ?>" placeholder="(solo números..)" maxlength="4" onkeypress="return numeros(event)">
+                                                          <input type="password" class="form-control" id="clave_usuarios_r" name="clave_usuarios_r" value="<?php echo $resEdit->pass_sistemas_usuarios; ?>" placeholder="password.." maxlength="15" >
                                                           <div id="mensaje_clave_usuarios_r" class="errores"></div>
                                     </div>
                                     </div>

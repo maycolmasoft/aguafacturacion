@@ -12,45 +12,46 @@ class ClientesController extends ControladorBase{
     	$id_rol=$_SESSION["id_rol"];
     	$clientes = new ClientesModel();
     	$where_to="";
-    	$columnas = "clientes.id_clientes,
-									  clientes.apellidos_clientes,
-									  clientes.nombres_clientes,
-									  clientes.id_tipo_identificacion,
-									  tipo_identificacion.nombre_tipo_identificacion,
-									  clientes.identificacion_clientes,
-									  clientes.id_sexo,
-									  sexo.nombre_sexo,
-									  clientes.id_paises,
-									  clientes.id_provincias,
-									  provincias.nombre_provincias,
-									  clientes.id_cantones,
-									  cantones.nombre_cantones,
-									  clientes.id_parroquias,
-									  parroquias.nombre_parroquias,
-									  clientes.direccion_clientes,
-									  clientes.telefono_clientes,
-									  clientes.celular_clientes,
-									  clientes.correo_clientes,
-    			                      clientes.id_estado,
-    			                      estado.nombre_estado";
+    	$columnas = " clientes.id_clientes, 
+					  clientes.razon_social_clientes, 
+					  tipo_identificacion.id_tipo_identificacion, 
+					  tipo_identificacion.nombre_tipo_identificacion, 
+					  clientes.identificacion_clientes, 
+					  provincias.id_provincias, 
+					  provincias.nombre_provincias, 
+					  cantones.id_cantones, 
+					  cantones.nombre_cantones, 
+					  parroquias.id_parroquias, 
+					  parroquias.nombre_parroquias, 
+					  clientes.direccion_clientes, 
+					  clientes.telefono_clientes, 
+					  clientes.celular_clientes, 
+					  clientes.correo_clientes, 
+					  estado.id_estado, 
+					  estado.nombre_estado, 
+					  tipo_persona.id_tipo_persona, 
+					  tipo_persona.nombre_tipo_persona, 
+					  clientes.fecha_nacimiento_clientes, 
+					  clientes.creado";
     	
-    	$tablas   = "public.clientes,
-									  public.cantones,
-									  public.provincias,
-									  public.parroquias,
-									  public.sexo,
-									  public.tipo_identificacion,
-    			public.estado";
+    	$tablas   = "public.clientes, 
+					  public.parroquias, 
+					  public.provincias, 
+					  public.cantones, 
+					  public.tipo_persona, 
+					  public.tipo_identificacion, 
+					  public.estado";
     	
     	$id       = "clientes.id_clientes";
     	
     	
-    	$where    = "estado.id_estado=clientes.id_estado AND clientes.id_provincias = provincias.id_provincias AND
-    	cantones.id_cantones = clientes.id_cantones AND
-    	parroquias.id_parroquias = clientes.id_parroquias AND
-    	sexo.id_sexo = clientes.id_sexo AND
-    	tipo_identificacion.id_tipo_identificacion = clientes.id_tipo_identificacion AND clientes.id_estado=1";
-    	
+    	$where    = "clientes.id_tipo_persona = tipo_persona.id_tipo_persona AND
+					  clientes.id_tipo_identificacion = tipo_identificacion.id_tipo_identificacion AND
+					  clientes.id_provincias = provincias.id_provincias AND
+					  clientes.id_cantones = cantones.id_cantones AND
+					  clientes.id_parroquias = parroquias.id_parroquias AND
+					  clientes.id_estado = estado.id_estado AND clientes.id_estado=1";
+					    	
     
     	 
     	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
@@ -65,7 +66,7 @@ class ClientesController extends ControladorBase{
     		if(!empty($search)){
     
     
-    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.apellidos_clientes LIKE '".$search."%' OR clientes.nombres_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%' OR sexo.nombre_sexo LIKE '".$search."%' OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR estado.nombre_estado LIKE '".$search."%')";
+    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.razon_social_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%' OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR estado.nombre_estado LIKE '".$search."%')";
     
     			$where_to=$where.$where1;
     		}else{
@@ -106,12 +107,12 @@ class ClientesController extends ControladorBase{
     			$html.= "<table id='tabla_clientes' class='tablesorter table table-striped table-bordered dt-responsive nowrap'>";
     			$html.= "<thead>";
     			$html.= "<tr>";
-    			$html.='<th style="text-align: left;  font-size: 12px;">Tipo</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Identificación</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Apellidos</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Nombres</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Tipo Per</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Tipo Ide</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Ci /Ruc</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Razón Social</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Correo</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Teléfono</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Fecha</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Celular</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Provincia</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Cantón</th>';
@@ -126,6 +127,7 @@ class ClientesController extends ControladorBase{
     				 
     			}else{
     				 
+    				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     				 
     				
     			}
@@ -142,12 +144,12 @@ class ClientesController extends ControladorBase{
     			{
     				$i++;
     				$html.='<tr>';
+    				$html.='<td style="font-size: 11px;">'.$res->nombre_tipo_persona.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_tipo_identificacion.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->identificacion_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->apellidos_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->nombres_clientes.'</td>';
+    				$html.='<td style="font-size: 11px;">'.$res->razon_social_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->correo_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->telefono_clientes.'</td>';
+    				$html.='<td style="font-size: 11px;">'.$res->fecha_nacimiento_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->celular_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_provincias.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_cantones.'</td>';
@@ -162,7 +164,8 @@ class ClientesController extends ControladorBase{
     					 
     				}else{
     					 
-    					 
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=index&id_clientes='.$res->id_clientes.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    					
     				}
     				 
     				$html.='</tr>';
@@ -206,45 +209,47 @@ class ClientesController extends ControladorBase{
     	$id_rol=$_SESSION["id_rol"];
     	$clientes = new ClientesModel();
     	$where_to="";
-    	$columnas = "clientes.id_clientes,
-									  clientes.apellidos_clientes,
-									  clientes.nombres_clientes,
-									  clientes.id_tipo_identificacion,
-									  tipo_identificacion.nombre_tipo_identificacion,
-									  clientes.identificacion_clientes,
-									  clientes.id_sexo,
-									  sexo.nombre_sexo,
-									  clientes.id_paises,
-									  clientes.id_provincias,
-									  provincias.nombre_provincias,
-									  clientes.id_cantones,
-									  cantones.nombre_cantones,
-									  clientes.id_parroquias,
-									  parroquias.nombre_parroquias,
-									  clientes.direccion_clientes,
-									  clientes.telefono_clientes,
-									  clientes.celular_clientes,
-									  clientes.correo_clientes,
-    			                      clientes.id_estado,
-    			                      estado.nombre_estado";
+    	$columnas = " clientes.id_clientes,
+					  clientes.razon_social_clientes,
+					  tipo_identificacion.id_tipo_identificacion,
+					  tipo_identificacion.nombre_tipo_identificacion,
+					  clientes.identificacion_clientes,
+					  provincias.id_provincias,
+					  provincias.nombre_provincias,
+					  cantones.id_cantones,
+					  cantones.nombre_cantones,
+					  parroquias.id_parroquias,
+					  parroquias.nombre_parroquias,
+					  clientes.direccion_clientes,
+					  clientes.telefono_clientes,
+					  clientes.celular_clientes,
+					  clientes.correo_clientes,
+					  estado.id_estado,
+					  estado.nombre_estado,
+					  tipo_persona.id_tipo_persona,
+					  tipo_persona.nombre_tipo_persona,
+					  clientes.fecha_nacimiento_clientes,
+					  clientes.creado";
     	 
     	$tablas   = "public.clientes,
-									  public.cantones,
-									  public.provincias,
-									  public.parroquias,
-									  public.sexo,
-									  public.tipo_identificacion,
-    			public.estado";
+					  public.parroquias,
+					  public.provincias,
+					  public.cantones,
+					  public.tipo_persona,
+					  public.tipo_identificacion,
+					  public.estado";
     	 
     	$id       = "clientes.id_clientes";
     	 
     	 
-    	$where    = "estado.id_estado=clientes.id_estado AND clientes.id_provincias = provincias.id_provincias AND
-    	cantones.id_cantones = clientes.id_cantones AND
-    	parroquias.id_parroquias = clientes.id_parroquias AND
-    	sexo.id_sexo = clientes.id_sexo AND
-    	tipo_identificacion.id_tipo_identificacion = clientes.id_tipo_identificacion AND clientes.id_estado=2";
-    	 
+    	$where    = "clientes.id_tipo_persona = tipo_persona.id_tipo_persona AND
+					  clientes.id_tipo_identificacion = tipo_identificacion.id_tipo_identificacion AND
+					  clientes.id_provincias = provincias.id_provincias AND
+					  clientes.id_cantones = cantones.id_cantones AND
+					  clientes.id_parroquias = parroquias.id_parroquias AND
+					  clientes.id_estado = estado.id_estado AND clientes.id_estado=2";
+    	
+    	
     	
     	
     	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
@@ -259,7 +264,7 @@ class ClientesController extends ControladorBase{
     		if(!empty($search)){
     	
     	
-    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.apellidos_clientes LIKE '".$search."%' OR clientes.nombres_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%' OR sexo.nombre_sexo LIKE '".$search."%' OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR estado.nombre_estado LIKE '".$search."%')";
+    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.razon_social_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%' OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR estado.nombre_estado LIKE '".$search."%')";
     	
     			$where_to=$where.$where1;
     		}else{
@@ -300,12 +305,12 @@ class ClientesController extends ControladorBase{
     			$html.= "<table id='tabla_clientes' class='tablesorter table table-striped table-bordered dt-responsive nowrap'>";
     			$html.= "<thead>";
     			$html.= "<tr>";
-    			$html.='<th style="text-align: left;  font-size: 12px;">Tipo</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Identificación</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Apellidos</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Nombres</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Tipo Per</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Tipo Ide</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Ci / Ruc</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Razón Social</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Correo</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Teléfono</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Fecha</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Celular</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Provincia</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Cantón</th>';
@@ -335,12 +340,12 @@ class ClientesController extends ControladorBase{
     			{
     				$i++;
     				$html.='<tr>';
+    				$html.='<td style="font-size: 11px;">'.$res->nombre_tipo_persona.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_tipo_identificacion.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->identificacion_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->apellidos_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->nombres_clientes.'</td>';
+    				$html.='<td style="font-size: 11px;">'.$res->razon_social_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->correo_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->telefono_clientes.'</td>';
+    				$html.='<td style="font-size: 11px;">'.$res->fecha_nacimiento_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->celular_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_provincias.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_cantones.'</td>';
@@ -402,8 +407,6 @@ class ClientesController extends ControladorBase{
 			
 			$clientes = new ClientesModel();
 			
-			$sexo= new SexoModel();
-			$resultSexo = $sexo->getAll("nombre_sexo");
 				
 			$provincias = new ProvinciasModel();
 			$resultProvincias= $provincias->getAll("nombre_provincias");
@@ -420,6 +423,9 @@ class ClientesController extends ControladorBase{
 			$estado = new EstadoModel();
 			$resultEst = $estado->getAll("nombre_estado");
 			
+			$tipo_persona = new TipoPersonaModel();
+			$resultTip_Per = $tipo_persona->getAll("nombre_tipo_persona");
+			
 			$nombre_controladores = "Clientes";
 			$id_rol= $_SESSION['id_rol'];
 			$resultPer = $clientes->getPermisosEditar("controladores.nombre_controladores = '$nombre_controladores' AND permisos_rol.id_rol = '$id_rol' " );
@@ -434,50 +440,52 @@ class ClientesController extends ControladorBase{
 						$_id_clientes = $_GET["id_clientes"];
 						
 						$columnas = "clientes.id_clientes, 
-									  clientes.apellidos_clientes, 
-									  clientes.nombres_clientes, 
-									  clientes.id_tipo_identificacion, 
-									  tipo_identificacion.nombre_tipo_identificacion, 
-									  clientes.identificacion_clientes, 
-									  clientes.id_sexo, 
-									  sexo.nombre_sexo, 
-									  clientes.id_paises, 
-									  clientes.id_provincias, 
-									  provincias.nombre_provincias, 
-									  clientes.id_cantones, 
-									  cantones.nombre_cantones, 
-									  clientes.id_parroquias, 
-									  parroquias.nombre_parroquias, 
-									  clientes.direccion_clientes, 
-									  clientes.telefono_clientes, 
-									  clientes.celular_clientes, 
-									  clientes.correo_clientes,
-								clientes.id_estado,
-    			                      estado.nombre_estado";
+								  clientes.razon_social_clientes, 
+								  tipo_identificacion.id_tipo_identificacion, 
+								  tipo_identificacion.nombre_tipo_identificacion, 
+								  clientes.identificacion_clientes, 
+								  provincias.id_provincias, 
+								  provincias.nombre_provincias, 
+								  cantones.id_cantones, 
+								  cantones.nombre_cantones, 
+								  parroquias.id_parroquias, 
+								  parroquias.nombre_parroquias, 
+								  clientes.direccion_clientes, 
+								  clientes.telefono_clientes, 
+								  clientes.celular_clientes, 
+								  clientes.correo_clientes, 
+								  estado.id_estado, 
+								  estado.nombre_estado, 
+								  tipo_persona.id_tipo_persona, 
+								  tipo_persona.nombre_tipo_persona, 
+								  clientes.fecha_nacimiento_clientes, 
+								  clientes.creado";
 						
 						$tablas   = "public.clientes, 
-									  public.cantones, 
-									  public.provincias, 
 									  public.parroquias, 
-									  public.sexo, 
-									  public.tipo_identificacion, public.estado";
+									  public.provincias, 
+									  public.cantones, 
+									  public.tipo_persona, 
+									  public.tipo_identificacion, 
+									  public.estado";
 						
 						$id       = "clientes.id_clientes";
 						
 						
-						$where    = "estado.id_estado=clientes.id_estado AND clientes.id_provincias = provincias.id_provincias AND
-								  cantones.id_cantones = clientes.id_cantones AND
-								  parroquias.id_parroquias = clientes.id_parroquias AND
-								  sexo.id_sexo = clientes.id_sexo AND
-								  tipo_identificacion.id_tipo_identificacion = clientes.id_tipo_identificacion AND clientes.id_clientes = '$_id_clientes' "; 
+						$where    = " clientes.id_tipo_persona = tipo_persona.id_tipo_persona AND
+									  clientes.id_tipo_identificacion = tipo_identificacion.id_tipo_identificacion AND
+									  clientes.id_provincias = provincias.id_provincias AND
+									  clientes.id_cantones = cantones.id_cantones AND
+									  clientes.id_parroquias = parroquias.id_parroquias AND
+									  clientes.id_estado = estado.id_estado AND clientes.id_clientes = '$_id_clientes' "; 
 						$resultEdit = $clientes->getCondiciones($columnas ,$tablas ,$where, $id); 
 					}
 			
 					
 					$this->view("Clientes",array(
 							"resultEdit" =>$resultEdit, "resultProvincias"=>$resultProvincias,
-							"resultParroquias"=>$resultParroquias, "resultCantones"=>$resultCantones, "resultSexo"=>$resultSexo,
-							"resultTipIdenti"=>$resultTipIdenti, "resultEst"=>$resultEst
+							"resultParroquias"=>$resultParroquias, "resultCantones"=>$resultCantones,
+							"resultTipIdenti"=>$resultTipIdenti, "resultEst"=>$resultEst, "resultTip_Per"=>$resultTip_Per
 					
 					));
 				
@@ -525,10 +533,10 @@ class ClientesController extends ControladorBase{
 			$_id_tipo_identificacion    = $_POST["id_tipo_identificacion"];
 			
 			
-			$_identificacion_clientes    = $_POST["identificacion_clientes"];
-			$_apellidos_clientes     = $_POST["apellidos_clientes"];
-			$_nombres_clientes     = $_POST["nombres_clientes"];
-			$_id_sexo   		   = $_POST["id_sexo"];
+			$_identificacion_clientes      = $_POST["identificacion_clientes"];
+			$_razon_social_clientes        = $_POST["razon_social_clientes"];
+			$_id_tipo_persona   		   = $_POST["id_tipo_persona"];
+			$_fecha_nacimiento_clientes    = $_POST["fecha_nacimiento_clientes"];
 			$_telefono_clientes    = $_POST["telefono_clientes"];
 			$_celular_clientes     = $_POST["celular_clientes"];
 		    $_correo_clientes      = $_POST["correo_clientes"];
@@ -547,9 +555,9 @@ class ClientesController extends ControladorBase{
 		    	
 		    		$colval = "id_tipo_identificacion='$_id_tipo_identificacion',
 		    		identificacion_clientes= '$_identificacion_clientes',
-		    		apellidos_clientes = '$_apellidos_clientes',
-		    		nombres_clientes = '$_nombres_clientes',
-		    		id_sexo='$_id_sexo',
+		    		id_tipo_persona = '$_id_tipo_persona',
+		    		razon_social_clientes = '$_razon_social_clientes',
+		    		fecha_nacimiento_clientes='$_fecha_nacimiento_clientes',
 		    		telefono_clientes = '$_telefono_clientes',
 		    		celular_clientes = '$_celular_clientes',
 		    		correo_clientes = '$_correo_clientes',
@@ -566,11 +574,9 @@ class ClientesController extends ControladorBase{
 		    }else{
 		    
 		        	$funcion = "ins_clientes";
-		        	$parametros = "'$_apellidos_clientes',
-		        	'$_nombres_clientes',
+		        	$parametros = "'$_razon_social_clientes',
 		        	'$_id_tipo_identificacion',
 		        	'$_identificacion_clientes',
-		        	'$_id_sexo',
 		        	'1',
 		        	'$_id_provincias',
 		        	'$_id_cantones',
@@ -579,7 +585,9 @@ class ClientesController extends ControladorBase{
 		        	'$_telefono_clientes',
 		        	'$_celular_clientes',
 		        	'$_correo_clientes',
-		        	'$_id_estado'";
+		        	'$_id_estado',
+		        	'$_id_tipo_persona',
+		        	'$_fecha_nacimiento_clientes'";
 		        	$clientes->setFuncion($funcion);
 		        	$clientes->setParametros($parametros);
 		        	$resultado=$clientes->Insert();
@@ -649,11 +657,11 @@ class ClientesController extends ControladorBase{
 			
 		if(!empty($resultSet)){
 	
-			$respuesta->apellidos_clientes = $resultSet[0]->apellidos_clientes;
-			$respuesta->nombres_clientes = $resultSet[0]->nombres_clientes;
+			$respuesta->razon_social_clientes = $resultSet[0]->razon_social_clientes;
+			$respuesta->id_tipo_persona = $resultSet[0]->id_tipo_persona;
 			$respuesta->id_tipo_identificacion = $resultSet[0]->id_tipo_identificacion;
 			$respuesta->identificacion_clientes = $resultSet[0]->identificacion_clientes;
-			$respuesta->id_sexo = $resultSet[0]->id_sexo;
+			$respuesta->fecha_nacimiento_clientes = $resultSet[0]->fecha_nacimiento_clientes;
 			$respuesta->id_paises = $resultSet[0]->id_paises;
 			$respuesta->id_provincias = $resultSet[0]->id_provincias;
 			$respuesta->id_cantones = $resultSet[0]->id_cantones;

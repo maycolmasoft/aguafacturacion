@@ -887,10 +887,10 @@ public function index(){
 				}
 	
 	
-				$cadena = "1234567890";
+				$cadena = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 				$longitudCadena=strlen($cadena);
 				$pass = "";
-				$longitudPass=4;
+				$longitudPass=15;
 				for($i=1 ; $i<=$longitudPass ; $i++){
 					$pos=rand(0,$longitudCadena-1);
 					$pass .= substr($cadena,$pos,1);

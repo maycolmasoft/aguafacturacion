@@ -654,21 +654,7 @@
 
 				 
 
-				 for(i=0; i<clave_usuarios.length; i++)
-		    	    {
-		    	     alert("entro");
-		    	      
-			    	  
-		    	   } 
-		    	  
-		    	  
-
-
-
-
-
-
-					
+			
 					
 				
 

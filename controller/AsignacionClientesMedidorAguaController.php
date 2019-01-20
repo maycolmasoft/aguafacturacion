@@ -164,12 +164,11 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
     	$where_to="";
     	$columnas = "asignacion_clientes_medidor_agua.id_asignacion_clientes_medidor_agua, 
 					  asignacion_clientes_medidor_agua.id_clientes, 
-					  clientes.apellidos_clientes, 
-					  clientes.nombres_clientes, 
+					  clientes.razon_social_clientes, 
+					  clientes.fecha_nacimiento_clientes, 
 					  clientes.id_tipo_identificacion, 
 					  tipo_identificacion.nombre_tipo_identificacion, 
 					  clientes.identificacion_clientes, 
-					  clientes.id_sexo, 
 					  clientes.id_paises, 
 					  paises.nombre_paises, 
 					  clientes.id_provincias, 
@@ -222,7 +221,7 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
     		if(!empty($search)){
     	
     	
-    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.apellidos_clientes LIKE '".$search."%' OR clientes.nombres_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%' OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR medidores_agua.identificador_medidores_agua LIKE '%".$search."%')";
+    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.razon_social_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%' OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR medidores_agua.identificador_medidores_agua LIKE '%".$search."%')";
     	
     			$where_to=$where.$where1;
     		}else{
@@ -265,8 +264,7 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
     			$html.= "<tr>";
     			$html.='<th style="text-align: left;  font-size: 12px;">Medidor Agua</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Identificación</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Apellidos</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Nombres</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Razón Social</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Correo</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Celular</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Provincia</th>';
@@ -288,8 +286,7 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
     				$html.='<tr>';
     				$html.='<td style="font-size: 11px;">'.$res->identificador_medidores_agua.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->identificacion_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->apellidos_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->nombres_clientes.'</td>';
+    				$html.='<td style="font-size: 11px;">'.$res->razon_social_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->correo_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->celular_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_provincias.'</td>';
@@ -392,12 +389,11 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
 					
 					$columnas = "asignacion_clientes_medidor_agua.id_asignacion_clientes_medidor_agua,
 					  asignacion_clientes_medidor_agua.id_clientes,
-					  clientes.apellidos_clientes,
-					  clientes.nombres_clientes,
+					  clientes.razon_social_clientes,
+					  clientes.fecha_nacimiento_clientes,
 					  clientes.id_tipo_identificacion,
 					  tipo_identificacion.nombre_tipo_identificacion,
 					  clientes.identificacion_clientes,
-					  clientes.id_sexo,
 					  clientes.id_paises,
 					  paises.nombre_paises,
 					  clientes.id_provincias,
@@ -479,6 +475,9 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
 		$resultado = null;
 		$asignacion_clientes_medidor_agua = new AsignacionClientesMedidorAguaModel();
 		$medidores_agua = new MedidoresAguaModel();
+		$solicitudes = new SolicitudesModel();
+		$solicitudes_detalle = new SolicitudesDetalleModel();
+		
 		
 		$_clave_usuario = "";
 		$_id_medidores_agua=0;
@@ -494,8 +493,6 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
 				$_id_asignacion_clientes_medidor_agua    = $_POST["id_asignacion_clientes_medidor_agua"];
 		
 				if($_id_asignacion_clientes_medidor_agua>0){
-					
-					
 					
 					
 					$resultMedidor = $asignacion_clientes_medidor_agua->getBy("id_asignacion_clientes_medidor_agua='$_id_asignacion_clientes_medidor_agua'");
@@ -542,6 +539,10 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
 					$where = "id_medidores_agua = '$_id_medidores_agua_asignacion'";
 					$resultado=$medidores_agua->UpdateBy($colval, $tabla, $where);
 					 
+					
+					
+					
+					
 				}
 					
 				$this->redirect("AsignacionClientesMedidorAgua", "index");
@@ -686,9 +687,19 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
 		$_id_usuarios= $_SESSION['id_usuarios'];
 		$clientes = new ClientesModel();
 		$identificacion_clientes = $_GET['term'];
+		
+		
+		$columnas="clientes.identificacion_clientes, 
+				  clientes.id_estado, 
+				  solicitudes.id_estado";
+		$tablas=" public.solicitudes, 
+ 				 public.clientes";
+		$where=" clientes.id_clientes = solicitudes.id_clientes
+  			AND solicitudes.id_estado=1 AND clientes.id_estado=1 AND clientes.identificacion_clientes LIKE '$identificacion_clientes%' AND solicitudes.pagado='TRUE'";
+		$id="clientes.identificacion_clientes";
+		$resultSet=$clientes->getCondiciones($columnas,$tablas, $where, $id );
 			
-		$resultSet=$clientes->getBy("identificacion_clientes LIKE '$identificacion_clientes%' AND id_estado=1");
-			
+		
 		if(!empty($resultSet)){
 	
 			foreach ($resultSet as $res){
@@ -717,8 +728,7 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
 			
 		if(!empty($resultSet)){
 	
-			$respuesta->apellidos_clientes = $resultSet[0]->apellidos_clientes;
-			$respuesta->nombres_clientes = $resultSet[0]->nombres_clientes;
+			$respuesta->razon_social_clientes = $resultSet[0]->razon_social_clientes;
 			$respuesta->id_tipo_identificacion = $resultSet[0]->id_tipo_identificacion;
 			$respuesta->identificacion_clientes = $resultSet[0]->identificacion_clientes;
 			$respuesta->id_clientes = $resultSet[0]->id_clientes;

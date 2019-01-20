@@ -170,8 +170,7 @@
 		    	$('#id_clientes').val("");
 		    	$('#identificacion_clientes').val("");
 		    	$('#id_tipo_identificacion').val("0");
-		    	$('#apellidos_clientes').val("");
-		    	$('#nombres_clientes').val("");
+		    	$('#razon_social_clientes').val("");
 		    	$('#id_medidores_agua_asignacion').val("");
 		    	$('#identificador_medidores_agua_asignacion').val("");
 
@@ -265,8 +264,7 @@
 		    					data:{identificacion_clientes:$('#identificacion_clientes').val()}
 		    				}).done(function(respuesta){
 
-		    					$('#apellidos_clientes').val(respuesta.apellidos_clientes);
-		    					$('#nombres_clientes').val(respuesta.nombres_clientes);
+		    					$('#razon_social_clientes').val(respuesta.razon_social_clientes);
 		    					$('#id_tipo_identificacion').val(respuesta.id_tipo_identificacion);
 		    					$('#identificacion_clientes').val(respuesta.identificacion_clientes);
 		    					$('#id_clientes').val(respuesta.id_clientes);
@@ -276,8 +274,7 @@
 		    				
 		        			}).fail(function(respuesta) {
 
-		        				$('#apellidos_clientes').val("");
-		    					$('#nombres_clientes').val("");
+		        				$('#razon_social_clientes').val("");
 		    					$('#id_tipo_identificacion').val("0");
 		    					$('#id_clientes').val("0");
 		    					
@@ -792,21 +789,14 @@
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                                   <div class="col-lg-6 col-xs-12 col-md-6">
                         		   <div class="form-group">
-                                                      <label for="apellidos_clientes" class="control-label">Apellidos:</label>
-                                                      <input type="text" class="form-control" id="apellidos_clientes" name="apellidos_clientes" value="<?php echo $resEditAsig->apellidos_clientes; ?>"  placeholder="apellidos.." readonly>
-                                                      <div id="mensaje_apellidos_clientes" class="errores"></div>
+                                                      <label for="razon_social_clientes" class="control-label">Razón Social:</label>
+                                                      <input type="text" class="form-control" id="razon_social_clientes" name="razon_social_clientes" value="<?php echo $resEditAsig->razon_social_clientes; ?>"  placeholder="razón social.." readonly>
+                                                      <div id="mensaje_razon_social_clientes" class="errores"></div>
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
-                        		   <div class="form-group">
-                                                      <label for="nombres_clientes" class="control-label">Nombres:</label>
-                                                      <input type="text" class="form-control" id="nombres_clientes" name="nombres_clientes" value="<?php echo $resEditAsig->nombres_clientes; ?>"  placeholder="nombres.." readonly>
-                                                      <div id="mensaje_nombres_clientes" class="errores"></div>
-                                   </div>
-                                   </div>
                                    
                                    
                                    <div class="col-lg-2 col-xs-12 col-md-2">
@@ -865,21 +855,15 @@
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                                   <div class="col-lg-6 col-xs-12 col-md-6">
                         		   <div class="form-group">
-                                                      <label for="apellidos_clientes" class="control-label">Apellidos:</label>
-                                                      <input type="text" class="form-control" id="apellidos_clientes" name="apellidos_clientes" value=""  placeholder="apellidos.." readonly>
-                                                      <div id="mensaje_apellidos_clientes" class="errores"></div>
+                                                      <label for="razon_social_clientes" class="control-label">Razón Social:</label>
+                                                      <input type="text" class="form-control" id="razon_social_clientes" name="razon_social_clientes" value=""  placeholder="razon_social_clientes.." readonly>
+                                                      <div id="mensaje_razon_social_clientes" class="errores"></div>
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
-                        		   <div class="form-group">
-                                                      <label for="nombres_clientes" class="control-label">Nombres:</label>
-                                                      <input type="text" class="form-control" id="nombres_clientes" name="nombres_clientes" value=""  placeholder="nombres.." readonly>
-                                                      <div id="mensaje_nombres_clientes" class="errores"></div>
-                                   </div>
-                                   </div>
+                                 
                                    
                                    
                                    <div class="col-lg-2 col-xs-12 col-md-2">

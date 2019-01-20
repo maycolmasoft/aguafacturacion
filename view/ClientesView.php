@@ -273,11 +273,11 @@
 		    $(document).ready(function(){
 		    $("#Cancelar").click(function() 
 			{
-		    	$('#apellidos_clientes').val("");
-				$('#nombres_clientes').val("");
+		    	$('#razon_social_clientes').val("");
+				$('#fecha_nacimiento_clientes').val("");
 				$('#id_tipo_identificacion').val("0");
 				$('#identificacion_clientes').val("");
-				$('#id_sexo').val("0");
+				$('#id_tipo_persona').val("0");
 				$('#id_provincias').val("0");
 				$('#id_cantones').val("0");
 				$('#id_parroquias').val("0");
@@ -318,11 +318,11 @@
 		    					data:{identificacion_clientes:$('#identificacion_clientes').val()}
 		    				}).done(function(respuesta){
 
-		    					$('#apellidos_clientes').val(respuesta.apellidos_clientes);
-		    					$('#nombres_clientes').val(respuesta.nombres_clientes);
+		    					$('#razon_social_clientes').val(respuesta.razon_social_clientes);
+		    					$('#id_tipo_persona').val(respuesta.id_tipo_persona);
 		    					$('#id_tipo_identificacion').val(respuesta.id_tipo_identificacion);
 		    					$('#identificacion_clientes').val(respuesta.identificacion_clientes);
-		    					$('#id_sexo').val(respuesta.id_sexo);
+		    					$('#fecha_nacimiento_clientes').val(respuesta.fecha_nacimiento_clientes);
 		    					$('#id_provincias').val(respuesta.id_provincias);
 		    					$('#id_cantones').val(respuesta.id_cantones);
 		    					$('#id_parroquias').val(respuesta.id_parroquias);
@@ -338,9 +338,8 @@
 		    				
 		        			}).fail(function(respuesta) {
 
-		        				$('#apellidos_clientes').val("");
-		    					$('#nombres_clientes').val("");
-		    					$('#id_sexo').val("0");
+		        				$('#razon_social_clientes').val("");
+		    					$('#fecha_nacimiento_clientes').val("");
 		    					$('#id_provincias').val("0");
 		    					$('#id_cantones').val("0");
 		    					$('#id_parroquias').val("0");
@@ -375,11 +374,11 @@
 		    	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 		    	var validaFecha = /([0-9]{4})\-([0-9]{2})\-([0-9]{2})/;
 
+		    	var id_tipo_persona  = $("#id_tipo_persona").val();
 		    	var id_tipo_identificacion = $("#id_tipo_identificacion").val();
 		    	var identificacion_clientes = $("#identificacion_clientes").val();
-		    	var apellidos_clientes = $("#apellidos_clientes").val();
-		    	var nombres_clientes = $("#nombres_clientes").val();
-		    	var id_sexo = $("#id_sexo").val();
+		    	var razon_social_clientes = $("#razon_social_clientes").val();
+		    	var fecha_nacimiento_clientes = $("#fecha_nacimiento_clientes").val();
 		    	var telefono_clientes  = $("#telefono_clientes").val();
 		    	var celular_clientes  = $("#celular_clientes").val();
 		    	var correo_clientes  = $("#correo_clientes").val();
@@ -491,14 +490,22 @@
 
 
 
+		        if (id_tipo_persona == 0)
+		    	{
+			    	
+		    		$("#mensaje_id_tipo_persona").text("Seleccione Tipo");
+		    		$("#mensaje_id_tipo_persona").fadeIn("slow"); //Muestra mensaje de error
+
+		    		$("html, body").animate({ scrollTop: $(mensaje_id_tipo_persona).offset().top }, tiempo);
+			        return false;
+			    }else{
+
+			    	$("#mensaje_id_tipo_persona").fadeOut("slow"); //Muestra mensaje de error
+				  }
 
 
 
-
-		         
-
-		    	
-
+		        
 
 		    	if (id_tipo_identificacion == 0)
 		    	{
@@ -510,8 +517,36 @@
 			        return false;
 			    }else{
 
-			    	$("#mensaje_id_tipo_identificacion").fadeOut("slow"); //Muestra mensaje de error
-				  }
+			    	if (id_tipo_persona == 1 && id_tipo_identificacion==1 )
+			    	{
+				    	
+			    	 	$("#mensaje_id_tipo_identificacion").fadeOut("slow"); //Muestra mensaje de error
+							
+				    }
+
+
+			    	if (id_tipo_persona == 1 && id_tipo_identificacion==2 )
+			    	{
+				    	
+			    	 	$("#mensaje_id_tipo_identificacion").fadeOut("slow"); //Muestra mensaje de error
+							
+				    }
+
+
+
+			    	if (id_tipo_persona == 2 && id_tipo_identificacion==1 )
+			    	{
+			    		$("#mensaje_id_tipo_identificacion").text("Para Clientes Jurídicos Seleccione Ruc");
+			    		$("#mensaje_id_tipo_identificacion").fadeIn("slow"); //Muestra mensaje de error
+
+			    		$("html, body").animate({ scrollTop: $(mensaje_id_tipo_identificacion).offset().top }, tiempo);
+				        return false;
+			    	}else{	
+			    	 	$("#mensaje_id_tipo_identificacion").fadeOut("slow"); //Muestra mensaje de error
+							
+				    }
+
+				}
 
 
 		    	 
@@ -527,6 +562,9 @@
 			    }
 		    	else 
 		    	{
+
+
+				if(id_tipo_persona==1){
 
 
 					if(id_tipo_identificacion==1){
@@ -793,11 +831,200 @@
 						 }
 
 
-
-
-
-
 						}
+
+
+
+					
+				}else{
+
+
+
+
+
+					 if (ok==0){
+						 $("#mensaje_identificacion_clientes").text("Ingrese solo números");
+				    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+				           
+				            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+				            return false;
+				      }else{
+
+							$("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+					
+					  }
+
+					
+
+					if(identificacion_clientes.length >=13){
+
+						$("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+					}else{
+						
+						$("#mensaje_identificacion_clientes").text("Ingrese 13 Digitos");
+			    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+			            return false;
+					}
+
+
+
+					if (provincia < 1 || provincia > numeroProvincias){           
+						$("#mensaje_identificacion_clientes").text("El código de la provincia (dos primeros dígitos) es inválido");
+			    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+			            return false;
+
+				      }else{
+
+				    		$("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+							
+					  }
+
+
+
+					if (d3==7 || d3==8){           
+
+						$("#mensaje_identificacion_clientes").text("El tercer dígito ingresado es inválido");
+			    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+			           
+			            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+			            return false;
+				      }
+					else{
+
+						$("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+						
+						}
+
+
+					  if (pub==true){      
+
+
+					         /* El ruc de las empresas del sector publico terminan con 0001*/         
+				         if ( identificacion_clientes.substr(9,4) != '0001' ){                    
+
+				        	 $("#mensaje_identificacion_clientes").text("El ruc de la empresa del sector público debe terminar con 0001");
+					    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+					           
+					            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+					            return false;
+
+					     }else{
+					    	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+						}
+						       
+					         if (digitoVerificador != d9){                          
+									$("#mensaje_identificacion_clientes").text("El ruc de la empresa del sector público es incorrecto.");
+						    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+						           
+						            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+						            return false;
+						           
+					         } else{
+					        	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+									
+						     }                 
+
+					 }else{
+			        	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+							
+				     }  
+
+				               
+
+				       if(pri == true){    
+				    	   if ( identificacion_clientes.substr(10,3) != '001' ){   
+
+				    		   $("#mensaje_identificacion_clientes").text("El ruc de la empresa del sector privado debe terminar con 001");
+					    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+					           
+					            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+					            return false;
+					                             
+					            
+					         }else{
+					        	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+									
+						         }
+					              
+					         if (digitoVerificador != d10){                          
+
+					        	 $("#mensaje_identificacion_clientes").text("El ruc de la empresa del sector privado es incorrecto");
+						    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+						           
+						            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+						            return false;
+
+						     } else{
+					        	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+									
+					         }        
+					         
+					      } else{
+					        	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+									
+						     }  
+
+
+					if(nat == true){         
+
+						if (identificacion_clientes.length >10 && identificacion_clientes.substr(10,3) != '001' ){                    
+				         
+				            $("#mensaje_identificacion_clientes").text("El ruc de la persona jurídica debe terminar con 001.");
+				    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+				           
+				            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+				            return false;
+				            
+				         }else{
+				        	 if(identificacion_clientes.length >13){
+				        		 $("#mensaje_identificacion_clientes").text("El ruc de la persona jurídica es incorrecto.");
+						    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+						           
+						            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+						            return false;
+
+					        	 }else{
+					         
+				        	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+					        	 }	
+
+					         }
+
+						
+				         if (digitoVerificador != d10){    
+
+				        	 $("#mensaje_identificacion_clientes").text("El ruc de la persona jurídica es incorrecto.");
+					    		$("#mensaje_identificacion_clientes").fadeIn("slow"); //Muestra mensaje de error
+					           
+					            $("html, body").animate({ scrollTop: $(mensaje_identificacion_clientes).offset().top }, tiempo);
+					            return false;
+					       
+				         }else{
+
+					        	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+					     }  
+
+
+
+
+
+					     
+
+				     }else{
+
+				    	 $("#mensaje_identificacion_clientes").fadeOut("slow"); //Muestra mensaje de error
+						   
+					 }
+
+
+					
+					
+				}
+		    		
 
     
 				}    
@@ -806,12 +1033,12 @@
 		    	
 
 
-		    	if (apellidos_clientes == "")
+		    	if (razon_social_clientes == "")
 		    	{
 			    	
-		    		$("#mensaje_apellidos_clientes").text("Introduzca Apellidos");
-		    		$("#mensaje_apellidos_clientes").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_apellidos_clientes).offset().top }, tiempo);
+		    		$("#mensaje_razon_social_clientes").text("Introduzca Razón Social");
+		    		$("#mensaje_razon_social_clientes").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_razon_social_clientes).offset().top }, tiempo);
 			        
 			            return false;
 			    }
@@ -820,19 +1047,19 @@
 
 		    		contador=0;
 		    		numeroPalabras=0;
-		    		contador = apellidos_clientes.split(" ");
+		    		contador = razon_social_clientes.split(" ");
 		    		numeroPalabras = contador.length;
 		    		
 					if(numeroPalabras==2){
 
-						$("#mensaje_apellidos_clientes").fadeOut("slow"); //Muestra mensaje de error
+						$("#mensaje_razon_social_clientes").fadeOut("slow"); //Muestra mensaje de error
 				                     
 			             
 					}else{
-						$("#mensaje_apellidos_clientes").text("Introduzca 2 Apellidos");
-			    		$("#mensaje_apellidos_clientes").fadeIn("slow"); //Muestra mensaje de error
+						$("#mensaje_razon_social_clientes").text("Introduzca Razón Social Completa");
+			    		$("#mensaje_razon_social_clientes").fadeIn("slow"); //Muestra mensaje de error
 			           
-			            $("html, body").animate({ scrollTop: $(mensaje_apellidos_clientes).offset().top }, tiempo);
+			            $("html, body").animate({ scrollTop: $(mensaje_razon_social_clientes).offset().top }, tiempo);
 			            return false;
 					}
 			    	
@@ -842,64 +1069,23 @@
 
 				
 			
-		    	if (nombres_clientes == "")
+		    	if (fecha_nacimiento_clientes == "")
 		    	{
 			    	
-		    		$("#mensaje_nombres_clientes").text("Introduzca Nombres");
-		    		$("#mensaje_nombres_clientes").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_nombres_clientes).offset().top }, tiempo);
+		    		$("#mensaje_fecha_nacimiento_clientes").text("Introduzca Fecha");
+		    		$("#mensaje_fecha_nacimiento_clientes").fadeIn("slow"); //Muestra mensaje de error
+		    		$("html, body").animate({ scrollTop: $(mensaje_fecha_nacimiento_clientes).offset().top }, tiempo);
 			        
 			            return false;
 			    }
 		    	else 
 		    	{
-
-		    		contador=0;
-		    		numeroPalabras=0;
-		    		contador = nombres_clientes.split(" ");
-		    		numeroPalabras = contador.length;
-		    		
-					if(numeroPalabras==2){
-
-						$("#mensaje_nombres_clientes").fadeOut("slow"); //Muestra mensaje de error
-				                     
-			             
-					}else{
-						$("#mensaje_nombres_clientes").text("Introduzca 2 Nombres");
-			    		$("#mensaje_nombres_clientes").fadeIn("slow"); //Muestra mensaje de error
-			           
-			            $("html, body").animate({ scrollTop: $(mensaje_nombres_clientes).offset().top }, tiempo);
-			            return false;
-					}
-			    	
-		    		
-		            
+					$("#mensaje_fecha_nacimiento_clientes").fadeOut("slow"); //Muestra mensaje de error
+		    	
 				}
 		    			
 
-		    	
-
-		    	if (id_sexo == 0 )
-		    	{
-			    	
-		    		$("#mensaje_id_sexo").text("Seleccione");
-		    		$("#mensaje_id_sexo").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_id_sexo).offset().top }, tiempo);
-					
-		            return false;
-			    }
-		    	else 
-		    	{
-		    		$("#mensaje_id_sexo").fadeOut("slow"); //Muestra mensaje de error
-		            
-				}
-
-
-
-
-		    	
-
-		    	
+		    			    	
 		    	if (celular_clientes == "" )
 		    	{
 			    	
@@ -1044,22 +1230,23 @@
 			}); 
 
 
-		    
+
+	        $( "#id_tipo_persona" ).focus(function() {
+			  $("#mensaje_id_tipo_persona").fadeOut("slow");
+		    });
 		        $( "#id_tipo_identificacion" ).focus(function() {
 				  $("#mensaje_id_tipo_identificacion").fadeOut("slow");
 			    });
 		        $( "#identificacion_clientes" ).focus(function() {
 					  $("#mensaje_identificacion_clientes").fadeOut("slow");
 				 });
-		        $( "#apellidos_clientes" ).focus(function() {
-					  $("#mensaje_apellidos_clientes").fadeOut("slow");
+		        $( "#razon_social_clientes" ).focus(function() {
+					  $("#mensaje_razon_social_clientes").fadeOut("slow");
 				 });
-		        $( "#nombres_clientes" ).focus(function() {
-					  $("#mensaje_nombres_clientes").fadeOut("slow");
+		        $( "#fecha_nacimiento_clientes" ).focus(function() {
+					  $("#mensaje_fecha_nacimiento_clientes").fadeOut("slow");
 				 });
-		        $( "#id_sexo" ).focus(function() {
-					  $("#mensaje_id_sexo").fadeOut("slow");
-				 }); 
+		       
 		        $( "#celular_clientes" ).focus(function() {
 					  $("#mensaje_celular_clientes").fadeOut("slow");
 				 });  
@@ -1169,6 +1356,24 @@
                  
                  
                            <div class="row">
+                           
+                           
+                           
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                          <label for="id_tipo_persona" class="control-label">Tipo Persona:</label>
+                                                          <select name="id_tipo_persona" id="id_tipo_persona"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultTip_Per as $res) {?>
+                        										<option value="<?php echo $res->id_tipo_persona; ?>" <?php if ($res->id_tipo_persona == $resEdit->id_tipo_persona )  echo  ' selected="selected" '  ;  ?>><?php echo $res->nombre_tipo_persona; ?> </option>
+                        							    
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_tipo_persona" class="errores"></div>
+                                    </div>
+                                    </div>
+                                    
+                           
              					   <div class="col-lg-2 col-xs-12 col-md-2">
                         		   <div class="form-group">
                                                           <label for="id_tipo_identificacion" class="control-label">Tipo Identificación:</label>
@@ -1193,35 +1398,26 @@
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                                  
+                                    
+                                   <div class="col-lg-4 col-xs-12 col-md-4">
                         		   <div class="form-group">
-                                                      <label for="apellidos_clientes" class="control-label">Apellidos:</label>
-                                                      <input type="text" class="form-control" id="apellidos_clientes" name="apellidos_clientes" value="<?php echo $resEdit->apellidos_clientes; ?>"  placeholder="apellidos..">
-                                                      <div id="mensaje_apellidos_clientes" class="errores"></div>
+                                                      <label for="razon_social_clientes" class="control-label">Razón Social:</label>
+                                                      <input type="text" class="form-control" id="razon_social_clientes" name="razon_social_clientes" value="<?php echo $resEdit->razon_social_clientes; ?>"  placeholder="nombres..">
+                                                      <div id="mensaje_razon_social_clientes" class="errores"></div>
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                                 
+                                 
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
                         		   <div class="form-group">
-                                                      <label for="nombres_clientes" class="control-label">Nombres:</label>
-                                                      <input type="text" class="form-control" id="nombres_clientes" name="nombres_clientes" value="<?php echo $resEdit->nombres_clientes; ?>"  placeholder="nombres..">
-                                                      <div id="mensaje_nombres_clientes" class="errores"></div>
+                                                      <label for="fecha_nacimiento_clientes" class="control-label">Fecha (Naci / Funda):</label>
+                                                      <input type="date" class="form-control" id="fecha_nacimiento_clientes" name="fecha_nacimiento_clientes" value="<?php echo $resEdit->fecha_nacimiento_clientes; ?>"  placeholder="nombres..">
+                                                      <div id="mensaje_fecha_nacimiento_clientes" class="errores"></div>
                                     </div>
                                     </div>
-                                    
-                                    <div class="col-lg-2 col-xs-12 col-md-2">
-                        		   <div class="form-group">
-                                                          <label for="id_sexo" class="control-label">Género:</label>
-                                                          <select name="id_sexo" id="id_sexo"  class="form-control" >
-                                                          <option value="0" selected="selected">--Seleccione--</option>
-                        									<?php foreach($resultSexo as $res) {?>
-                        										<option value="<?php echo $res->id_sexo; ?>" <?php if ($res->id_sexo == $resEdit->id_sexo )  echo  ' selected="selected" '  ;  ?>><?php echo $res->nombre_sexo; ?> </option>
-                        							    
-                        							        <?php } ?>
-                        								   </select> 
-                                                          <div id="mensaje_id_sexo" class="errores"></div>
-                                    </div>
-                                    </div>
+                                   
                                     
             </div>        		   
                     	      
@@ -1360,6 +1556,22 @@
                     		   
                     		   
             <div class="row">
+             					   
+             					   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                          <label for="id_tipo_persona" class="control-label">Tipo Persona:</label>
+                                                          <select name="id_tipo_persona" id="id_tipo_persona"  class="form-control" >
+                                                          <option value="0" selected="selected">--Seleccione--</option>
+                        									<?php foreach($resultTip_Per as $res) {?>
+                        										<option value="<?php echo $res->id_tipo_persona; ?>"><?php echo $res->nombre_tipo_persona; ?> </option>
+                        							    
+                        							        <?php } ?>
+                        								   </select> 
+                                                          <div id="mensaje_id_tipo_persona" class="errores"></div>
+                                    </div>
+                                    </div>
+                            
+             					   
              					   <div class="col-lg-2 col-xs-12 col-md-2">
                         		   <div class="form-group">
                                                           <label for="id_tipo_identificacion" class="control-label">Tipo Identificación:</label>
@@ -1384,35 +1596,22 @@
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                                   <div class="col-lg-4 col-xs-12 col-md-4">
                         		   <div class="form-group">
-                                                      <label for="apellidos_clientes" class="control-label">Apellidos:</label>
-                                                      <input type="text" class="form-control" id="apellidos_clientes" name="apellidos_clientes" value=""  placeholder="apellidos..">
-                                                      <div id="mensaje_apellidos_clientes" class="errores"></div>
+                                                      <label for="razon_social_clientes" class="control-label">Razón Social:</label>
+                                                      <input type="text" class="form-control" id="razon_social_clientes" name="razon_social_clientes" value=""  placeholder="razón social..">
+                                                      <div id="mensaje_razon_social_clientes" class="errores"></div>
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                                      <div class="col-lg-2 col-xs-12 col-md-2">
                         		   <div class="form-group">
-                                                      <label for="nombres_clientes" class="control-label">Nombres:</label>
-                                                      <input type="text" class="form-control" id="nombres_clientes" name="nombres_clientes" value=""  placeholder="nombres..">
-                                                      <div id="mensaje_nombres_clientes" class="errores"></div>
+                                                      <label for="fecha_nacimiento_clientes" class="control-label">Fecha (Naci / Funda):</label>
+                                                      <input type="date" class="form-control" id="fecha_nacimiento_clientes" name="fecha_nacimiento_clientes" value=""  placeholder="nombres..">
+                                                      <div id="mensaje_fecha_nacimiento_clientes" class="errores"></div>
                                     </div>
                                     </div>
-                                    
-                                    <div class="col-lg-2 col-xs-12 col-md-2">
-                        		   <div class="form-group">
-                                                          <label for="id_sexo" class="control-label">Género:</label>
-                                                          <select name="id_sexo" id="id_sexo"  class="form-control" >
-                                                          <option value="0" selected="selected">--Seleccione--</option>
-                        									<?php foreach($resultSexo as $res) {?>
-                        										<option value="<?php echo $res->id_sexo; ?>" ><?php echo $res->nombre_sexo; ?> </option>
-                        							    
-                        							        <?php } ?>
-                        								   </select> 
-                                                          <div id="mensaje_id_sexo" class="errores"></div>
-                                    </div>
-                                    </div>
+                                   
                                     
             </div>        		   
                     	      

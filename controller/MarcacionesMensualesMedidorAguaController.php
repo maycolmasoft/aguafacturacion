@@ -18,8 +18,8 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 					  marcaciones_mensuales_medidor_agua.id_medidores_agua, 
 					  medidores_agua.identificador_medidores_agua, 
 					  marcaciones_mensuales_medidor_agua.id_clientes, 
-					  clientes.apellidos_clientes, 
-					  clientes.nombres_clientes, 
+					  clientes.razon_social_clientes, 
+					  clientes.fecha_nacimiento_clientes, 
 					  clientes.id_tipo_identificacion, 
 					  tipo_identificacion.nombre_tipo_identificacion, 
 					  clientes.identificacion_clientes, 
@@ -81,7 +81,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
     		if(!empty($search)){
     
     
-    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.apellidos_clientes LIKE '".$search."%' OR clientes.nombres_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%'  OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR estado.nombre_estado_pago_marcaciones_mensuales LIKE '".$search."%' OR  medidores_agua.identificador_medidores_agua LIKE '%".$search."%')";
+    			$where1=" AND (clientes.identificacion_clientes LIKE '".$search."%' OR clientes.razon_social_clientes LIKE '".$search."%' OR tipo_identificacion.nombre_tipo_identificacion LIKE '".$search."%'  OR provincias.nombre_provincias LIKE '".$search."%' OR cantones.nombre_cantones LIKE '".$search."%' OR parroquias.nombre_parroquias LIKE '".$search."%' OR clientes.correo_clientes LIKE '".$search."%' OR estado.nombre_estado_pago_marcaciones_mensuales LIKE '".$search."%' OR  medidores_agua.identificador_medidores_agua LIKE '%".$search."%')";
     
     			$where_to=$where.$where1;
     		}else{
@@ -102,7 +102,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
     
     		$limit = " LIMIT   '$per_page' OFFSET '$offset'";
     
-    		$resultSet=$marcaciones_mensuales->getCondicionesPagDesc($columnas, $tablas, $where_to, $id, $limit);
+    		$resultSet=$marcaciones_mensuales->getCondicionesPag($columnas, $tablas, $where_to, $id, $limit);
     		$count_query   = $cantidadResult;
     		$total_pages = ceil($cantidadResult/$per_page);
     
@@ -124,15 +124,15 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
     			$html.= "<tr>";
     			$html.='<th style="text-align: left;  font-size: 12px;">Medidor</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Identificación</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Apellidos</th>';
-    			$html.='<th style="text-align: left;  font-size: 12px;">Nombres</th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;">Razón Social</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Marc. Ini</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Mar. Fin</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Fecha Corres.</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Valor a Pagar</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;">Estado Pago</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
-    			
+    			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    			 
     			$html.='</tr>';
     			$html.='</thead>';
     			$html.='<tbody>';
@@ -147,8 +147,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
     				$html.='<tr>';
     				$html.='<td style="font-size: 11px;">'.$res->identificador_medidores_agua.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->identificacion_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->apellidos_clientes.'</td>';
-    				$html.='<td style="font-size: 11px;">'.$res->nombres_clientes.'</td>';
+    				$html.='<td style="font-size: 11px;">'.$res->razon_social_clientes.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->marcacion_mensual_inicial.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->marcacion_mensual_final.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->fecha_pago_mensual_correspondiente.'</td>';
@@ -157,8 +156,12 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
     				
     				if($res->id_estado==1){
     				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="javascript:void(0);" class="btn btn-success" style="font-size:65%;" disabled><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="javascript:void(0);" class="btn btn-danger" style="font-size:65%;"><i class="glyphicon glyphicon-trash"></i></a></span></td>';
+    				 
     				}else{
     				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=MarcacionesMensualesMedidorAgua&action=index&id_marcaciones_mensuales_medidor_agua='.$res->id_marcaciones_mensuales_medidor_agua.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=MarcacionesMensualesMedidorAgua&action=borrarId&id_marcaciones_mensuales_medidor_agua='.$res->id_marcaciones_mensuales_medidor_agua.'" class="btn btn-danger" style="font-size:65%;"><i class="glyphicon glyphicon-trash"></i></a></span></td>';
+    				 
     				}
     				
     				$html.='</tr>';
@@ -563,8 +566,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 					  marcaciones_mensuales_medidor_agua.id_medidores_agua,
 					  medidores_agua.identificador_medidores_agua,
 					  marcaciones_mensuales_medidor_agua.id_clientes,
-					  clientes.apellidos_clientes,
-					  clientes.nombres_clientes,
+					  clientes.razon_social_clientes,
 					  clientes.id_tipo_identificacion,
 					  tipo_identificacion.nombre_tipo_identificacion,
 					  clientes.identificacion_clientes,
@@ -747,6 +749,9 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 				$_tipo_registro   = $_POST["tipo_registro_masiva"];
 				$_id_usuarios= $_SESSION['id_usuarios'];
 				
+				$errores_importacion->deleteBy("id_usuarios_registra_carga",$_id_usuarios);
+				
+				
 				$directorio = $_SERVER['DOCUMENT_ROOT'].'/aguafacturacion/upload_cargas_masivas/';
 				
 				$nombre = $_FILES['marcaciones_masivas']['name'];
@@ -820,8 +825,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 						
 						
 							$columnas="asignacion_clientes_medidor_agua.id_clientes,
-									  clientes.apellidos_clientes,
-									  clientes.nombres_clientes,
+									  clientes.razon_social_clientes,
 									  clientes.identificacion_clientes,
 									  asignacion_clientes_medidor_agua.id_medidores_agua,
 									  medidores_agua.identificador_medidores_agua";
@@ -1062,8 +1066,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 						
 						
 							$columnas="asignacion_clientes_medidor_agua.id_clientes,
-									  clientes.apellidos_clientes,
-									  clientes.nombres_clientes,
+									  clientes.razon_social_clientes,
 									  clientes.identificacion_clientes,
 									  asignacion_clientes_medidor_agua.id_medidores_agua,
 									  medidores_agua.identificador_medidores_agua";
@@ -1100,7 +1103,11 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 								
 										$mes_ver = substr($fecha_pago_mensual_correspondiente_base_datos, -5, 2);
 										$mes = substr($fecha_pago_mensual_correspondiente, -5, 2);
+										
+										
 										if($mes<=$mes_ver){
+											
+										//if($fecha_pago_mensual_correspondiente <= $fecha_pago_mensual_correspondiente_base_datos){
 											
 											$errores=true;
 											
@@ -1266,8 +1273,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 							
 							
 							$columnas="asignacion_clientes_medidor_agua.id_clientes,
-									  clientes.apellidos_clientes,
-									  clientes.nombres_clientes,
+									  clientes.razon_social_clientes,
 									  clientes.identificacion_clientes,
 									  asignacion_clientes_medidor_agua.id_medidores_agua,
 									  medidores_agua.identificador_medidores_agua";
@@ -1414,15 +1420,16 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 	
 	public function borrarId()
 	{
-		if(isset($_GET["id_clientes"]))
+		if(isset($_GET["id_marcaciones_mensuales_medidor_agua"]))
 		{
-			$id_clientes=(int)$_GET["id_clientes"];
-			$clientes= new ClientesModel();
-			$clientes->UpdateBy("id_estado=2","clientes","id_clientes='$id_clientes'");
+			$id_marcaciones_mensuales_medidor_agua=(int)$_GET["id_marcaciones_mensuales_medidor_agua"];
+			$marcaciones_mensuales = new MarcacionesMensualesMedidorAguaModel();
+			$marcaciones_mensuales->deleteBy("id_marcaciones_mensuales_medidor_agua",$id_marcaciones_mensuales_medidor_agua);
+				
 				
 		}
 	
-		$this->redirect("Clientes", "index");
+		$this->redirect("MarcacionesMensualesMedidorAgua", "index");
 	}
 	
 	
@@ -1467,12 +1474,10 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		$marcaciones_mensuales = new MarcacionesMensualesMedidorAguaModel();
 		
 		$identificador_medidores_agua = $_POST['identificador_medidores_agua'];
-		$mes = $_POST['mes'];
 		
 		
 		$columnas="asignacion_clientes_medidor_agua.id_clientes, 
-				  clientes.apellidos_clientes, 
-				  clientes.nombres_clientes, 
+				  clientes.razon_social_clientes, 
 				  clientes.identificacion_clientes, 
 				  asignacion_clientes_medidor_agua.id_medidores_agua, 
 				  medidores_agua.identificador_medidores_agua";
@@ -1497,8 +1502,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 			$respuesta->identificador_medidores_agua = $resultSet[0]->identificador_medidores_agua;
 			$respuesta->id_medidores_agua = $resultSet[0]->id_medidores_agua;
 			$respuesta->id_clientes = $resultSet[0]->id_clientes;
-			$respuesta->apellidos_clientes = $resultSet[0]->apellidos_clientes;
-			$respuesta->nombres_clientes = $resultSet[0]->nombres_clientes;
+			$respuesta->razon_social_clientes = $resultSet[0]->razon_social_clientes;
 			$respuesta->identificacion_clientes = $resultSet[0]->identificacion_clientes;
 				
 			
@@ -1515,29 +1519,19 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		      	
 		      	if(!empty($resultReg)){
 		      		$respuesta->marcacion_mensual_inicial = $resultReg[0]->marcacion_mensual_final;
-		      		$fecha_pago_mensual_correspondiente =  $resultReg[0]->fecha_pago_mensual_correspondiente;
-		      		
-		      		$mes_ver = substr($fecha_pago_mensual_correspondiente, -5, 2);
-		      		
-		      		if($mes_ver==$mes){
-		      			$respuesta->existe_registro_fecha = "1";
-		      			
-		      		}else{
-		      			$respuesta->existe_registro_fecha = "0";
-		      			
-		      		}
+		      		$respuesta->fecha_pago_mensual_correspondiente =  $resultReg[0]->fecha_pago_mensual_correspondiente;
 		      		
 		      	}else{
 		      		$respuesta->marcacion_mensual_inicial = "00000";
-		      		$respuesta->existe_registro_fecha = "0";
-		      		 
+		      		$respuesta->fecha_pago_mensual_correspondiente =  "0";
+		      		
 		      	}
 		      	
 		      }else{
 		      	
 		      	$respuesta->marcacion_mensual_inicial = "00000";
-		      	$respuesta->existe_registro_fecha = "0";
-		      	 
+		      	$respuesta->fecha_pago_mensual_correspondiente =  "0";
+		      	
 		      }
 		      
 		

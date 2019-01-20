@@ -68,35 +68,9 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <!-- top tiles -->
-          <div class="row tile_count">
-            <div id='pone_cta_individual'></div>
-            <div id='pone_cta_desembolsar'></div>
-            <div id='pone_alerta_actualizacion'></div>
-          </div>
-          
-           <div class="row tile_count">
-            <div id='pone_credito_ordinario'></div>
-            <div id='pone_credito_emergente'></div>
-            <div id='pone_credito_2x1'></div>
-           </div>
-          
-           <div class="row tile_count">
-            <div id='pone_credito_hipotecario'></div>
-            <div id='pone_acuerdo_pago'></div>
-            <div id='pone_credito_refinanciamiento'></div>
-	       </div>
-	       
-	       
-	      <div class="row tile_count">
-          <div id='pone_publicidad'></div> 
-          </div>
           
         </div>
      
-
-
-          <br />
 
 	
               
@@ -105,48 +79,6 @@
           
           
              
-        <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-        <div class="modal-content">
-           <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3 style="margin-left: 15px;">Encuesta Servicios Online.</h3>
-           </div>
-           <div class="modal-body">
-          
-          <div class="col-lg-12 col-md-12 col-xs-12">
-          <div class="col-lg-5 col-md-5 col-xs-12">
-          
-          <h4>Estimado Participe.</h4>
-          <br>
-          <p>Porque tu opinión es muy importante para nosotros, ayúdanos a mejorar nuestros servicios online llenando esta breve encuesta.</p>
-           	
-          
-          </div>
-          <div class="col-lg-7 col-md-7 col-xs-12">
-              <img src="view/images/Encuesta.png" class="img-rounded" alt="Cinque Terre" style="width: 100%"/> 
-           
-          </div>
-          
-          </div>
-            <!--
-             <center>
-             
-               <img src="view/images/disponible_play_store.png" class="img-rounded" alt="Cinque Terre" style="width: 50%"/></center>   
-             -->
-             
-              <a href="index.php?controller=Encuestas&action=index"  style="margin-left: 15px;" class="btn btn-warning" ><i class="glyphicon glyphicon-edit"> Comenzar</i></a>
-    	  
-         		
-          
-          </div>
-           <div class="modal-footer">
-           
-            <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
-           </div>
-	      </div>
-	     </div>
-	   </div>
           
            
           
@@ -191,26 +123,10 @@
      
         	   $(document).ready( function (){
         		   pone_espera();
-        		   $("#mostrarmodal").modal("show");
-        		   pone_cta_individual();
-        		   pone_cta_desembolsar();
-        		   pone_alerta_actualizacion();
-        		   pone_credito_ordinario();
-        		   pone_credito_emergente();
-        		   pone_credito_2x1();
-        		   pone_credito_hipotecario();
-        		   pone_acuerdo_pago();
-        		   pone_credito_refinanciamiento();	
-        		   cargar_banner();
         		    
 	   			});
 
-
-        	   
-        	        
-        	     
-        	    
-
+        	
         	   function pone_espera(){
 
         		   $.blockUI({ 
@@ -227,218 +143,10 @@
         	        		}
         	    });
             	
-		        setTimeout($.unblockUI, 1000); 
+		        setTimeout($.unblockUI, 500); 
 		        
         	   }
         	   
-        	   function pone_cta_individual(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_cta_individual").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_cta_individual',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_cta_individual").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_cta_individual").html("Ocurrio un error al cargar la informacion de cuenta individual..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
-
-        	   function pone_cta_desembolsar(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_cta_desembolsar").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_cta_desembolsar',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_cta_desembolsar").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_cta_desembolsar").html("Ocurrio un error al cargar la cuenta desembolsar..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
-
-        	   function pone_alerta_actualizacion(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_alerta_actualizacion").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=alerta_actualizacion',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_alerta_actualizacion").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_alerta_actualizacion").html("Ocurrio un error al cargar la alerta de actuaización..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-        	   
-
-        	   
-
-        	   
-        	   function pone_credito_ordinario(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_credito_ordinario").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_credito_ordinario',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_credito_ordinario").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_credito_ordinario").html("Ocurrio un error al cargar la informacion de crédito ordinario..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
-
-        	   function pone_credito_emergente(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_credito_emergente").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_credito_emergente',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_credito_emergente").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_credito_emergente").html("Ocurrio un error al cargar la informacion de crédito emergente..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
-
-
-        	   function pone_credito_2x1(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_credito_2x1").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_credito_2x1',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_credito_2x1").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_credito_2x1").html("Ocurrio un error al cargar la informacion de crédito 2x1..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
-
-
-
-
-        	   function pone_credito_hipotecario(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_credito_hipotecario").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_credito_hipotecario',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_credito_hipotecario").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_credito_hipotecario").html("Ocurrio un error al cargar la informacion de crédito hipotecario..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
-
-        	   function pone_acuerdo_pago(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_acuerdo_pago").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_acuerdo_pago',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_acuerdo_pago").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_acuerdo_pago").html("Ocurrio un error al cargar la informacion de acuerdo de pago..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-        	   
-
-
-        	   function pone_credito_refinanciamiento(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_credito_refinanciamiento").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_credito_refinanciamiento',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_credito_refinanciamiento").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_credito_refinanciamiento").html("Ocurrio un error al cargar la informacion de crédito refinanciamiento..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
-
-
-        	   function cargar_banner(){
-        		   $(document).ready( function (){
-        		       $.ajax({
-        		                 beforeSend: function(objeto){
-        		                   $("#pone_publicidad").html('')
-        		                 },
-        		                 url: 'index.php?controller=Usuarios&action=cargar_banner',
-        		                 type: 'POST',
-        		                 data: null,
-        		                 success: function(x){
-        		                   $("#pone_publicidad").html(x);
-        		                 },
-        		                error: function(jqXHR,estado,error){
-        		                  $("#pone_publicidad").html("Ocurrio un error al cargar la informacion de publicidad..."+estado+"    "+error);
-        		                }
-        		              });
-        		     })
-        		  }
-
         	   
         </script>
         

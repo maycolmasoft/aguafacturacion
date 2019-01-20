@@ -2,7 +2,7 @@
 <html lang="es">
       <head>
         <meta charset="utf-8"/>
-        <title>PermisosRoles- Template2018</title>
+        <title>PermisosRoles</title>
 
 		   
 		<link rel="stylesheet" href="view/css/estilos.css">
@@ -56,7 +56,7 @@
         	        		}
         	    });
             	
-		        setTimeout($.unblockUI, 3000); 
+		        setTimeout($.unblockUI, 300); 
 		        
         	   }
 

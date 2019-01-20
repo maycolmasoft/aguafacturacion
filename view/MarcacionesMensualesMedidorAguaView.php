@@ -166,8 +166,7 @@
 		    	$('#marcacion_mensual_final').val("");
 		    	$('#marcacion_mensual_inicial').val("");
 		    	$('#identificacion_clientes').val("");
-		    	$('#apellidos_clientes').val("");
-		    	$('#nombres_clientes').val("");
+		    	$('#razon_social_clientes').val("");
 		    	$('#existe_registro_fecha').val("0");
 		     
 		    }); 
@@ -196,35 +195,29 @@
 		    					url:'<?php echo $helper->url("MarcacionesMensualesMedidorAgua","AutocompleteDevuelveIdentificador"); ?>',
 		    					type:'POST',
 		    					dataType:'json',
-		    					data:{identificador_medidores_agua:$('#identificador_medidores_agua').val(),
-		    						mes:$('#mes').val()}
+		    					data:{identificador_medidores_agua:$('#identificador_medidores_agua').val()}
 
 		    				}).done(function(respuesta){
 		    					
 		    					$('#identificador_medidores_agua').val(respuesta.identificador_medidores_agua);
 		    					$('#identificacion_clientes').val(respuesta.identificacion_clientes);
-		    					$('#apellidos_clientes').val(respuesta.apellidos_clientes);
-		    					$('#nombres_clientes').val(respuesta.nombres_clientes);
+		    					$('#razon_social_clientes').val(respuesta.razon_social_clientes);
 		    					$('#id_medidores_agua').val(respuesta.id_medidores_agua);
 		    					$('#id_clientes').val(respuesta.id_clientes);
 		    					$('#marcacion_mensual_inicial').val(respuesta.marcacion_mensual_inicial);
-		    					$('#existe_registro_fecha').val(respuesta.existe_registro_fecha);
-
-
-		    					
-		    					
+		    					$('#fecha_pago_mensual_correspondiente_db').val(respuesta.fecha_pago_mensual_correspondiente);
+			    				
 		    					
 		        			}).fail(function(respuesta) {
 
 		        				
 		    					$('#identificacion_clientes').val("");
-		    					$('#apellidos_clientes').val("");
-		    					$('#nombres_clientes').val("");
+		    					$('#razon_social_clientes').val("");
 		    					$('#id_medidores_agua').val("0");
 		    					$('#id_clientes').val("0");
 		    					$('#marcacion_mensual_inicial').val("");
-		    					$('#existe_registro_fecha').val("");
-		    					
+		    					$('#fecha_pago_mensual_correspondiente_db').val("0");
+			    				
 		        			  });
 		    				 
 		    				
@@ -265,7 +258,7 @@
 		    	var fecha_pago_mensual_correspondiente = $("#fecha_pago_mensual_correspondiente").val();
 		    	var marcacion_mensual_final = $("#marcacion_mensual_final").val();
 		    	var marcacion_mensual_inicial = $("#marcacion_mensual_inicial").val();
-                var existe_registro_fecha = $("#existe_registro_fecha").val();
+                var fecha_pago_mensual_correspondiente_db = $("#fecha_pago_mensual_correspondiente_db").val();
 		    	
 		    	 var contador=0;
 		    	 var tiempo = tiempo || 1000;
@@ -321,17 +314,30 @@
                }else{
 
 
-            	   if(existe_registro_fecha==1){
+            	   if(fecha_pago_mensual_correspondiente_db==0){
 
-            		$("#mensaje_fecha_pago_mensual_correspondiente").text("Ya existe un registro para el mes Seleccionado.");
-   		    		$("#mensaje_fecha_pago_mensual_correspondiente").fadeIn("slow"); //Muestra mensaje de error
-   		           
-   		            $("html, body").animate({ scrollTop: $(mensaje_fecha_pago_mensual_correspondiente).offset().top }, tiempo);
-   		            return false;
-
+            	    $("#mensaje_fecha_pago_mensual_correspondiente").fadeOut("slow"); //Muestra mensaje de error
+            	           
+            		   
+            		
                    }else{
-              
-		    			$("#mensaje_fecha_pago_mensual_correspondiente").fadeOut("slow"); //Muestra mensaje de error
+
+						if(fecha_pago_mensual_correspondiente <= fecha_pago_mensual_correspondiente_db ){
+                       
+                	   $("#mensaje_fecha_pago_mensual_correspondiente").text("Ya existe un registro para el mes Seleccionado.");
+      		    		$("#mensaje_fecha_pago_mensual_correspondiente").fadeIn("slow"); //Muestra mensaje de error
+      		           
+      		            $("html, body").animate({ scrollTop: $(mensaje_fecha_pago_mensual_correspondiente).offset().top }, tiempo);
+      		            return false;
+
+						}else{
+
+							 $("#mensaje_fecha_pago_mensual_correspondiente").fadeOut("slow"); //Muestra mensaje de error
+	            	           
+			            		
+						}
+
+
             	   }
 
             	   
@@ -620,27 +626,23 @@
                                    </div>
                                    </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                                   <div class="col-lg-6 col-xs-12 col-md-6">
                         		   <div class="form-group">
-                                                      <label for="apellidos_clientes" class="control-label">Apellidos:</label>
-                                                      <input type="text" class="form-control" id="apellidos_clientes" name="apellidos_clientes" value="<?php echo $resEdit->apellidos_clientes; ?>"  placeholder="apellidos.." readonly>
-                                                      <div id="mensaje_apellidos_clientes" class="errores"></div>
+                                                      <label for="razon_social_clientes" class="control-label">Razón Social:</label>
+                                                      <input type="text" class="form-control" id="razon_social_clientes" name="razon_social_clientes" value="<?php echo $resEdit->razon_social_clientes; ?>"  placeholder="razón social.." readonly>
+                                                      <div id="mensaje_razon_social_clientes" class="errores"></div>
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
-                        		   <div class="form-group">
-                                                      <label for="nombres_clientes" class="control-label">Nombres:</label>
-                                                      <input type="text" class="form-control" id="nombres_clientes" name="nombres_clientes" value="<?php echo $resEdit->nombres_clientes; ?>"  placeholder="nombres.." readonly>
-                                                      <div id="mensaje_nombres_clientes" class="errores"></div>
-                                   </div>
-                                   </div>
+                                  
                                 
                                 
                                 <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
                                                       <label for="fecha_pago_mensual_correspondiente" class="control-label">Fecha Correspondiente:</label>
                                                       <input type="date" class="form-control" id="fecha_pago_mensual_correspondiente" name="fecha_pago_mensual_correspondiente"  value="<?php echo $resEdit->fecha_pago_mensual_correspondiente; ?>" disabled>
+                                                      <input type="hidden" class="form-control" id="fecha_pago_mensual_correspondiente_db" name="fecha_pago_mensual_correspondiente_db"  value="0" disabled>
+                                                      
                                                       <div id="mensaje_fecha_pago_mensual_correspondiente" class="errores"></div>
                                 </div>
                                 </div>
@@ -716,34 +718,20 @@
                                    </div>
                                    </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
+                                   <div class="col-lg-6 col-xs-12 col-md-6">
                         		   <div class="form-group">
-                                                      <label for="apellidos_clientes" class="control-label">Apellidos:</label>
-                                                      <input type="text" class="form-control" id="apellidos_clientes" name="apellidos_clientes" value=""  placeholder="apellidos.." readonly>
-                                                      <div id="mensaje_apellidos_clientes" class="errores"></div>
+                                                      <label for="razon_social_clientes" class="control-label">Razón Social:</label>
+                                                      <input type="text" class="form-control" id="razon_social_clientes" name="razon_social_clientes" value=""  placeholder="razón social.." readonly>
+                                                      <div id="mensaje_razon_social_clientes" class="errores"></div>
                                     </div>
                                     </div>
                                     
-                                   <div class="col-lg-3 col-xs-12 col-md-3">
-                        		   <div class="form-group">
-                                                      <label for="nombres_clientes" class="control-label">Nombres:</label>
-                                                      <input type="text" class="form-control" id="nombres_clientes" name="nombres_clientes" value=""  placeholder="nombres.." readonly>
-                                                      <div id="mensaje_nombres_clientes" class="errores"></div>
-                                   </div>
-                                   </div>
-                                
-                                <?php  $month = date('m', strtotime("-1 month"));
-                                $year = date('Y', strtotime("-1 year"));
-   								       $day = date("d", mktime(0,0,0, $month+1, 0, $year));
-                                ?>
-                                
                                 
                                 <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
                                                       <label for="fecha_pago_mensual_correspondiente" class="control-label">Fecha Correspondiente:</label>
-                                                      <input type="hidden" class="form-control" id="mes" name="mes" value="<?php echo $month;?>" readonly>
-                                                      <input type="hidden" class="form-control" id="existe_registro_fecha" name="existe_registro_fecha" value="0" readonly>
-                                                      <input type="date" class="form-control" id="fecha_pago_mensual_correspondiente" name="fecha_pago_mensual_correspondiente" min="<?php echo date('Y-m-d', mktime(0,0,0, $month, $day, $year));?>" max="<?php echo date('Y-m-d', mktime(0,0,0, $month, $day, $year));?>" value="" >
+                                                      <input type="hidden" class="form-control" id="fecha_pago_mensual_correspondiente_db" name="fecha_pago_mensual_correspondiente_db"  value="0" disabled>
+                                                      <input type="date" class="form-control" id="fecha_pago_mensual_correspondiente" name="fecha_pago_mensual_correspondiente"  value="" >
                                                       <div id="mensaje_fecha_pago_mensual_correspondiente" class="errores"></div>
                                 </div>
                                 </div>
