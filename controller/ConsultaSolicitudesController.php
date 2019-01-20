@@ -108,7 +108,8 @@ class ConsultaSolicitudesController extends ControladorBase{
     			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
-    			
+    			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    			 
     			
     			$html.='</tr>';
     			$html.='</thead>';
@@ -130,10 +131,11 @@ class ConsultaSolicitudesController extends ControladorBase{
     				$html.='<td style="font-size: 11px;">'.$res->fecha_registro.'</td>';
     				
     				$html.='<td style="font-size: 11px;">Pendiente</td>';
-    				$html.='<td style="font-size: 11px;"><a href="view/DevuelvePDFView.php?id_valor='.$res->id_solicitudes.'&id_nombre=id_solicitudes&tabla=solicitudes&campo=documentacion_solicitudes" target="_blank"><img src="view/images/pdf.png" width="80" height="40"></a></td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=ConsultaSolicitudes&action=index2&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Solicitudes&action=generar_solicitud&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
-    				 
+    				$html.='<td style="font-size: 11px;"><a href="view/DevuelvePDFView.php?id_valor='.$res->id_solicitudes.'&id_nombre=id_solicitudes&tabla=solicitudes&campo=documentacion_solicitudes" target="_blank" title="Ver Documentación"><img src="view/images/pdf.png" width="80" height="40"></a></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=ConsultaSolicitudes&action=index2&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" title="Aprobar / Anular" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Solicitudes&action=generar_solicitud&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" target="_blank" title="Imprimir" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Geoposicionamiento&action=index2&id_clientes='.$res->id_clientes.'" target="_blank" title="Geoposicionar" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    				
     				$html.='</tr>';
     			}
     
@@ -270,7 +272,8 @@ class ConsultaSolicitudesController extends ControladorBase{
     			$html.='<th style="text-align: left;  font-size: 12px;">Estado</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
-    			
+    			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    			 
     			
     			$html.='</tr>';
     			$html.='</thead>';
@@ -293,9 +296,10 @@ class ConsultaSolicitudesController extends ControladorBase{
     				$html.='<td style="font-size: 11px;">'.$res->fecha_aprueba_registros.'</td>';
     				
     				$html.='<td style="font-size: 11px;">Aprobada</td>';
-    				$html.='<td style="font-size: 11px;"><a href="view/DevuelvePDFView.php?id_valor='.$res->id_solicitudes.'&id_nombre=id_solicitudes&tabla=solicitudes&campo=documentacion_solicitudes" target="_blank"><img src="view/images/pdf.png" width="80" height="40"></a></td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Solicitudes&action=generar_solicitud&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
-    				 
+    				$html.='<td style="font-size: 11px;"><a href="view/DevuelvePDFView.php?id_valor='.$res->id_solicitudes.'&id_nombre=id_solicitudes&tabla=solicitudes&campo=documentacion_solicitudes" title="Ver Documentación" target="_blank"><img src="view/images/pdf.png" width="80" height="40"></a></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Solicitudes&action=generar_solicitud&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" title="Imprimir" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Geoposicionamiento&action=index2&id_clientes='.$res->id_clientes.'" target="_blank" class="btn btn-info" title="Geoposicionar" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    				
     				$html.='</tr>';
     			}
     
@@ -434,6 +438,7 @@ class ConsultaSolicitudesController extends ControladorBase{
     			$html.='<th style="text-align: left;  font-size: 12px;">Estado</th>';
     			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    			$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     			 
     			 
     			$html.='</tr>';
@@ -457,8 +462,9 @@ class ConsultaSolicitudesController extends ControladorBase{
     				$html.='<td style="font-size: 11px;">'.$res->fecha_aprueba_registros.'</td>';
     
     				$html.='<td style="font-size: 11px;">Anulada</td>';
-    				$html.='<td style="font-size: 11px;"><a href="view/DevuelvePDFView.php?id_valor='.$res->id_solicitudes.'&id_nombre=id_solicitudes&tabla=solicitudes&campo=documentacion_solicitudes" target="_blank"><img src="view/images/pdf.png" width="80" height="40"></a></td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Solicitudes&action=generar_solicitud&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    				$html.='<td style="font-size: 11px;"><a href="view/DevuelvePDFView.php?id_valor='.$res->id_solicitudes.'&id_nombre=id_solicitudes&tabla=solicitudes&campo=documentacion_solicitudes" title="Ver Documentación" target="_blank"><img src="view/images/pdf.png" width="80" height="40"></a></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Solicitudes&action=generar_solicitud&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" title="Imprimir" target="_blank" class="btn btn-warning" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Geoposicionamiento&action=index2&id_clientes='.$res->id_clientes.'" target="_blank" class="btn btn-info" title="Geoposicionar" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
     				 
     				$html.='</tr>';
     			}

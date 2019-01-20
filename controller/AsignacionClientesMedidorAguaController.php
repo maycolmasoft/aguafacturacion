@@ -115,7 +115,7 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
     				}else{
     					
     					$html.='<td style="font-size: 11px;"></td>';
-    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=AsignacionClientesMedidorAgua&action=index&id_medidores_agua='.$res->id_medidores_agua.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=AsignacionClientesMedidorAgua&action=index&id_medidores_agua='.$res->id_medidores_agua.'" title="Editar" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
     					
     				}
     				
@@ -293,7 +293,7 @@ class AsignacionClientesMedidorAguaController extends ControladorBase{
     				$html.='<td style="font-size: 11px;">'.$res->nombre_cantones.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->nombre_parroquias.'</td>';
     				$html.='<td style="font-size: 11px;">'.date("d/m/Y", strtotime($res->creado)).'</td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=AsignacionClientesMedidorAgua&action=index&id_medidores_agua_asignacion='.$res->id_medidores_agua.'&id_clientes='.$res->id_clientes.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=AsignacionClientesMedidorAgua&action=index&id_medidores_agua_asignacion='.$res->id_medidores_agua.'&id_clientes='.$res->id_clientes.'" title="Editar" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
     					
     				
     					

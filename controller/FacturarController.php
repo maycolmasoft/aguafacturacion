@@ -142,7 +142,7 @@ class FacturarController extends ControladorBase{
     				$html.='<td style="font-size: 11px;">'.$res->valor_pago_mensual_correspondiente.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->fecha_pago_mensual_correspondiente.'</td>';
     				
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Facturar&action=index3&id_clientes='.$res->id_clientes.'&id_marcaciones_mensuales_medidor_agua='.$res->id_marcaciones_mensuales_medidor_agua.'" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Facturar&action=index3&id_clientes='.$res->id_clientes.'&id_marcaciones_mensuales_medidor_agua='.$res->id_marcaciones_mensuales_medidor_agua.'" title="Facturar" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
     					
     				$html.='</tr>';
     			}
@@ -305,7 +305,7 @@ class FacturarController extends ControladorBase{
     				$html.='<td style="font-size: 11px;">'.$res->fecha_registro.'</td>';
     				$html.='<td style="font-size: 11px;">'.$res->fecha_aprueba_registros.'</td>';
     				$html.='<td style="font-size: 11px;">Aprobada</td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Facturar&action=index2&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Facturar&action=index2&id_clientes='.$res->id_clientes.'&id_solicitudes='.$res->id_solicitudes.'" title="Facturar" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
     				 
     				$html.='</tr>';
     			}

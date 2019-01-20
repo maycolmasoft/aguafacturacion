@@ -123,12 +123,14 @@ class ClientesController extends ControladorBase{
     				 
     				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     				
     				 
     			}else{
     				 
     				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
-    				 
+    				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    				
     				
     			}
     
@@ -158,13 +160,15 @@ class ClientesController extends ControladorBase{
     				 
     				if($id_rol==1){
     					 
-    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=index&id_clientes='.$res->id_clientes.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
-    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=borrarId&id_clientes='.$res->id_clientes.'" class="btn btn-danger" style="font-size:65%;"><i class="glyphicon glyphicon-trash"></i></a></span></td>';
-    					 
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=index&id_clientes='.$res->id_clientes.'" class="btn btn-success" title="Editar" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=borrarId&id_clientes='.$res->id_clientes.'" class="btn btn-danger" title="Eliminar" style="font-size:65%;"><i class="glyphicon glyphicon-trash"></i></a></span></td>';
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Geoposicionamiento&action=index2&id_clientes='.$res->id_clientes.'" title="Geoposicionar" target="_blank" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-search"></i></a></span></td>';
+    					
     					 
     				}else{
     					 
-    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=index&id_clientes='.$res->id_clientes.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=index&id_clientes='.$res->id_clientes.'" class="btn btn-success" title="Editar" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Geoposicionamiento&action=index2&id_clientes='.$res->id_clientes.'" title="Geoposicionar" target="_blank" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
     					
     				}
     				 
@@ -320,11 +324,14 @@ class ClientesController extends ControladorBase{
     			if($id_rol==1){
     					
     				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
     				
     					
     			}else{
     					
-    					
+    				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    				$html.='<th style="text-align: left;  font-size: 12px;"></th>';
+    				
     	
     			}
     	
@@ -354,11 +361,14 @@ class ClientesController extends ControladorBase{
     					
     				if($id_rol==1){
     	
-    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=index&id_clientes='.$res->id_clientes.'" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=index&id_clientes='.$res->id_clientes.'" title="Editar" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Geoposicionamiento&action=index2&id_clientes='.$res->id_clientes.'" title="Geoposicionar" target="_blank" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
     					
     	
     				}else{
-    	
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Clientes&action=index&id_clientes='.$res->id_clientes.'" title="Editar" class="btn btn-success" style="font-size:65%;"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
+    					$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=Geoposicionamiento&action=index2&id_clientes='.$res->id_clientes.'" title="Geoposicionar" target="_blank" class="btn btn-info" style="font-size:65%;"><i class="glyphicon glyphicon-print"></i></a></span></td>';
+    					 
     	
     				}
     					
@@ -523,6 +533,13 @@ class ClientesController extends ControladorBase{
 		$clientes=new ClientesModel();
 		$usuarios=new UsuariosModel();
 		
+		$provincias = new ProvinciasModel();
+			
+		$parroquias = new ParroquiasModel();
+			
+		$cantones = new CantonesModel();
+			
+		
 		$_clave_usuario = "";
 		
 		if (isset(  $_SESSION['nombre_usuarios']) )
@@ -553,6 +570,51 @@ class ClientesController extends ControladorBase{
 		    if($_id_clientes > 0){
 		    	
 		    	
+		    	
+
+		    	$resultProv= $provincias->getBy("id_provincias='$_id_provincias'");
+		    	$nombre_provincias=$resultProv[0]->nombre_provincias;
+		    	
+		    	$resultCan= $cantones->getBy("id_cantones='$_id_cantones'");
+		    	$nombre_cantones=$resultCan[0]->nombre_cantones;
+		    	 
+		    	$resultParro= $parroquias->getBy("id_parroquias='$_id_parroquias'");
+		    	$nombre_parroquias=$resultParro[0]->nombre_parroquias;
+		    	 
+		    	 
+		    	$address = urlencode($nombre_parroquias.', '.$_direccion_clientes.', '.'Ecuador');
+		    	$googleMapUrl = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyALVhAqBusTEJ4LDma_V176VezRpCXCcu4";
+		    	$geocodeResponseData = file_get_contents($googleMapUrl);
+		    	$responseData = json_decode($geocodeResponseData, true);
+		    	
+		    	if($responseData['status']=='OK') {
+		    		 
+		    		$latitude = isset($responseData['results'][0]['geometry']['location']['lat']) ? $responseData['results'][0]['geometry']['location']['lat'] : "";
+		    		$longitude = isset($responseData['results'][0]['geometry']['location']['lng']) ? $responseData['results'][0]['geometry']['location']['lng'] : "";
+		    		$formattedAddress = isset($responseData['results'][0]['formatted_address']) ? $responseData['results'][0]['formatted_address'] : "";
+		    		 
+		    		 
+		    		/*if($latitude && $longitude && $formattedAddress) {
+		    		 $geocodeData = array();
+		    		 array_push(
+		    		 $geocodeData,
+		    		 $latitude,
+		    		 $longitude,
+		    		 $formattedAddress
+		    		 );
+		    	
+		    		 } */
+		    		 
+		    	}else{
+		    		 
+		    		$latitude = "";
+		    		$longitude = "";
+		    		$formattedAddress = "";
+		    		 
+		    	}
+		    	
+		    	
+		    	
 		    		$colval = "id_tipo_identificacion='$_id_tipo_identificacion',
 		    		identificacion_clientes= '$_identificacion_clientes',
 		    		id_tipo_persona = '$_id_tipo_persona',
@@ -565,13 +627,58 @@ class ClientesController extends ControladorBase{
 		    		id_cantones = '$_id_cantones',
 		    		id_parroquias= '$_id_parroquias',
 		    		direccion_clientes='$_direccion_clientes',
-		    		id_estado='$_id_estado'";
+		    		id_estado='$_id_estado',
+		    		lat='$latitude',
+		    		lng='$longitude',
+		    		formato_direccion_clientes='$formattedAddress'";
 		    		$tabla = "clientes";
 		    		$where = "id_clientes = '$_id_clientes'";
 		    		$resultado=$clientes->UpdateBy($colval, $tabla, $where);
 		    	
 		    	
 		    }else{
+		    	
+
+		    	$resultProv= $provincias->getBy("id_provincias='$_id_provincias'");
+		    	$nombre_provincias=$resultProv[0]->nombre_provincias;
+		    	 
+		    	$resultCan= $cantones->getBy("id_cantones='$_id_cantones'");
+		    	$nombre_cantones=$resultCan[0]->nombre_cantones;
+		    	
+		    	$resultParro= $parroquias->getBy("id_parroquias='$_id_parroquias'");
+		    	$nombre_parroquias=$resultParro[0]->nombre_parroquias;
+		    	
+		    	
+		    	$address = urlencode($nombre_parroquias.', '.$_direccion_clientes.', '.'Ecuador');
+		    	$googleMapUrl = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyALVhAqBusTEJ4LDma_V176VezRpCXCcu4";
+		    	$geocodeResponseData = file_get_contents($googleMapUrl);
+		    	$responseData = json_decode($geocodeResponseData, true);
+		    	 
+		    	if($responseData['status']=='OK') {
+		    		 
+		    		$latitude = isset($responseData['results'][0]['geometry']['location']['lat']) ? $responseData['results'][0]['geometry']['location']['lat'] : "";
+		    		$longitude = isset($responseData['results'][0]['geometry']['location']['lng']) ? $responseData['results'][0]['geometry']['location']['lng'] : "";
+		    		$formattedAddress = isset($responseData['results'][0]['formatted_address']) ? $responseData['results'][0]['formatted_address'] : "";
+		    	
+		    	
+		    		/*if($latitude && $longitude && $formattedAddress) {
+		    		 $geocodeData = array();
+		    		 array_push(
+		    		 $geocodeData,
+		    		 $latitude,
+		    		 $longitude,
+		    		 $formattedAddress
+		    		 );
+		    		  
+		    		 } */
+		    	
+		    	}else{
+		    	
+		    		$latitude = "";
+		    		$longitude = "";
+		    		$formattedAddress = "";
+		    	
+		    	}
 		    
 		        	$funcion = "ins_clientes";
 		        	$parametros = "'$_razon_social_clientes',
@@ -587,14 +694,19 @@ class ClientesController extends ControladorBase{
 		        	'$_correo_clientes',
 		        	'$_id_estado',
 		        	'$_id_tipo_persona',
-		        	'$_fecha_nacimiento_clientes'";
+		        	'$_fecha_nacimiento_clientes',
+		        	'$latitude',
+		        	'$longitude',
+		        	'$formattedAddress'";
 		        	$clientes->setFuncion($funcion);
 		        	$clientes->setParametros($parametros);
 		        	$resultado=$clientes->Insert();
 		        	
 		        	
+		       	 
 		        	
-		 	 	
+		        	
+		        
 		  }
 		  
 		   
