@@ -676,12 +676,232 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		    
 		    
 		    $_id_usuarios= $_SESSION['id_usuarios'];
+
+
+		    $mar_inicial=0;
+		    $mar_final=0;
+		    $agua_metros_cubicos=0;
+		    
+		    $tarifa_basica=0;
+		    $tarifa_adicional=0;
+		    $alcantarillado='NO';
+		    
+
+		    $solicitudes = new SolicitudesModel();
+		    $resultTipoConsumo= $solicitudes->getBy("id_clientes='$_id_clientes'");
+		    $id_tipo_consumo=$resultTipoConsumo[0]->id_tipo_consumo;
+		     
+		     
+		    $clientes = new ClientesModel();
+		    $resultClientes= $clientes->getBy("id_clientes='$_id_clientes'");
+		    $fecha_nacimiento=date("Y-m-d", strtotime($resultClientes[0]->fecha_nacimiento_clientes));
+		    $id_tipo_persona=$resultClientes[0]->id_tipo_persona;
+		    $discapacidad_clientes=$resultClientes[0]->discapacidad_clientes;
+		    
+		    
+		    $solicitudes_detalle = new SolicitudesDetalleModel();
+		    $columnas1="tarifas.nombre_tarifa";
+		    $tablas1="public.tarifas, 
+  					public.solicitudes_detalle";
+		    $where1="solicitudes_detalle.id_tarifas = tarifas.id_tarifas AND tarifas.nombre_tarifa like '%ALCANTARILLADO%' AND solicitudes_detalle.id_clientes='$_id_clientes'";
+		    $id1="tarifas.nombre_tarifa";
+		    $resultAlcantarillado= $solicitudes_detalle->getCondiciones($columnas1, $tablas1, $where1, $id1);
+		    
+		    if(!empty($resultAlcantarillado)){
+		    	$alcantarillado="SI";
+		    
+		    }
+		    
+		    
+		    
+		    $total=0;
+		    $descuento_mayor_edad=0;
+		    $descuento_discapacidad=0;
+		    $descuento_x_tener_alcantarillado=0;
+		    $total_des=0;
+		    $total_des1=0;
+		    $total_registrar=0;
+		    
+		    $cargo_fijo_por_conexion=2.10;
+		    $mar_inicial = ltrim($_marcacion_mensual_inicial,"0");
+		    $mar_final = ltrim($_marcacion_mensual_final,"0");
+		    
+		    
+		    if($mar_inicial==""){
+		    	 
+		    	$mar_inicial=0;
+		    }
+		    if($mar_final==""){
+		    	$mar_final=0;
+		    }
+		    
+		    $agua_metros_cubicos=$mar_final-$mar_inicial;
+		    
+		    
+		    
+
+		    if($id_tipo_consumo>0){
+		    
+		    
+		    	/// VALIDACIÓN PARA DOMESTICO
+		    	 
+		    	if($id_tipo_consumo==1){
+		    
+		    
+		    		if($agua_metros_cubicos >=0 && $agua_metros_cubicos <=11 ){
+		    			 
+		    			$tarifa_basica=0;
+		    			$tarifa_adicional=0.31;
+		    			 
+		    		}
+		    
+		    		if($agua_metros_cubicos >=12 && $agua_metros_cubicos <=18){
+		    
+		    			$tarifa_basica=3.41;
+		    			$tarifa_adicional=0.43;
+		    
+		    		}
+		    
+		    
+		    		if($agua_metros_cubicos >18){
+		    
+		    			$tarifa_basica=6.42;
+		    			$tarifa_adicional=0.72;
+		    
+		    		}
+		    
+		    
+		    
+		    
+		    	}
+		    
+		    
+		    	 
+		    	 
+		    	/// VALIDACIÓN PARA COMERCIAL
+		    
+		    	if($id_tipo_consumo==2){
+		    		 
+		    		 
+		    		if($agua_metros_cubicos >=0 && $agua_metros_cubicos <=11 ){
+		    
+		    			$tarifa_basica=0;
+		    			$tarifa_adicional=0.72;
+		    
+		    		}
+		    		 
+		    		if($agua_metros_cubicos >=12 && $agua_metros_cubicos <=18){
+		    		  
+		    			$tarifa_basica=3.41;
+		    			$tarifa_adicional=0.72;
+		    		  
+		    		}
+		    		 
+		    		 
+		    		if($agua_metros_cubicos >18){
+		    		  
+		    			$tarifa_basica=6.42;
+		    			$tarifa_adicional=0.72;
+		    		  
+		    		}
+		    		 
+		    
+		    
+		    
+		    
+		    	}
+		    	 
+		    	 
+		    	/// VALIDACÓN PARA INSDUSTRIAL
+		    	 
+		    	if($id_tipo_consumo==3){
+		    		 
+		    		 
+		    		if($agua_metros_cubicos >=0 && $agua_metros_cubicos <=11 ){
+		    		  
+		    			$tarifa_basica=0;
+		    			$tarifa_adicional=0.72;
+		    		  
+		    		}
+		    		 
+		    		if($agua_metros_cubicos >=12 && $agua_metros_cubicos <=18){
+		    
+		    			$tarifa_basica=3.41;
+		    			$tarifa_adicional=0.72;
+		    
+		    		}
+		    		 
+		    		 
+		    		if($agua_metros_cubicos >18){
+		    
+		    			$tarifa_basica=6.42;
+		    			$tarifa_adicional=0.72;
+		    
+		    		}
+		    		 
+		    		 
+		    	}
+		    	 
+		    	$total=$cargo_fijo_por_conexion+$tarifa_basica+$tarifa_adicional;
+		    	 
+		    	 
+		    	if($id_tipo_persona==1){
+		    		 
+		    		$date2 = date('Y-m-d');//
+		    		$diff = abs(strtotime($date2) - strtotime($fecha_nacimiento));
+		    		$years = floor($diff / (365*60*60*24));
+		    		$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+		    		$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+		    		 
+		    		
+		    		if($years > 65){
+		    
+		    			if($agua_metros_cubicos <=20 ){
+		    				 
+		    				$descuento_mayor_edad=$total*0.5;
+		    				 
+		    			}
+		    		}
+		    		 
+		    		$totaldes1=$total-$descuento_mayor_edad;
+		    		 
+		    		if($discapacidad_clientes == 't'){
+		    		  
+		    			if($agua_metros_cubicos <=10 ){
+		    				 
+		    				$descuento_discapacidad=$totaldes1*0.5;
+		    				
+		    			}
+		    		}
+		    		 
+		    		 
+		    	}
+		    	
+		    	if($id_tipo_persona==2){
+		    		$totaldes1=$total-$descuento_mayor_edad;
+		    	}
+		    	 
+		    	$total_des=$totaldes1-$descuento_discapacidad;
+		    	 
+		    	 
+		    	if($alcantarillado=="SI"){
+		    		 
+		    		$descuento_x_tener_alcantarillado=$total_des*0.386;
+		    		$total_des=$descuento_x_tener_alcantarillado;
+		    	}
+		    	 
+		    	$total_registrar=$total_des;
+		    	 
+		    	 
+		    	 
+		    }
+		     
 		    
 		    
 		    if($_id_marcaciones_mensuales_medidor_agua > 0){
 		    	
 		    	
-		    		$colval = "marcacion_mensual_final='$_marcacion_mensual_final'";
+		    		$colval = "marcacion_mensual_final='$_marcacion_mensual_final', valor_pago_mensual_correspondiente='$total_registrar'";
 		    		$tabla = "marcaciones_mensuales_medidor_agua";
 		    		$where = "id_marcaciones_mensuales_medidor_agua = '$_id_marcaciones_mensuales_medidor_agua'";
 		    		$resultado=$marcaciones_mensuales->UpdateBy($colval, $tabla, $where);
@@ -689,13 +909,15 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		    	
 		    }else{
 		    
+		    
+		    	
 		        	$funcion = "ins_marcaciones_mensuales_medidor_agua";
 		        	$parametros = "'$_id_medidores_agua',
 		        	'$_id_clientes',
 		        	'$_marcacion_mensual_inicial',
 		        	'$_marcacion_mensual_final',
 		        	'$_fecha_pago_mensual_correspondiente',
-		        	'0.00',
+		        	'$total_registrar',
 		        	'$_id_usuarios',
 		        	'$_tipo_registro'";
 		        	$marcaciones_mensuales->setFuncion($funcion);
@@ -1318,13 +1540,245 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 									}
 								
 								
+									
+
+									$mar_inicial=0;
+									$mar_final=0;
+									$agua_metros_cubicos=0;
+									
+									$tarifa_basica=0;
+									$tarifa_adicional=0;
+									$alcantarillado='NO';
+									
+									
+									$solicitudes = new SolicitudesModel();
+									$resultTipoConsumo= $solicitudes->getBy("id_clientes='$id_clientes_fin'");
+									$id_tipo_consumo=$resultTipoConsumo[0]->id_tipo_consumo;
+									 
+									 
+									$clientes = new ClientesModel();
+									$resultClientes= $clientes->getBy("id_clientes='$id_clientes_fin'");
+									$fecha_nacimiento=date("Y-m-d", strtotime($resultClientes[0]->fecha_nacimiento_clientes));
+									$id_tipo_persona=$resultClientes[0]->id_tipo_persona;
+									$discapacidad_clientes=$resultClientes[0]->discapacidad_clientes;
+									
+									
+									$solicitudes_detalle = new SolicitudesDetalleModel();
+									$columnas1="tarifas.nombre_tarifa";
+									$tablas1="public.tarifas,
+  									public.solicitudes_detalle";
+									$where1="solicitudes_detalle.id_tarifas = tarifas.id_tarifas AND tarifas.nombre_tarifa like '%ALCANTARILLADO%' AND solicitudes_detalle.id_clientes='$id_clientes_fin'";
+									$id1="tarifas.nombre_tarifa";
+									$resultAlcantarillado= $solicitudes_detalle->getCondiciones($columnas1, $tablas1, $where1, $id1);
+									
+									if(!empty($resultAlcantarillado)){
+										$alcantarillado="SI";
+									
+									}
+									
+									
+									
+									$total=0;
+									$descuento_mayor_edad=0;
+									$descuento_discapacidad=0;
+									$descuento_x_tener_alcantarillado=0;
+									$total_des=0;
+									$total_des1=0;
+									$total_registrar=0;
+									
+									$cargo_fijo_por_conexion=2.10;
+									$mar_inicial = ltrim($marcacion_mensual_final_base_datos,"0");
+									$mar_final = ltrim($marcacion_mensual_final,"0");
+									
+									
+									if($mar_inicial==""){
+									
+										$mar_inicial=0;
+									}
+									if($mar_final==""){
+										$mar_final=0;
+									}
+									
+									$agua_metros_cubicos=$mar_final-$mar_inicial;
+									
+									
+									
+									
+									if($id_tipo_consumo>0){
+									
+									
+										/// VALIDACIÓN PARA DOMESTICO
+									
+										if($id_tipo_consumo==1){
+									
+									
+											if($agua_metros_cubicos >=0 && $agua_metros_cubicos <=11 ){
+									
+												$tarifa_basica=0;
+												$tarifa_adicional=0.31;
+									
+											}
+									
+											if($agua_metros_cubicos >=12 && $agua_metros_cubicos <=18){
+									
+												$tarifa_basica=3.41;
+												$tarifa_adicional=0.43;
+									
+											}
+									
+									
+											if($agua_metros_cubicos >18){
+									
+												$tarifa_basica=6.42;
+												$tarifa_adicional=0.72;
+									
+											}
+									
+									
+									
+									
+										}
+									
+									
+									
+									
+										/// VALIDACIÓN PARA COMERCIAL
+									
+										if($id_tipo_consumo==2){
+											 
+											 
+											if($agua_metros_cubicos >=0 && $agua_metros_cubicos <=11 ){
+									
+												$tarifa_basica=0;
+												$tarifa_adicional=0.72;
+									
+											}
+											 
+											if($agua_metros_cubicos >=12 && $agua_metros_cubicos <=18){
+									
+												$tarifa_basica=3.41;
+												$tarifa_adicional=0.72;
+									
+											}
+											 
+											 
+											if($agua_metros_cubicos >18){
+									
+												$tarifa_basica=6.42;
+												$tarifa_adicional=0.72;
+									
+											}
+											 
+									
+									
+									
+									
+										}
+									
+									
+										/// VALIDACÓN PARA INSDUSTRIAL
+									
+										if($id_tipo_consumo==3){
+											 
+											 
+											if($agua_metros_cubicos >=0 && $agua_metros_cubicos <=11 ){
+									
+												$tarifa_basica=0;
+												$tarifa_adicional=0.72;
+									
+											}
+											 
+											if($agua_metros_cubicos >=12 && $agua_metros_cubicos <=18){
+									
+												$tarifa_basica=3.41;
+												$tarifa_adicional=0.72;
+									
+											}
+											 
+											 
+											if($agua_metros_cubicos >18){
+									
+												$tarifa_basica=6.42;
+												$tarifa_adicional=0.72;
+									
+											}
+											 
+											 
+										}
+									
+										$total=$cargo_fijo_por_conexion+$tarifa_basica+$tarifa_adicional;
+									
+									
+										if($id_tipo_persona==1){
+											 
+											$date2 = date('Y-m-d');//
+											$diff = abs(strtotime($date2) - strtotime($fecha_nacimiento));
+											$years = floor($diff / (365*60*60*24));
+											$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+											$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+											 
+									
+											if($years > 65){
+									
+												if($agua_metros_cubicos <=20 ){
+													 
+													$descuento_mayor_edad=$total*0.5;
+													 
+												}
+											}
+											 
+											$totaldes1=$total-$descuento_mayor_edad;
+											 
+											if($discapacidad_clientes == 't'){
+									
+												if($agua_metros_cubicos <=10 ){
+													 
+													$descuento_discapacidad=$totaldes1*0.5;
+									
+												}
+											}
+											 
+											 
+										}
+										
+										if($id_tipo_persona==2){
+											$totaldes1=$total-$descuento_mayor_edad;
+										}
+									
+										$total_des=$totaldes1-$descuento_discapacidad;
+									
+									
+										if($alcantarillado=="SI"){
+											 
+											$descuento_x_tener_alcantarillado=$total_des*0.386;
+											$total_des=$descuento_x_tener_alcantarillado;
+										}
+									
+										$total_registrar=$total_des;
+									
+									
+									
+									}
+										
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
 								$funcion = "ins_marcaciones_mensuales_medidor_agua";
 								$parametros = "'$id_medidores_agua_fin',
 								'$id_clientes_fin',
 								'$marcacion_mensual_final_base_datos',
 								'$marcacion_mensual_final',
 								'$fecha_pago_mensual_correspondiente',
-								'0.00',
+								'$total_registrar',
 								'$_id_usuarios',
 								'$_tipo_registro'";
 								$marcaciones_mensuales->setFuncion($funcion);

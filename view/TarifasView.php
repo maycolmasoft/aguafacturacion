@@ -2,7 +2,7 @@
 <html lang="es">
       <head>
         <meta charset="utf-8"/>
-        <title>Tarifas - Template </title>
+        <title>Tarifas </title>
 
 		<link rel="stylesheet" href="view/css/estilos.css">
 		<link rel="stylesheet" href="view/vendors/table-sorter/themes/blue/style.css">
@@ -55,7 +55,7 @@
         	        		}
         	    });
             	
-		        setTimeout($.unblockUI, 3000); 
+		        setTimeout($.unblockUI, 300); 
 		        
         	   }
 
@@ -121,6 +121,15 @@
 
 	</script>
         
+	
+	    
+       <script>
+      $(document).ready(function(){
+      $(".cantidades1").inputmask();
+      });
+	  </script>
+	
+	
 			        
     </head>
     
@@ -208,12 +217,13 @@
 					                                          <div id="mensaje_nombre_tarifa" class="errores"></div>
                                         </div>
                             		  </div>
-                            		     <div class="col-xs-12 col-md-4 col-md-4 ">
+                            		     <div class="col-xs-12 col-md-2 col-md-2 ">
                             		    <div class="form-group">
                                                               <label for="valor_tarifa" class="control-label">Valor Tarifas</label>
-                                                              <input type="text" class="form-control" id="valor_tarifa" name="valor_tarifa" value="<?php echo $resEdit->valor_tarifa; ?>"  placeholder="Valor Tarifa">
-                                                               <input type="hidden" name="id_tarifas" id="id_tarifas" value="<?php echo $resEdit->id_tarifas; ?>" class="form-control"/>
-					                                          <div id="mensaje_valor_tarifa" class="errores"></div>
+                                                               <input type="text" class="form-control cantidades1" id="valor_tarifa" name="valor_tarifa" value='<?php echo $resEdit->valor_tarifa; ?>' 
+                                                               data-inputmask="'alias': 'numeric', 'autoGroup': true, 'digits': 2, 'digitsOptional': false">
+                                                     
+                                                              <div id="mensaje_valor_tarifa" class="errores"></div>
                                         </div>
                             		  </div>
                         			</div>	
@@ -231,13 +241,18 @@
                                                               <div id="mensaje_nombre_tarifa" class="errores"></div>
                                         </div>
                             		  </div>
-                            		     <div class="col-xs-12 col-md-4 col-md-4 ">
+                            		     <div class="col-xs-12 col-md-2 col-md-2 ">
                             		    <div class="form-group">
                                                               <label for="valor_tarifa" class="control-label">Valor Tarifas</label>
-                                                              <input type="text" class="form-control" id="valor_tarifa" name="valor_tarifa" value=""  placeholder="Valor Tarifa">
+                                                               <input type="text" class="form-control cantidades1" id="valor_tarifa" name="valor_tarifa" value='0.00' 
+                                                               data-inputmask="'alias': 'numeric', 'autoGroup': true, 'digits': 2, 'digitsOptional': false">
                                                               <div id="mensaje_valor_tarifa" class="errores"></div>
                                         </div>
                             		  </div>
+                            		  
+                            		  
+                             	  
+                            		  
                         			</div>	
                 	        		            
                 		            
@@ -341,7 +356,8 @@
     
     <!-- Custom Theme Scripts -->
     <script src="view/build/js/custom.min.js"></script>
-	
+	<script src="view/js/jquery.inputmask.bundle.js"></script>
+            
   </body>
 </html>   
 

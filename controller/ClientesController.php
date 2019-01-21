@@ -469,7 +469,8 @@ class ClientesController extends ControladorBase{
 								  tipo_persona.id_tipo_persona, 
 								  tipo_persona.nombre_tipo_persona, 
 								  clientes.fecha_nacimiento_clientes, 
-								  clientes.creado";
+								  clientes.creado,
+								  clientes.discapacidad_clientes";
 						
 						$tablas   = "public.clientes, 
 									  public.parroquias, 
@@ -563,6 +564,7 @@ class ClientesController extends ControladorBase{
 		    $_direccion_clientes     = $_POST["direccion_clientes"];
 		    $_id_estado            = $_POST["id_estado"];
 		    $_id_clientes            = $_POST["id_clientes"];
+		    $_discapacidad_clientes  = $_POST["discapacidad_clientes"];
 		    
 		    
 		    
@@ -614,7 +616,8 @@ class ClientesController extends ControladorBase{
 		    	}
 		    	
 		    	
-		    	
+		    	if($_id_tipo_persona==1){
+		    		
 		    		$colval = "id_tipo_identificacion='$_id_tipo_identificacion',
 		    		identificacion_clientes= '$_identificacion_clientes',
 		    		id_tipo_persona = '$_id_tipo_persona',
@@ -630,11 +633,41 @@ class ClientesController extends ControladorBase{
 		    		id_estado='$_id_estado',
 		    		lat='$latitude',
 		    		lng='$longitude',
-		    		formato_direccion_clientes='$formattedAddress'";
+		    		formato_direccion_clientes='$formattedAddress',
+		    		discapacidad_clientes='$_discapacidad_clientes'";
 		    		$tabla = "clientes";
 		    		$where = "id_clientes = '$_id_clientes'";
 		    		$resultado=$clientes->UpdateBy($colval, $tabla, $where);
+		    		 
+		    		
+		    	}else{
+		    		
+		    		
+		    		$colval = "id_tipo_identificacion='$_id_tipo_identificacion',
+		    		identificacion_clientes= '$_identificacion_clientes',
+		    		id_tipo_persona = '$_id_tipo_persona',
+		    		razon_social_clientes = '$_razon_social_clientes',
+		    		fecha_nacimiento_clientes=NULL,
+		    		telefono_clientes = '$_telefono_clientes',
+		    		celular_clientes = '$_celular_clientes',
+		    		correo_clientes = '$_correo_clientes',
+		    		id_provincias = '$_id_provincias',
+		    		id_cantones = '$_id_cantones',
+		    		id_parroquias= '$_id_parroquias',
+		    		direccion_clientes='$_direccion_clientes',
+		    		id_estado='$_id_estado',
+		    		lat='$latitude',
+		    		lng='$longitude',
+		    		formato_direccion_clientes='$formattedAddress',
+		    		discapacidad_clientes='FALSE'";
+		    		$tabla = "clientes";
+		    		$where = "id_clientes = '$_id_clientes'";
+		    		$resultado=$clientes->UpdateBy($colval, $tabla, $where);
+		    		
+		    		
+		    	}
 		    	
+		    		
 		    	
 		    }else{
 		    	
@@ -680,7 +713,10 @@ class ClientesController extends ControladorBase{
 		    	
 		    	}
 		    
-		        	$funcion = "ins_clientes";
+
+		    	if($_id_tipo_persona==1){
+		    	
+		        	$funcion = "ins_clientes_nat";
 		        	$parametros = "'$_razon_social_clientes',
 		        	'$_id_tipo_identificacion',
 		        	'$_identificacion_clientes',
@@ -697,13 +733,37 @@ class ClientesController extends ControladorBase{
 		        	'$_fecha_nacimiento_clientes',
 		        	'$latitude',
 		        	'$longitude',
-		        	'$formattedAddress'";
+		        	'$formattedAddress',
+		        	'$_discapacidad_clientes'";
 		        	$clientes->setFuncion($funcion);
 		        	$clientes->setParametros($parametros);
 		        	$resultado=$clientes->Insert();
 		        	
 		        	
-		       	 
+		    	}else{
+		    		
+		    		$funcion = "ins_clientes";
+		    		$parametros = "'$_razon_social_clientes',
+		    		'$_id_tipo_identificacion',
+		    		'$_identificacion_clientes',
+		    		'1',
+		    		'$_id_provincias',
+		    		'$_id_cantones',
+		    		'$_id_parroquias',
+		    		'$_direccion_clientes',
+		    		'$_telefono_clientes',
+		    		'$_celular_clientes',
+		    		'$_correo_clientes',
+		    		'$_id_estado',
+		    		'$_id_tipo_persona',
+		    		'$latitude',
+		    		'$longitude',
+		    		'$formattedAddress'";
+		    		$clientes->setFuncion($funcion);
+		    		$clientes->setParametros($parametros);
+		    		$resultado=$clientes->Insert();
+		    		 
+		    	} 
 		        	
 		        	
 		        
@@ -783,7 +843,20 @@ class ClientesController extends ControladorBase{
 			$respuesta->celular_clientes = $resultSet[0]->celular_clientes;
 			$respuesta->correo_clientes = $resultSet[0]->correo_clientes;
 			$respuesta->id_estado = $resultSet[0]->id_estado;
+			
+			$var = $resultSet[0]->discapacidad_clientes;
+			
+			if($var=='t'){
+				
+				$respuesta->discapacidad_clientes = "TRUE";
 					
+			}else{
+				$respuesta->discapacidad_clientes = "FALSE";
+				
+			}
+			
+			
+			
 			echo json_encode($respuesta);
 		}
 			

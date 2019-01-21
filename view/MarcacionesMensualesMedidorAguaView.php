@@ -640,7 +640,7 @@
                                 <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
                                                       <label for="fecha_pago_mensual_correspondiente" class="control-label">Fecha Correspondiente:</label>
-                                                      <input type="date" class="form-control" id="fecha_pago_mensual_correspondiente" name="fecha_pago_mensual_correspondiente"  value="<?php echo $resEdit->fecha_pago_mensual_correspondiente; ?>" disabled>
+                                                      <input type="date" class="form-control" id="fecha_pago_mensual_correspondiente" name="fecha_pago_mensual_correspondiente"  value="<?php echo $resEdit->fecha_pago_mensual_correspondiente; ?>" readonly>
                                                       <input type="hidden" class="form-control" id="fecha_pago_mensual_correspondiente_db" name="fecha_pago_mensual_correspondiente_db"  value="0" disabled>
                                                       
                                                       <div id="mensaje_fecha_pago_mensual_correspondiente" class="errores"></div>

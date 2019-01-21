@@ -331,7 +331,9 @@
 		    					$('#celular_clientes').val(respuesta.celular_clientes);
 		    					$('#correo_clientes').val(respuesta.correo_clientes);
 		    					$('#id_estado').val(respuesta.id_estado);
-
+		    					$('#discapacidad_clientes').val(respuesta.discapacidad_clientes);
+		    					
+		    					
 
 		    					
 		    					
@@ -348,6 +350,7 @@
 		    					$('#celular_clientes').val("");
 		    					$('#correo_clientes').val("");
 		    					$('#id_estado').val("0");
+		    					$('#discapacidad_clientes').val("0");
 		    					
 		        			    
 		        			  });
@@ -378,7 +381,6 @@
 		    	var id_tipo_identificacion = $("#id_tipo_identificacion").val();
 		    	var identificacion_clientes = $("#identificacion_clientes").val();
 		    	var razon_social_clientes = $("#razon_social_clientes").val();
-		    	var fecha_nacimiento_clientes = $("#fecha_nacimiento_clientes").val();
 		    	var telefono_clientes  = $("#telefono_clientes").val();
 		    	var celular_clientes  = $("#celular_clientes").val();
 		    	var correo_clientes  = $("#correo_clientes").val();
@@ -388,6 +390,8 @@
 		    	var direccion_clientes  = $("#direccion_clientes").val();
                 var id_estado   = $("#id_estado").val();
 
+                var discapacidad_clientes = $("#discapacidad_clientes").val();
+                var fecha_nacimiento_clientes = $("#fecha_nacimiento_clientes").val();
 		    	
 		    	var contador=0;
 		    	var tiempo = tiempo || 1000;
@@ -1067,25 +1071,7 @@
 		            
 				}
 
-				
-			
-		    	if (fecha_nacimiento_clientes == "")
-		    	{
-			    	
-		    		$("#mensaje_fecha_nacimiento_clientes").text("Introduzca Fecha");
-		    		$("#mensaje_fecha_nacimiento_clientes").fadeIn("slow"); //Muestra mensaje de error
-		    		$("html, body").animate({ scrollTop: $(mensaje_fecha_nacimiento_clientes).offset().top }, tiempo);
-			        
-			            return false;
-			    }
-		    	else 
-		    	{
-					$("#mensaje_fecha_nacimiento_clientes").fadeOut("slow"); //Muestra mensaje de error
-		    	
-				}
-		    			
-
-		    			    	
+						    			    	
 		    	if (celular_clientes == "" )
 		    	{
 			    	
@@ -1207,7 +1193,44 @@
 				}
 
 
+		    	if(id_tipo_persona==1){
 
+			    	if (fecha_nacimiento_clientes == "")
+			    	{
+				    	
+			    		$("#mensaje_fecha_nacimiento_clientes").text("Introduzca Fecha");
+			    		$("#mensaje_fecha_nacimiento_clientes").fadeIn("slow"); //Muestra mensaje de error
+			    		$("html, body").animate({ scrollTop: $(mensaje_fecha_nacimiento_clientes).offset().top }, tiempo);
+				        
+				            return false;
+				    }
+			    	else 
+			    	{
+						$("#mensaje_fecha_nacimiento_clientes").fadeOut("slow"); //Muestra mensaje de error
+			    	
+					}
+			    	
+
+
+			    	if (discapacidad_clientes == 0)
+			    	{
+				    	
+			    		$("#mensaje_discapacidad_clientes").text("Seleccione");
+			    		$("#mensaje_discapacidad_clientes").fadeIn("slow"); //Muestra mensaje de error
+			    		$("html, body").animate({ scrollTop: $(mensaje_discapacidad_clientes).offset().top }, tiempo);
+				        
+				            return false;
+				    }
+			    	else 
+			    	{
+						$("#mensaje_discapacidad_clientes").fadeOut("slow"); //Muestra mensaje de error
+			    	
+					}
+
+			    }
+
+
+		    	
 		    	if (id_estado == 0 )
 		    	{
 			    	
@@ -1229,8 +1252,14 @@
 
 			}); 
 
+		    
 
 
+	        $( "#discapacidad_clientes" ).focus(function() {
+			  $("#mensaje_discapacidad_clientes").fadeOut("slow");
+		    });
+
+		    
 	        $( "#id_tipo_persona" ).focus(function() {
 			  $("#mensaje_id_tipo_persona").fadeOut("slow");
 		    });
@@ -1278,6 +1307,64 @@
 
 	</script>
         
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <script type="text/javascript">
+      $(document).ready(function(){
+          
+      $("#id_tipo_persona").click(function() {
+			
+          var id_tipo_persona = $(this).val();
+			
+          if(id_tipo_persona == 1 )
+          {
+       	   $("#div_datos").fadeIn("slow");
+          }
+       	
+          else
+          {
+       	   $("#div_datos").fadeOut("slow");
+          }
+         
+	    });
+	    
+	    $("#id_tipo_persona").change(function() {
+			
+              
+              var id_tipo_persona = $(this).val();
+				
+              
+              if(id_tipo_persona == 1)
+              {
+           	   $("#div_datos").fadeIn("slow");
+              }
+           	
+              else
+              {
+           	   $("#div_datos").fadeOut("slow");
+              }
+              
+              
+		    });
+	}); 	
+	   
+      </script>
+      
+      
+      
+      
+      
+      
+      
+      
         
        
         
@@ -1409,14 +1496,13 @@
                                     </div>
                                     
                                  
-                                 
-                                   <div class="col-lg-2 col-xs-12 col-md-2">
-                        		   <div class="form-group">
-                                                      <label for="fecha_nacimiento_clientes" class="control-label">Fecha (Naci / Funda):</label>
-                                                      <input type="date" class="form-control" id="fecha_nacimiento_clientes" name="fecha_nacimiento_clientes" value="<?php echo $resEdit->fecha_nacimiento_clientes; ?>"  placeholder="nombres..">
-                                                      <div id="mensaje_fecha_nacimiento_clientes" class="errores"></div>
-                                    </div>
-                                    </div>
+                                  <div class="col-lg-2 col-xs-12 col-md-2">
+                            		    <div class="form-group">
+                                                              <label for="telefono_clientes" class="control-label">Teléfono:</label>
+                                                              <input type="number" class="form-control" id="telefono_clientes" name="telefono_clientes" value="<?php echo $resEdit->telefono_clientes; ?>"  placeholder="teléfono..">
+                                                              <div id="mensaje_telefono_clientes" class="errores"></div>
+                                        </div>
+                            	    </div>
                                    
                                     
             </div>        		   
@@ -1425,13 +1511,7 @@
            <div class="row">
                     		       
                     		       
-                    		       <div class="col-lg-2 col-xs-12 col-md-2">
-                            		    <div class="form-group">
-                                                              <label for="telefono_clientes" class="control-label">Teléfono:</label>
-                                                              <input type="number" class="form-control" id="telefono_clientes" name="telefono_clientes" value="<?php echo $resEdit->telefono_clientes; ?>"  placeholder="teléfono..">
-                                                              <div id="mensaje_telefono_clientes" class="errores"></div>
-                                        </div>
-                            	    </div>
+                    		      
                             		    
                             		    
                     			
@@ -1476,16 +1556,8 @@
                                                           <div id="mensaje_id_cantones" class="errores"></div>
                                 </div>
                     		    </div>
-                                
-              </div>
-                    	           	
-                
-              <div class="row">
-                    		     
-             					
-                    		   
-                    			
-                    			<div class="col-lg-2 col-xs-12 col-md-2">
+                    		    
+                    		    <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
                                                           <label for="id_parroquias" class="control-label">Parroquia:</label>
                                                           <select name="id_parroquias" id="id_parroquias"  class="form-control" >
@@ -1500,6 +1572,16 @@
                                 </div>
                     		    </div>
                     			
+                                
+              </div>
+                    	           	
+                
+              <div class="row">
+                    		     
+             					
+                    		   
+                    			
+                    			
            
             
             
@@ -1510,6 +1592,30 @@
                                                       <input type="text" class="form-control" id="direccion_clientes" name="direccion_clientes" value="<?php echo $resEdit->direccion_clientes; ?>" placeholder="nombre barrio..">
                                                       <div id="mensaje_direccion_clientes" class="errores"></div>
                                 </div>
+                                </div>
+                                
+                                
+                                <div id="div_datos" style="display: none;">
+		      
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="fecha_nacimiento_clientes" class="control-label">Fecha Nacimiento:</label>
+                                                      <input type="date" class="form-control" id="fecha_nacimiento_clientes" name="fecha_nacimiento_clientes" value="<?php echo $resEdit->fecha_nacimiento_clientes; ?>"  placeholder="nombres..">
+                                                      <div id="mensaje_fecha_nacimiento_clientes" class="errores"></div>
+                                    </div>
+                                    </div>
+                                
+                                <div class="col-xs-12 col-md-2 col-md-2">
+                        		<div class="form-group">
+                                                          <label for="discapacidad_clientes" class="control-label">Discapacidad</label>
+                        								  <select name="discapacidad_clientes" id="discapacidad_clientes"  class="form-control">
+                        								    <option value="0" selected="selected">--Seleccione--</option>
+                                    										<option value="TRUE"   <?php  if ( $resEdit->discapacidad_clientes =='t')  echo ' selected="selected" ' ; ?>>Si </option>
+                                    						            	<option value="FALSE"  <?php  if ( $resEdit->discapacidad_clientes =='f')  echo ' selected="selected" ' ; ?>>No </option>
+                                    					   </select>	                                  
+                                                            <div id="mensaje_discapacidad_clientes" class="errores"></div>
+                                </div>
+                        		</div>
                                 </div>
                                 
                                 
@@ -1604,21 +1710,7 @@
                                     </div>
                                     </div>
                                     
-                                      <div class="col-lg-2 col-xs-12 col-md-2">
-                        		   <div class="form-group">
-                                                      <label for="fecha_nacimiento_clientes" class="control-label">Fecha (Naci / Funda):</label>
-                                                      <input type="date" class="form-control" id="fecha_nacimiento_clientes" name="fecha_nacimiento_clientes" value=""  placeholder="nombres..">
-                                                      <div id="mensaje_fecha_nacimiento_clientes" class="errores"></div>
-                                    </div>
-                                    </div>
-                                   
-                                    
-            </div>        		   
-                    	      
-                    			
-           <div class="row">
-                    		       
-                    		       
+                                       
                     		       <div class="col-lg-2 col-xs-12 col-md-2">
                             		    <div class="form-group">
                                                               <label for="telefono_clientes" class="control-label">Teléfono:</label>
@@ -1626,6 +1718,13 @@
                                                               <div id="mensaje_telefono_clientes" class="errores"></div>
                                         </div>
                             	    </div>
+                                    
+            </div>        		   
+                    	      
+                    			
+           <div class="row">
+                    		       
+                    		   
                             		    
                             		    
                     			
@@ -1670,15 +1769,9 @@
                                                           <div id="mensaje_id_cantones" class="errores"></div>
                                 </div>
                     		    </div>
-                                
-              </div>
-                    	           	
-                
-              <div class="row">
-                    		     
-             					
-                    		   
-                    			
+                    
+                    
+                    	
                     			<div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
                                                           <label for="id_parroquias" class="control-label">Parroquia:</label>
@@ -1693,7 +1786,15 @@
                                                           <div id="mensaje_id_parroquias" class="errores"></div>
                                 </div>
                     		    </div>
-                    			
+                    			            
+              </div>
+                    	           	
+                
+              <div class="row">
+                    		     
+             					
+                    		   
+                    		
            
             
             
@@ -1706,6 +1807,28 @@
                                 </div>
                                 </div>
                                 
+                                <div id="div_datos" style="display: none;">
+		                        <div class="col-lg-2 col-xs-12 col-md-2">
+                        		<div class="form-group">
+                                                      <label for="fecha_nacimiento_clientes" class="control-label">Fecha Nacimiento:</label>
+                                                      <input type="date" class="form-control" id="fecha_nacimiento_clientes" name="fecha_nacimiento_clientes" value=""  placeholder="nombres..">
+                                                      <div id="mensaje_fecha_nacimiento_clientes" class="errores"></div>
+                                </div>
+                                </div>
+                                   
+                                
+                                <div class="col-xs-12 col-md-2 col-md-2">
+                        		<div class="form-group">
+                                                          <label for="discapacidad_clientes" class="control-label">Discapacidad</label>
+                        								  <select name="discapacidad_clientes" id="discapacidad_clientes"  class="form-control">
+                        								    <option value="0" selected="selected">--Seleccione--</option>
+                                    										<option value="TRUE"   >Si </option>
+                                    						            	<option value="FALSE"  >No </option>
+                                    					   </select>	                                  
+                                                            <div id="mensaje_discapacidad_clientes" class="errores"></div>
+                                </div>
+                        		</div>
+                                </div>
                                 
                                  <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">

@@ -2,7 +2,7 @@
 <html lang="es">
       <head>
         <meta charset="utf-8"/>
-        <title>Tipo Persona - Template </title>
+        <title>Tipo Persona </title>
 
 		<link rel="stylesheet" href="view/css/estilos.css">
 		<link rel="stylesheet" href="view/vendors/table-sorter/themes/blue/style.css">
@@ -55,7 +55,7 @@
         	        		}
         	    });
             	
-		        setTimeout($.unblockUI, 3000); 
+		        setTimeout($.unblockUI, 300); 
 		        
         	   }
 

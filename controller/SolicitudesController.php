@@ -679,7 +679,8 @@ class SolicitudesController extends ControladorBase{
 		    		
 		    				$funcion = "ins_solicitudes_detalle";
 		    				$parametros = "'$_id_solicitudes',
-		    				'$id_tarifas'";
+		    				'$id_tarifas',
+		    				'$_id_clientes'";
 		    				$solicitides_detalle->setFuncion($funcion);
 		    				$solicitides_detalle->setParametros($parametros);
 		    				$resultado=$solicitides_detalle->Insert();
@@ -703,7 +704,8 @@ class SolicitudesController extends ControladorBase{
 		    		
 		    				$funcion = "ins_solicitudes_detalle";
 		    				$parametros = "'$_id_solicitudes',
-		    				'$id_tarifas'";
+		    				'$id_tarifas',
+		    				'$_id_clientes'";
 		    				$solicitides_detalle->setFuncion($funcion);
 		    				$solicitides_detalle->setParametros($parametros);
 		    				$resultado=$solicitides_detalle->Insert();
@@ -762,7 +764,8 @@ class SolicitudesController extends ControladorBase{
 		    					 
 		    					$funcion = "ins_solicitudes_detalle";
 		    					$parametros = "'$id_solicitudes_cabeza',
-		    					'$id_tarifas'";
+		    					'$id_tarifas',
+		    					'$_id_clientes'";
 		    					$solicitides_detalle->setFuncion($funcion);
 		    					$solicitides_detalle->setParametros($parametros);
 		    					$resultado=$solicitides_detalle->Insert();
