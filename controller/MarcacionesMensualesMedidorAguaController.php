@@ -156,7 +156,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
     				
     				if($res->id_estado==1){
     				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="javascript:void(0);" class="btn btn-success" style="font-size:65%;" title="Editar" disabled><i class="glyphicon glyphicon-edit"></i></a></span></td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="javascript:void(0);" class="btn btn-danger" style="font-size:65%;" title="Eliminar"><i class="glyphicon glyphicon-trash"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="javascript:void(0);" class="btn btn-danger" style="font-size:65%;" title="Eliminar" disabled><i class="glyphicon glyphicon-trash"></i></a></span></td>';
     				 
     				}else{
     				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=MarcacionesMensualesMedidorAgua&action=index&id_marcaciones_mensuales_medidor_agua='.$res->id_marcaciones_mensuales_medidor_agua.'" class="btn btn-success" style="font-size:65%;" title="Editar"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
