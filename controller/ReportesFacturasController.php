@@ -628,6 +628,8 @@ class ReportesFacturasController extends ControladorBase{
 					  medidores_agua.identificador_medidores_agua,
 					  clientes.id_clientes,
 					  clientes.razon_social_clientes,
+					  clientes.celular_clientes,
+					  clientes.correo_clientes,
 					  tipo_identificacion.id_tipo_identificacion,
 					  tipo_identificacion.nombre_tipo_identificacion,
 					  clientes.identificacion_clientes,
@@ -642,7 +644,15 @@ class ReportesFacturasController extends ControladorBase{
 					  marcaciones_mensuales_medidor_agua.tipo_registro,
 					  marcaciones_mensuales_medidor_agua.id_estado,
 					  marcaciones_mensuales_medidor_agua.numero_factura,
-					  marcaciones_mensuales_medidor_agua.id_usuarios_registra";
+					  marcaciones_mensuales_medidor_agua.id_usuarios_registra,
+						  marcaciones_mensuales_medidor_agua.descuento_por_mayor_edad,
+					  marcaciones_mensuales_medidor_agua.descuento_discapacidad,
+					  marcaciones_mensuales_medidor_agua.descuento_alcatarillado,
+					  marcaciones_mensuales_medidor_agua.valor_mora,
+					  marcaciones_mensuales_medidor_agua.consumo_metros_cubicos,
+					  marcaciones_mensuales_medidor_agua.valor_consumo_agua,
+					  marcaciones_mensuales_medidor_agua.valor_fijo_administracion,
+					  marcaciones_mensuales_medidor_agua.valor_fijo_alcantarillado";
 					
 				$tablas   = " public.marcaciones_mensuales_medidor_agua,
 					  public.clientes,
@@ -689,6 +699,26 @@ class ReportesFacturasController extends ControladorBase{
 					$_id_usuarios_registra =$resultSetCabeza[0]->id_usuarios_registra;
 				
 						
+
+					$descuento_por_mayor_edad=$resultSetCabeza[0]->descuento_por_mayor_edad;
+					$descuento_discapacidad=$resultSetCabeza[0]->descuento_discapacidad;
+					$descuento_alcatarillado=$resultSetCabeza[0]->descuento_alcatarillado;
+					$valor_mora=$resultSetCabeza[0]->valor_mora;
+					$consumo_metros_cubicos=$resultSetCabeza[0]->consumo_metros_cubicos;
+					$valor_consumo_agua=$resultSetCabeza[0]->valor_consumo_agua;
+					$valor_fijo_administracion=$resultSetCabeza[0]->valor_fijo_administracion;
+					$valor_fijo_alcantarillado=$resultSetCabeza[0]->valor_fijo_alcantarillado;
+					
+					$correo_clientes=$resultSetCabeza[0]->correo_clientes;
+					$celular_clientes=$resultSetCabeza[0]->celular_clientes;
+					
+					$identificador_medidores_agua =$resultSetCabeza[0]->identificador_medidores_agua;
+					$marcacion_mensual_inicial =$resultSetCabeza[0]->marcacion_mensual_inicial;
+					$marcacion_mensual_final =$resultSetCabeza[0]->marcacion_mensual_final;
+					$fecha_pago_mensual_correspondiente =$resultSetCabeza[0]->fecha_pago_mensual_correspondiente;
+					
+					
+					
 						
 					if($_id_usuarios_registra>0){
 				
@@ -708,14 +738,15 @@ class ReportesFacturasController extends ControladorBase{
 					$html.='<p style="text-align: center; font-size: 16px; margin-top:60px;"><b>Factura No. '.$numero_solicitudes.'</b></p>';
 						
 						
-					$html.='<table style="width: 100%; margin-top:30px;">';
+					$html.='<table style="width: 100%; margin-top:30px;" border=1 cellspacing=0>';
 						
 					$html.='<tr>';
 					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Tipo Persona</th>';
 					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Tipo Identificación</th>';
 					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Identificación</th>';
-					$html.='<th colspan="4" style="text-align:left; font-size: 13px;">Razón Social</th>';
-					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Tipo Consumo</th>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Razón Social</th>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Email</th>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Celular</th>';
 					$html.='</tr>';
 						
 					$html.='<tr>';
@@ -723,10 +754,38 @@ class ReportesFacturasController extends ControladorBase{
 					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$_nombre_tipo_persona.'</td>';
 					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$_nombre_tipo_identificacion.'</td>';
 					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$_identificacion_clientes.'</td>';
-					$html.='<td colspan="4" style="text-align:left; font-size: 13px;">'.$_razon_social_clientes.'</td>';
-					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$_nombre_tipo_consumo.'</td>';
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$_razon_social_clientes.'</td>';
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$correo_clientes.'</td>';
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$celular_clientes.'</td>';
 						
-				
+					
+					$html.='</tr>';
+					$html.='</table>';
+						
+					
+					
+					
+					$html.='<table style="width: 100%; margin-top:15px;" border=1 cellspacing=0>';
+						
+					$html.='<tr>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Medidor</th>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Tarifa</th>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Mes Correspondiente</th>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Lect Ant</th>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Lect Actual</th>';
+					$html.='<th colspan="2" style="text-align:left; font-size: 13px;">Consumo (m3)</th>';
+					$html.='</tr>';
+						
+					$html.='<tr>';
+						
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$identificador_medidores_agua.'</td>';
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$_nombre_tipo_consumo.'</td>';
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$fecha_pago_mensual_correspondiente.'</td>';
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$marcacion_mensual_inicial.'</td>';
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$marcacion_mensual_final.'</td>';
+					$html.='<td colspan="2" style="text-align:left; font-size: 13px;">'.$consumo_metros_cubicos.'</td>';
+						
+					
 					$html.='</tr>';
 					$html.='</table>';
 						
@@ -738,51 +797,127 @@ class ReportesFacturasController extends ControladorBase{
 						$html.= "<table style='width: 100%; margin-top:40px;' border=1 cellspacing=0>";
 						$html.= "<thead>";
 						$html.= "<tr>";
-						$html.='<th style="text-align: left;  font-size: 13px;">Consumo</th>';
-						$html.='<th style="text-align: left;  font-size: 13px;">Mes Correspondiente</th>';
-						$html.='<th style="text-align: left;  font-size: 13px;">Marcación Inicial</th>';
-						$html.='<th style="text-align: left;  font-size: 13px;">Marcación Final</th>';
-						$html.='<th style="text-align: left;  font-size: 13px;">Valor</th>';
+						$html.='<th style="text-align: left;  font-size: 13px;">Descripción</th>';
+						$html.='<th style="text-align: left;  font-size: 13px;">P.U.</th>';
+						$html.='<th style="text-align: left;  font-size: 13px;">Desc</th>';
+						$html.='<th style="text-align: left;  font-size: 13px;">Total</th>';
 						$html.='</tr>';
 						$html.='</thead>';
 						$html.='<tbody>';
 				
+						$totalizar=0;
 						$i=0;
 						$i=0; $valor_total_db=0; $valor_total_vista=0;
-							
+						$total_agua =0.00;
 						foreach ($resultSetCabeza as $res)
 						{
+
 							$valor_total_db=$res->valor_pago_mensual_correspondiente;
 							$valor_total_vista=$valor_total_vista+$valor_total_db;
 								
-							$i++;
-							$html.='<tr>';
-							$html.='<td style="font-size: 11px;">'.$res->nombre_tipo_consumo.'</td>';
-							$html.='<td style="font-size: 11px;">'.$res->fecha_pago_mensual_correspondiente.'</td>';
-							$html.='<td style="font-size: 11px;">'.$res->marcacion_mensual_inicial.'</td>';
-							$html.='<td style="font-size: 11px;">'.$res->marcacion_mensual_final.'</td>';
-							$html.='<td style="font-size: 11px;">'.$res->valor_pago_mensual_correspondiente.'</td>';
-				
-							$html.='</tr>';
-								
-							$valor_total_db=0;
+							if($res->descuento_discapacidad >0 && $res->descuento_por_mayor_edad >0){
+								$total_agua = $res->valor_consumo_agua-$res->descuento_por_mayor_edad-$res->descuento_discapacidad;
+							}else if($res->descuento_discapacidad >0 && $res->descuento_por_mayor_edad ==0){
+								$total_agua = $res->valor_consumo_agua-$res->descuento_discapacidad;
+							}else if($res->descuento_discapacidad ==0 && $res->descuento_por_mayor_edad >0){
+								$total_agua = $res->valor_consumo_agua-$res->descuento_por_mayor_edad;
+							}else{
+								$total_agua= "0.00";}
+							
+								$totalizar=$res->valor_consumo_agua-$total_agua;
+									
+								$mora=$res->valor_mora;
+							
+								if($res->descuento_alcatarillado >0){
+										
+									$total_desc_alcant=$res->valor_consumo_agua-$total_agua;
+									$total_desc_alcant=$total_desc_alcant-$res->descuento_alcatarillado;
+										
+									$total_total_alcanta=$res->valor_fijo_alcantarillado-$total_desc_alcant;
+										
+								}else{
+										
+									$total_desc_alcant="0.00";
+									$total_total_alcanta="0.00";
+								}
+							
+							
+								$html.='<tr>';
+								$html.='<td style="font-size: 11px;">Agua Potable</td>';
+								$html.='<td style="font-size: 11px;">'.$res->valor_consumo_agua.'</td>';
+								$html.='<td style="font-size: 11px;">'.$total_agua.'</td>';
+								$html.='<td style="font-size: 11px;">'.$totalizar.'</td>';
+								$html.='</tr>';
+									
+									
+								$html.='<tr>';
+								$html.='<td style="font-size: 11px;">Alcantarillado</td>';
+								$html.='<td style="font-size: 11px;">'.$res->valor_fijo_alcantarillado.'</td>';
+								$html.='<td style="font-size: 11px;">'.$total_desc_alcant.'</td>';
+								$html.='<td style="font-size: 11px;">'.$total_total_alcanta.'</td>';
+								$html.='</tr>';
+									
+							
+								$html.='<tr>';
+								$html.='<td style="font-size: 11px;">Administración</td>';
+								$html.='<td style="font-size: 11px;">'.$res->valor_fijo_administracion.'</td>';
+								$html.='<td style="font-size: 11px;">0.00</td>';
+								$html.='<td style="font-size: 11px;">'.$res->valor_fijo_administracion.'</td>';
+								$html.='</tr>';
+							
+							
+							
+								$valor_total_db=0;
+									
+							
 						}
 				
+
 						$valor_total_vista= number_format($valor_total_vista, 2, '.', ',');
-				
+						
 							
 						$html.='<tr>';
-						$html.='<td class="text-right" colspan=3></td>';
+						$html.='<td class="text-right" colspan=2></td>';
 						$html.='<td class="text-right" colspan=1 style="font-size: 11px;"><b>SubTotal</b></td>';
 						$html.='<td class="text-left" style="font-size: 12px;">'.$valor_total_vista.'</td>';
 						$html.='</tr>';
 							
 							
-						$valor_FIN=0; $valor_FIN=$valor_total_vista;
-						$valor_FIN= number_format($valor_FIN, 2, '.', ',');
+						$html.='<tr>';
+						$html.='<td class="text-right" colspan=2></td>';
+						$html.='<td class="text-right" colspan=1 style="font-size: 11px;"><b>Iva 12%</b></td>';
+						$html.='<td class="text-left" style="font-size: 12px;">0.00</td>';
+						$html.='</tr>';
+							
+							
+							
+							
+						if($mora>0){
+						
+							$html.='<tr>';
+							$html.='<td class="text-right" colspan=2></td>';
+							$html.='<td class="text-right" colspan=1 style="font-size: 11px;"><b>Mora</b></td>';
+							$html.='<td class="text-left" style="font-size: 12px;">'.$mora.'</td>';
+							$html.='</tr>';
+						
+						
+							$valor_FIN=0; $valor_FIN=$valor_total_vista+$mora;
+							$valor_FIN= number_format($valor_FIN, 2, '.', ',');
+								
+						}else{
+						
+						
+							$valor_FIN=0; $valor_FIN=$valor_total_vista;
+							$valor_FIN= number_format($valor_FIN, 2, '.', ',');
+						
+								
+						}
+							
+							
+							
 							
 						$html.='<tr>';
-						$html.='<td class="text-right" colspan=3></td>';
+						$html.='<td class="text-right" colspan=2></td>';
 						$html.='<td class="text-right" colspan=1 style="font-size: 11px;"><b>TOTAL $</b></td>';
 						$html.='<td class="text-right" style="font-size: 11px;">'.$valor_FIN.'</td>';
 							
@@ -790,11 +925,12 @@ class ReportesFacturasController extends ControladorBase{
 							
 							
 							
-				
+						
 						$html.='</tbody>';
 						$html.='</table>';
-				
-				
+						
+						
+						
 					}
 						
 						

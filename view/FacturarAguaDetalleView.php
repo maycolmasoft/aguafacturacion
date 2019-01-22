@@ -210,7 +210,7 @@
                                     
                                   
                                     
-                                   <div class="col-lg-4 col-xs-12 col-md-4">
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
                         		   <div class="form-group">
                                                       <label for="razon_social_clientes" class="control-label">Razón Social:</label>
                                                       <input type="text" class="form-control" id="razon_social_clientes" name="razon_social_clientes" value="<?php echo $resEdit->razon_social_clientes; ?>"  placeholder="razón social.." readonly>
@@ -221,16 +221,112 @@
                                  
                                    <div class="col-lg-2 col-xs-12 col-md-2">
                         		   <div class="form-group">
-                                                      <label for="numero_factura" class="control-label">Número Factura:</label>
-                                                      <input type="text" class="form-control" id="numero_factura" name="numero_factura" value="<?php echo $numero_consecutivo; ?>"  placeholder="número factura.." readonly>
-                                                      <div id="mensaje_numero_factura" class="errores"></div>
+                                                      <label for="email" class="control-label">Email:</label>
+                                                      <input type="text" class="form-control" id="email" name="email" value="<?php echo $resEdit->correo_clientes; ?>"  placeholder="celular.." readonly>
+                                                      <div id="mensaje_email" class="errores"></div>
                                     </div>
                                     </div>
                                    
-                               
-                                    
+                                   
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="celular" class="control-label">Celular:</label>
+                                                      <input type="text" class="form-control" id="celular" name="celular" value="<?php echo $resEdit->celular_clientes; ?>"  placeholder="email.." readonly>
+                                                      <div id="mensaje_celular" class="errores"></div>
+                                    </div>
+                                    </div>
                                      
-                                    
+            </div>        		   
+                    	      
+                    			
+            
+            
+                                
+                    	   
+                 
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+       
+  	<div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Detalle<small> Marcaciones</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+
+
+                   
+                           <div class="row">
+                           
+                           
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="medidor" class="control-label">Medidor:</label>
+                                                      <input type="text" class="form-control" id="medidor" name="medidor" value="<?php echo $resEdit->identificador_medidores_agua; ?>"  placeholder="medidor.." readonly>
+                                                      <div id="mensaje_medidor" class="errores"></div>
+                                    </div>
+                                    </div>
+                                   
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="tarifa" class="control-label">Tarifa:</label>
+                                                      <input type="text" class="form-control" id="tarifa" name="tarifa" value="<?php echo $resEdit->nombre_tipo_consumo; ?>"  placeholder="tipo consumo.." readonly>
+                                                      <div id="mensaje_tarifa" class="errores"></div>
+                                    </div>
+                                    </div> 
+                                   
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="mes" class="control-label">Mes Correpondiente:</label>
+                                                      <input type="text" class="form-control" id="mes" name="mes" value="<?php echo $resEdit->fecha_pago_mensual_correspondiente; ?>"  placeholder="mes.." readonly>
+                                                      <div id="mensaje_mes" class="errores"></div>
+                                    </div>
+                                    </div>
+                                   
+                                  
+                               
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="tarifa" class="control-label">Lect Ant:</label>
+                                                      <input type="text" class="form-control" id="tarifa" name="tarifa" value="<?php echo $resEdit->marcacion_mensual_inicial; ?>"  placeholder="tipo consumo.." readonly>
+                                                      <div id="mensaje_tarifa" class="errores"></div>
+                                    </div>
+                                    </div> 
+                                     
+                                     
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="tarifa" class="control-label">Lect Actual:</label>
+                                                      <input type="text" class="form-control" id="tarifa" name="tarifa" value="<?php echo $resEdit->marcacion_mensual_final; ?>"  placeholder="tipo consumo.." readonly>
+                                                      <div id="mensaje_tarifa" class="errores"></div>
+                                    </div>
+                                    </div> 
+                                     
+                                   <div class="col-lg-2 col-xs-12 col-md-2">
+                        		   <div class="form-group">
+                                                      <label for="tarifa" class="control-label">Consumo (m3):</label>
+                                                      <input type="text" class="form-control" id="tarifa" name="tarifa" value="<?php echo $resEdit->consumo_metros_cubicos; ?>"  placeholder="tipo consumo.." readonly>
+                                                      <div id="mensaje_tarifa" class="errores"></div>
+                                    </div>
+                                    </div> 
+                                     
+                                   
+                                     
             </div>        		   
                     	      
                     			
@@ -243,6 +339,20 @@
                 </div>
               </div>
 		
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
   	 <?php } if (!empty($resultEdit)){?>
                     	 
                     	 
@@ -252,7 +362,7 @@
          <div class="col-md-12 col-lg-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Detalle<small>Marcaciones</small></h2>
+                    <h2>Factura # <?php echo $numero_consecutivo; ?><small>Detalle Valores a Pagar</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -264,30 +374,75 @@
                   </div>
                   <div class="x_content">
                     
+                    				
+                    
 					 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Consumo</th>
-                          <th>Mes Correspondiente</th>
-                          <th>Marcación Ini</th>
-                          <th>Marcación Fin</th>
-                          <th>Valor Total</th>
+                          <th>Descripción</th>
+                          <th>P.U.</th>
+                          <th>Desc</th>
+                          <th>Total</th>
                         </tr>
                       </thead>
 
 
                       <tbody>
-                      <?php $i=0; $valor_total_db=0; $valor_total_vista=0;?>
+                      <?php $total_agua =0.00; $i=0; $valor_total_db=0; $valor_total_vista=0;?>
     						<?php if (!empty($resultEdit)) {  foreach($resultEdit as $res) {?>
     						<?php $i++; $valor_total=$res->valor_pago_mensual_correspondiente; $valor_total_vista=$valor_total_vista+$valor_total;?>
+            	        		
+            	        	<?php 	if($res->descuento_discapacidad >0 && $res->descuento_por_mayor_edad >0){
+            	        	 $total_agua = $res->valor_consumo_agua-$res->descuento_por_mayor_edad-$res->descuento_discapacidad;
+            	        	}else if($res->descuento_discapacidad >0 && $res->descuento_por_mayor_edad ==0){
+            	        	$total_agua = $res->valor_consumo_agua-$res->descuento_discapacidad;
+            	        	}else if($res->descuento_discapacidad ==0 && $res->descuento_por_mayor_edad >0){
+            	        	$total_agua = $res->valor_consumo_agua-$res->descuento_por_mayor_edad;
+            	        	}else{
+            	        	$total_agua= "0.00";}
+            	        	
+            	        	$mora=$res->valor_mora;
+            	        	
+            	        	if($res->descuento_alcatarillado >0){
+            	        		
+            	        		$total_desc_alcant=$res->valor_consumo_agua-$total_agua;
+            	        		$total_desc_alcant=$total_desc_alcant-$res->descuento_alcatarillado;
+            	        		
+            	        		$total_total_alcanta=$res->valor_fijo_alcantarillado-$total_desc_alcant;
+            	        		
+            	        	}else{
+            	        		
+            	        		$total_desc_alcant="0.00";
+            	        		$total_total_alcanta="0.00";
+            	        	}
+            	        	
+            	        	
+            	        	?>	
+            	        		
             	        		<tr>
-            	                   <td > <?php echo $res->nombre_tipo_consumo; ?>     </td> 
-            		               <td > <?php echo $res->fecha_pago_mensual_correspondiente; ?></td> 
-            		               <td > <?php echo $res->marcacion_mensual_inicial; ?>     </td> 
-            		               <td > <?php echo $res->marcacion_mensual_final; ?>     </td> 
-            		               <td > <?php echo $res->valor_pago_mensual_correspondiente; ?>     </td> 
+            	                   <td > Agua Potable</td> 
+            		               <td > <?php echo $res->valor_consumo_agua; ?>     </td> 
+            		               <td > <?php echo $total_agua; ?>     </td> 
+            		               <td > <?php echo $res->valor_consumo_agua-$total_agua; ?>  </td> 
             		              
             		    		</tr>
+            		    		
+            		    		<tr>
+            	                   <td > Alcantarillado</td> 
+            		               <td > <?php echo $res->valor_fijo_alcantarillado; ?>     </td> 
+            		               <td > <?php echo $total_desc_alcant; ?>     </td> 
+            		               <td > <?php echo $total_total_alcanta; ?>     </td> 
+            		              
+            		    		</tr>
+            		    		<tr>
+            	                   <td > Administración</td> 
+            		               <td > <?php echo $res->valor_fijo_administracion; ?>     </td> 
+            		               <td > <?php echo "0.00"; ?>     </td> 
+            		               <td > <?php echo $res->valor_fijo_administracion; ?>     </td> 
+            		              
+            		    		</tr>
+            		    		
+            		    		
             		    		
             		    		<?php $valor_total_db=0;?>
             		    		
@@ -295,19 +450,40 @@
                     
                 
                 <tr>
-				<td class='text-right' colspan=4>SubTotal</td>
+				<td class='text-right' colspan=3>SubTotal</td>
 				<td class='text-left'>
 		             <?php echo number_format($valor_total_vista, 2, '.', ',');?>          
 				</td>
 				</tr>
                 
-               
+                <tr>
+				<td class='text-right' colspan=3>Iva 12%</td>
+				<td class='text-left'>
+				     <?php echo "0.00";?>          
+				</td>
+				</tr>
+                
+                <?php if($mora>0){?>
+                <tr>
+				<td class='text-right' colspan=3>Mora</td>
+				<td class='text-left'>
+				     <?php echo $mora;?>          
+				</td>
+				</tr>
+				
+				 <?php $valor_FIN=0; $valor_FIN=$valor_total_vista+$mora;?> 
+                 
+				
+                <?php }else{?>
+                
+                  <?php $valor_FIN=0; $valor_FIN=$valor_total_vista; ?>
+                  
+                <?php }?>
                     
-                   <?php $valor_FIN=0; $valor_FIN=$valor_total_vista?> 
                     
                 <tr>
 				
-				<td class='text-right' colspan=2>TOTAL $</td>
+				<td class='text-right' colspan=1>TOTAL $</td>
 				<td colspan=2>
 		        <input type="text" class="form-control" id="valor_letras" name="valor_letras" value="<?php echo $valor_FIN ? numtoletras ($valor_FIN) : ''; ?>" readonly>
                                 

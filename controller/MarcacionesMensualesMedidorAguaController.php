@@ -156,7 +156,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
     				
     				if($res->id_estado==1){
     				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="javascript:void(0);" class="btn btn-success" style="font-size:65%;" title="Editar" disabled><i class="glyphicon glyphicon-edit"></i></a></span></td>';
-    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="javascript:void(0);" class="btn btn-danger" style="font-size:65%;" title="Eliminar"><i class="glyphicon glyphicon-trash"></i></a></span></td>';
+    				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="javascript:void(0);" class="btn btn-danger" style="font-size:65%;" title="Eliminar" disabled><i class="glyphicon glyphicon-trash"></i></a></span></td>';
     				 
     				}else{
     				$html.='<td style="font-size: 18px;"><span class="pull-right"><a href="index.php?controller=MarcacionesMensualesMedidorAgua&action=index&id_marcaciones_mensuales_medidor_agua='.$res->id_marcaciones_mensuales_medidor_agua.'" class="btn btn-success" style="font-size:65%;" title="Editar"><i class="glyphicon glyphicon-edit"></i></a></span></td>';
@@ -545,7 +545,58 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		{
 		
 			
+			
+			
 			$marcaciones_mensuales = new MarcacionesMensualesMedidorAguaModel();
+			$resultMar1= $marcaciones_mensuales->getBy("id_estado=2");
+			
+			if(!empty($resultMar1)){
+				
+				$total_mora=0;
+				$total_mora_registrar=0;
+					
+				$taza_mora=0.03;
+				$fecha_actual = date('Y-m-d');
+				
+				
+				
+				foreach ($resultMar1 as $res){
+					
+					$id_marcaciones_mensuales_medidor_agua=$res->id_marcaciones_mensuales_medidor_agua;
+					$fecha_maxima_pago=date("Y-m-d", strtotime($res->fecha_maxima_pago));
+		    		$valor_pago_mensual_correspondiente=$res->valor_pago_mensual_correspondiente;
+					
+		    		
+		    		
+					if($fecha_maxima_pago < $fecha_actual){
+						
+						
+						
+						$diff = abs(strtotime($fecha_maxima_pago) - strtotime($fecha_actual));
+						$years = floor($diff / (365*60*60*24));
+						$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+						$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+						$days = $days-1;
+							
+						
+						$total_mora=$valor_pago_mensual_correspondiente*$taza_mora;
+						$total_mora_registrar=$total_mora*$days;
+						
+						$marcaciones_mensuales->UpdateBy("valor_mora='$total_mora_registrar'","marcaciones_mensuales_medidor_agua","id_marcaciones_mensuales_medidor_agua='$id_marcaciones_mensuales_medidor_agua'");
+							
+						
+					}
+					$total_mora=0;
+					$total_mora_registrar=0;
+					
+				}
+				
+				
+			}
+			
+			
+			
+			
 			
 			
 			$nombre_controladores = "RegistrarMarcacionesMensuales";
@@ -675,8 +726,16 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		    $_tipo_registro   = $_POST["tipo_registro"];
 		    
 		    
+		    $_fecha_maxima_pago = strtotime ( '+15 day' , strtotime ($_fecha_pago_mensual_correspondiente) ) ;
+		    $_fecha_maxima_pago = date ( 'Y-m-j' , $_fecha_maxima_pago );
+		    
+		    
+		    
 		    $_id_usuarios= $_SESSION['id_usuarios'];
 
+		    
+		    $valor_mora=0;
+		    $var_alca=0;
 
 		    $mar_inicial=0;
 		    $mar_final=0;
@@ -722,7 +781,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		    $total_des1=0;
 		    $total_registrar=0;
 		    
-		    $cargo_fijo_por_conexion=2.10;
+		    $cargo_fijo_por_conexion=0;
 		    $mar_inicial = ltrim($_marcacion_mensual_inicial,"0");
 		    $mar_final = ltrim($_marcacion_mensual_final,"0");
 		    
@@ -869,6 +928,8 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		    		  
 		    			if($agua_metros_cubicos <=10 ){
 		    				 
+		    				
+		    				
 		    				$descuento_discapacidad=$totaldes1*0.5;
 		    				
 		    			}
@@ -885,12 +946,13 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		    	 
 		    	 
 		    	if($alcantarillado=="SI"){
-		    		 
+		    		 $var_alca=1.32;
 		    		$descuento_x_tener_alcantarillado=$total_des*0.386;
-		    		$total_des=$descuento_x_tener_alcantarillado;
+		    		$total_des=$descuento_x_tener_alcantarillado+$var_alca;
 		    	}
-		    	 
+		    	$total_administracion=2.10;
 		    	$total_registrar=$total_des;
+		    	$total_registrar=$total_registrar+$total_administracion;
 		    	 
 		    	 
 		    	 
@@ -901,11 +963,25 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		    if($_id_marcaciones_mensuales_medidor_agua > 0){
 		    	
 		    	
-		    		$colval = "marcacion_mensual_final='$_marcacion_mensual_final', valor_pago_mensual_correspondiente='$total_registrar'";
+		    	
+		    	
+		    		$colval = "marcacion_mensual_final='$_marcacion_mensual_final', 
+		    		valor_pago_mensual_correspondiente='$total_registrar',
+		    		fecha_maxima_pago='$_fecha_maxima_pago', descuento_por_mayor_edad='$descuento_mayor_edad',
+		    		descuento_discapacidad='$descuento_discapacidad',
+		    		descuento_alcatarillado='$descuento_x_tener_alcantarillado',
+		    		valor_mora='$valor_mora',
+		    		consumo_metros_cubicos='$agua_metros_cubicos',
+		    		valor_consumo_agua='$total',
+		    		valor_fijo_administracion='$total_administracion',
+		    		valor_fijo_alcantarillado='$var_alca'";
+		    		
+		    		
 		    		$tabla = "marcaciones_mensuales_medidor_agua";
 		    		$where = "id_marcaciones_mensuales_medidor_agua = '$_id_marcaciones_mensuales_medidor_agua'";
 		    		$resultado=$marcaciones_mensuales->UpdateBy($colval, $tabla, $where);
 		    	
+		    		
 		    	
 		    }else{
 		    
@@ -919,7 +995,16 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 		        	'$_fecha_pago_mensual_correspondiente',
 		        	'$total_registrar',
 		        	'$_id_usuarios',
-		        	'$_tipo_registro'";
+		        	'$_tipo_registro',
+		        	'$_fecha_maxima_pago',
+		        	'$descuento_mayor_edad',
+		        	'$descuento_discapacidad',
+		        	'$descuento_x_tener_alcantarillado',
+		        	'$valor_mora',
+		        	'$agua_metros_cubicos',
+		        	'$total',
+		        	'$total_administracion',
+		        	'$var_alca'";
 		        	$marcaciones_mensuales->setFuncion($funcion);
 		        	$marcaciones_mensuales->setParametros($parametros);
 		        	$resultado=$marcaciones_mensuales->Insert();
@@ -1491,6 +1576,9 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 							$fecha_pago_mensual_correspondiente = trim($datos[1]);
 							$marcacion_mensual_final            = trim($datos[2]);
 							
+
+							$_fecha_maxima_pago = strtotime ( '+15 day' , strtotime ($fecha_pago_mensual_correspondiente) ) ;
+							$_fecha_maxima_pago = date ( 'Y-m-j' , $_fecha_maxima_pago );
 							
 							
 							
@@ -1540,7 +1628,10 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 									}
 								
 								
-									
+
+									$valor_mora=0;
+									$var_alca=0;
+										
 
 									$mar_inicial=0;
 									$mar_final=0;
@@ -1586,7 +1677,7 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 									$total_des1=0;
 									$total_registrar=0;
 									
-									$cargo_fijo_por_conexion=2.10;
+									$cargo_fijo_por_conexion=0;
 									$mar_inicial = ltrim($marcacion_mensual_final_base_datos,"0");
 									$mar_final = ltrim($marcacion_mensual_final,"0");
 									
@@ -1746,15 +1837,20 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 										}
 									
 										$total_des=$totaldes1-$descuento_discapacidad;
-									
-									
+				
+										
+										
+										
 										if($alcantarillado=="SI"){
-											 
+											$var_alca=1.32;
 											$descuento_x_tener_alcantarillado=$total_des*0.386;
-											$total_des=$descuento_x_tener_alcantarillado;
+											$total_des=$descuento_x_tener_alcantarillado+$var_alca;
 										}
-									
+										$total_administracion=2.10;
 										$total_registrar=$total_des;
+										$total_registrar=$total_registrar+$total_administracion;
+										
+										
 									
 									
 									
@@ -1780,8 +1876,17 @@ class MarcacionesMensualesMedidorAguaController extends ControladorBase{
 								'$fecha_pago_mensual_correspondiente',
 								'$total_registrar',
 								'$_id_usuarios',
-								'$_tipo_registro'";
-								$marcaciones_mensuales->setFuncion($funcion);
+								'$_tipo_registro',
+								'$_fecha_maxima_pago',
+		        				'$descuento_mayor_edad',
+					        	'$descuento_discapacidad',
+					        	'$descuento_x_tener_alcantarillado',
+					        	'$valor_mora',
+					        	'$agua_metros_cubicos',
+					        	'$total',
+					        	'$total_administracion',
+					        	'$var_alca'";
+											$marcaciones_mensuales->setFuncion($funcion);
 								$marcaciones_mensuales->setParametros($parametros);
 								$resultado=$marcaciones_mensuales->Insert();
 									

@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Imprimir Aportes</title>
+<link class="component" href="/afiliado-web/a4j/s/3_3_3.Finalorg/richfaces/renderkit/html/css/basic_classes.xcss/DATB/eAEzK!sUGrp8hjQAENsDow__.jsf" rel="stylesheet" type="text/css" /><link class="component" href="/afiliado-web/a4j/s/3_3_3.Finalorg/richfaces/renderkit/html/css/extended_classes.xcss/DATB/eAEzK!sUGrp8hjQAENsDow__.jsf" media="rich-extended-skinning" rel="stylesheet" type="text/css" /><script type="text/javascript">window.RICH_FACES_EXTENDED_SKINNING_ON=true;</script><script src="/afiliado-web/a4j/g/3_3_3.Finalorg/richfaces/renderkit/html/scripts/skinning.js.jsf" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="/afiliado-web/iess-skin-resources?file=/css/contenido.css" />
+</head>
+<body>
+<form id="frmImprimir" name="frmImprimir" method="post" action="/afiliado-web/pages/imprimirAportesAfiliado.jsf" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="frmImprimir" value="frmImprimir" />
+
+	<div id="main" align="center">
+<script type="text/javascript" language="Javascript">function dpf(f) {var adp = f.adp;if (adp != null) {for (var i = 0;i < adp.length;i++) {f.removeChild(adp[i]);}}};function apf(f, pvp) {var adp = new Array();f.adp = adp;var i = 0;for (k in pvp) {var p = document.createElement("input");p.type = "hidden";p.name = k;p.value = pvp[k];f.appendChild(p);adp[i++] = p;}};function jsfcljs(f, pvp, t) {apf(f, pvp);var ft = f.target;if (t) {f.target = t;}f.submit();f.target = ft;dpf(f);};</script>
+<a href="#" onclick="if(typeof jsfcljs == 'function'){jsfcljs(document.getElementById('frmImprimir'),{'frmImprimir:j_id3':'frmImprimir:j_id3'},'');}return false"><img src="/afiliado-web/iess-skin-resources?file=/img/componentes/reportes/ico_pdf.jpg" /><table cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<td><img alt="" class="rich-spacer " height="0" id="frmImprimir:j_id6" src="/afiliado-web/a4j/g/3_3_3.Finalimages/spacer.gif.jsf" width="20" /></td>
+<td><span class="etiqueta">Imprimir aqu&iacute; los Aportes</span></td>
+</tr>
+</tbody>
+</table>
+</a>
+	</div><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="H4sIAAAAAAAAAKVWbWwURRieu1J6bU2g1CAkNpRWKWDZ68e1PaxYjpbS0ysUrhCFaJnuzt1t2dsdZmd7W4gIJEoiiWJEo0mNRE38A3/0l/80JJqQoJHEP/4wxJgYEz8SQ4JKor4ze9/sUZBNbjO7N8++7/u8zzwzF39F9TZDmy2WVvAcdiNzdkrBlBq6irlumco0IyTJmaNyh5HdlkZOv/b725dTnaEHEHLpMYQC51FnBVq1stQyicmVGLw6oJPcPsviqHFmvjD0rgDqnMPz2FVSWCV2GSzDs4YyAbdxi2VRc4pl41nK9KzOisjNSyBHrWwWm1pCN4+g+rkZXevPQ4PosSWguximGV2NZ3GaeNgIKlwbl8BOYZPAB3TNAw4Ug3YJhpiuZmpCkxT+YR5usBhw0xIB9zicOnyauNxDDhWArsNQ66GEgCsGNtPKntk5ovLhc189895Ke5MRFN0TqTlH0QlIsHxUVxyFiqNGSstbKF6HQDctpQA7LMsg2Lzazk5+u/j3b0EUOIjq57HhEJcGbAFoRFR8pWliejIxsyOWjI9y9EiYAs92WM93OEYtxokdS+mGjjVLcUWpEGilDORw3VASlooNcuLPlsOLPX/9EkTL4iiUwXZGBXEmUINqOSZnCxytktWHRXJhULBupocTKCQeHQgpEloB0+cx07EpC1rh0n/h4ii4Pwk3IBqhyhrjJidpwlb9cOHDm6fORKHGeKHGQopy3m4nO0vYyxffbGs+f/1sgesmSuFzraVKYozhhYRuc/fUtbZ3vsTv1okPLrP1Y0QCArll4g6gDf46SHLMyYRlaIQl8Txhz175ZNsbi1cngyiYQI2qgW17N84Wam2yYY4mMRyt9tjRrXCSAAOGfgzPGmTYlTn2VMqVzItg+4gJcaaAajJayEAkT0zCvu9+8XD2i0s3ZKluUTX1YtAsb7Q0lGJ4qKw+8bxWTmgrYQM+ylzt866x2CLJ6QQoYRLT+obvPr+8+vA3dSg4jpoMC2vjWOUWi6NGnmHEzgBpLh3ZLhfL8lxIiF18lqM1QK9iO6Yk2yDcViZj+56eiY9x1NobGYz2Rwa2RodmBoaiA31k61Y/QGxqKhHfOQaJhW/7D4RuKGMkhR2Dj3svH4mB3y5MW0eIObH49diw+dYFaa455e6WB3CVefTWLct1YXWV26WgaIu4NUneuSfRgoyEu9JiL+pkL5Zz1EBMlS9QKZqN4rYZNOF33bFTbSUNlHVKjDbcRnpAhvKjd3ZIlNRSVtLj0szzbtdfszZh/LRKZ8tlGJfm5Qbd6bqtO8RQpnF6kvCMpe10KQjFhk2wsO2IrjC01gsEU6vnfRy+cvbHm5FXg3Jea3FeacYHL72S/OPgtSfkOoEMOuTOCdafIX4fhKqNMxdGPn3+oxt7RHCR+ZO57ai78ziuVMIOrB4Bh1OqhDKlpV4oNybPB6v3hrw7Xrp24Kef247vKvgV2LWbUxG+Gw22b+8d7I72tsMig7y3ddxLgh2uXPut/jKrEpvfhuVvC/cqNlXzFVskL7ZIudhaysUmjwo11MbRSFiHZm6xofot0FbLYYAZAVbINqA0HS66OVDMiMdKWFetGaqllDmavjMdyKf0dfdBghb1JWEgT8JAzRUnTj0+btIMC8ugWNOg9/knG+QOT/nVKI8EgV7x8+APilr+hwhW3kfVqUHfqgfzVQ+WV/1w5d7ondu8vZEwWUxPRdJwkujrEdi9Pkk3+By67j39nl636tujYj7Pn01KRl2yvg01rO+AANRyvjVFR6ualms6eej6Z/+8Hsx71AhEWF9pbVUI4Wzre586975+OlhwtlyuH63rPE64ftQhHNuHuqrMouu5CjPzjrTCpPaj5N2ZVF9Pd7SvXbIiPOqOoTpcH0kMFQ7aNReCOIyXFkKwZAZ2SfFCFaFCcGl+e+l/vMxwyYoNAAA=" autocomplete="off" />
+</form>
+</body>
+</html>
