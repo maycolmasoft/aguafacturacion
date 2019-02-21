@@ -51,7 +51,7 @@ class ReportesFacturasController extends ControladorBase{
 				  clientes.id_tipo_persona = tipo_persona.id_tipo_persona AND
 				  clientes.id_tipo_identificacion = tipo_identificacion.id_tipo_identificacion AND
 				  solicitudes.id_clientes = clientes.id_clientes AND
-				  solicitudes.id_tipo_consumo = tipo_consumo.id_tipo_consumo AND marcaciones_mensuales_medidor_agua.id_estado=1";
+				  solicitudes.id_tipo_consumo = tipo_consumo.id_tipo_consumo AND marcaciones_mensuales_medidor_agua.id_estado=1 AND solicitudes.estado='TRUE'";
     	//$resultEdit = $marcaciones->getCondiciones($columnas ,$tablas ,$where, $id);
     	 
     	 
@@ -670,7 +670,7 @@ class ReportesFacturasController extends ControladorBase{
 				clientes.id_tipo_persona = tipo_persona.id_tipo_persona AND
 				clientes.id_tipo_identificacion = tipo_identificacion.id_tipo_identificacion AND
 				solicitudes.id_clientes = clientes.id_clientes AND
-				solicitudes.id_tipo_consumo = tipo_consumo.id_tipo_consumo AND marcaciones_mensuales_medidor_agua.id_marcaciones_mensuales_medidor_agua='$_id_marcaciones_mensuales_medidor_agua'";
+				solicitudes.id_tipo_consumo = tipo_consumo.id_tipo_consumo AND marcaciones_mensuales_medidor_agua.id_marcaciones_mensuales_medidor_agua='$_id_marcaciones_mensuales_medidor_agua' AND solicitudes.estado='TRUE'";
 				
 				
 				$resultSetCabeza=$marcaciones_mensuales->getCondiciones($columnas, $tablas, $where, $id);

@@ -756,7 +756,14 @@ class ConsultaSolicitudesController extends ControladorBase{
 		    
 		    if($_id_solicitudes > 0){
 		    	
-		    		$colval = "id_usuarios_aprueba='$_id_usuarios', fecha_aprueba_registros='$fechaActual', id_estado='$_id_estado' ";
+		        
+		        $colval1 = "estado='FALSE' ";
+		        $tabla1 = "solicitudes";
+		        $where1 = "id_clientes = '$_id_clientes'";
+		        $resultado=$solicitudes->UpdateBy($colval1, $tabla1, $where1);
+		        
+		        
+		    		$colval = "id_usuarios_aprueba='$_id_usuarios', fecha_aprueba_registros='$fechaActual', id_estado='$_id_estado', estado='TRUE' ";
 		    		$tabla = "solicitudes";
 		    		$where = "id_clientes = '$_id_clientes' AND id_solicitudes='$_id_solicitudes'";
 		    		$resultado=$solicitudes->UpdateBy($colval, $tabla, $where);
